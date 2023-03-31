@@ -1,3 +1,5 @@
+import { PlayerOutfit } from "./PlayerOutfit";
+
 export default class Player{
     private id: string;
     private level: number;
@@ -7,6 +9,9 @@ export default class Player{
     private agility: number;
     private currentHp: number;
     private points: number;
+    private playerOutfit: PlayerOutfit;
+    private positionX: number;
+    private positionY: number;
 
     constructor()
     {
@@ -18,8 +23,27 @@ export default class Player{
         this.agility = 0;
         this.currentHp = this.GetMaxHp();
         this.points = 0;
+        this.playerOutfit = new PlayerOutfit();
+        this.positionX = 0;
+        this.positionY = 0;
     }
-    
+
+    public GetPositionX(): number
+    {
+        return this.positionX;
+    }
+    public GetPositionY(): number
+    {
+        return this.positionY;
+    }
+    public GetPosition(): [x: number, y: number]
+    {
+        return [this.positionX, this.positionY];
+    }
+    public GetOutfit(): PlayerOutfit
+    {
+        return this.playerOutfit;
+    }
     public GetId(): string
     {
         return this.id;

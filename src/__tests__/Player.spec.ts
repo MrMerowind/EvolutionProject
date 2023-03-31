@@ -1,4 +1,4 @@
-import Player from "../Classes/Player";
+import Player from "../player/Player";
 
 describe("Player details", () => {
     it("Values generated", () => {
