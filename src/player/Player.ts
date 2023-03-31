@@ -12,6 +12,7 @@ export default class Player{
     private playerOutfit: PlayerOutfit;
     private positionX: number;
     private positionY: number;
+    public readonly scale = 0.2;
 
     constructor()
     {

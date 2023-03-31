@@ -20,7 +20,7 @@ export class GameCamera{
     public MoveTowardsPlayer(gameScreen: GameScreen, player: Player): void
     {
         let moveToX  = player.GetPositionX() - gameScreen.GetCenterHorizontal();
-        let moveToY  = player.GetPositionX() - gameScreen.GetCenterHorizontal();
+        let moveToY  = player.GetPositionY() - gameScreen.GetCenterVertical();
 
         let vectorLength = Math.sqrt(Math.abs(moveToX) * Math.abs(moveToX) + Math.abs(moveToY) * Math.abs(moveToY));
         

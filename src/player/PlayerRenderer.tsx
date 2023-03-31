@@ -2,21 +2,34 @@ import * as PIXI from "pixi.js";
 import { Container, Sprite } from '@pixi/react';
 import React from 'react'
 import Player from './Player';
+import { GameCamera } from "../screen/GameCamera";
+import { graphicPath } from "../global/GraphicPaths";
 
 
 // TODO: Change to MobX
 interface PlayerRendererProps{
     player: Player;
+    camera: GameCamera;
 }
 
 export default function PlayerRenderer(props: PlayerRendererProps) {
 
+    const positionX = props.player.GetPositionX() - props.camera.GetOffsetX();
+    const positionY = props.player.GetPositionY() - props.camera.GetOffsetY();
+    const outfitHair = graphicPath.player.hair[props.player.GetOutfit().GetValues()[0]];
+    const outfitHead = graphicPath.player.head[props.player.GetOutfit().GetValues()[0]];
+    const outfitBody = graphicPath.player.body[props.player.GetOutfit().GetValues()[0]];
+
+    // TODO: remove
+    alert(positionX + ":" + positionY);
+
+
     //TODO: fill
   return (
     <Container  >
-        <Sprite anchor={0.5} x={-75} y={-75} image={props.player.GetOutfit().GetValues()[0].toString()} />
-        <Sprite anchor={0.5} x={0} y={0} image={props.player.GetOutfit().GetValues()[1].toString()} />
-        <Sprite anchor={0.5} x={75} y={75} image={props.player.GetOutfit().GetValues()[2].toString()} />
+        <Sprite anchor={0.5} x={positionX} y={positionY} image={outfitBody} scale={props.player.scale} />
+        <Sprite anchor={0.5} x={positionX} y={positionY} image={outfitHead} scale={props.player.scale} />
+        <Sprite anchor={0.5} x={positionX} y={positionY} image={outfitHair} scale={props.player.scale} />
     </Container >
   )
 }
