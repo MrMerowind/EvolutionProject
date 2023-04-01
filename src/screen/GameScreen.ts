@@ -11,49 +11,49 @@ export class GameScreen{
     {
         this.width = defaultGameScreenSize.width;
         this.height = defaultGameScreenSize.height;
-        this.SetAutoSize();
+        this.setAutoSize();
     }
 
-    public GetWidth(): number
+    public getWidth(): number
     {
         return this.width;
     }
-    public GetHeight(): number
+    public getHeight(): number
     {
         return this.height;
     }
-    public GetSize(): [width: number, height: number]
+    public getSize(): [width: number, height: number]
     {
         return [this.width, this.height];
     }
-    public GetCenterHorizontal(): number
+    public getCenterHorizontal(): number
     {
         return this.width / 2;
     }
-    public GetCenterVertical(): number
+    public getCenterVertical(): number
     {
         return this.height / 2;
     }
-    public GetCenter(): [width: number, height: number]
+    public getCenter(): [width: number, height: number]
     {
         return [this.width / 2, this.height / 2];
     }
 
 
-    public SetSize(width: number, height: number)
+    public setSize(width: number, height: number)
     {
         if(width < 0 || height < 0) throw new Error("GameScreen size invalid");
         this.width = width;
         this.height = height;
     }
 
-    public SetAutoSize(): void{
+    public setAutoSize(): void{
 
         if(window.screen.width === undefined ||
             window.screen.height === undefined) return;
 
-        this.width = window.screen.width;
-        this.height = window.screen.height;
+        this.width = window.innerWidth * 0.9;
+        this.height = window.innerHeight * 0.9;
 
         if(this.width < 0 || this.height < 0) throw new Error("GameScreen auto size invalid");
     }

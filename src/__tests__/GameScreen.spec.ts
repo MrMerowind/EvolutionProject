@@ -6,20 +6,20 @@ describe("Game screen", () => {
 
         expect(testGameScreen).toBeDefined();
 
-        testGameScreen.SetSize(0, 0);
-        expect(testGameScreen.GetWidth()).toBe(0);
-        expect(testGameScreen.GetHeight()).toBe(0);
-        expect(testGameScreen.GetSize()[0]).toBe(0);
-        expect(testGameScreen.GetSize()[1]).toBe(0);
+        testGameScreen.setSize(0, 0);
+        expect(testGameScreen.getWidth()).toBe(0);
+        expect(testGameScreen.getHeight()).toBe(0);
+        expect(testGameScreen.getSize()[0]).toBe(0);
+        expect(testGameScreen.getSize()[1]).toBe(0);
 
-        testGameScreen.SetSize(100, 200);
-        expect(testGameScreen.GetWidth()).toBe(100);
-        expect(testGameScreen.GetHeight()).toBe(200);
-        expect(testGameScreen.GetSize()[0]).toBe(100);
-        expect(testGameScreen.GetSize()[1]).toBe(200);
+        testGameScreen.setSize(100, 200);
+        expect(testGameScreen.getWidth()).toBe(100);
+        expect(testGameScreen.getHeight()).toBe(200);
+        expect(testGameScreen.getSize()[0]).toBe(100);
+        expect(testGameScreen.getSize()[1]).toBe(200);
 
-        expect(testGameScreen.GetCenterHorizontal()).toBe(50);
-        expect(testGameScreen.GetCenterVertical()).toBe(100);
+        expect(testGameScreen.getCenterHorizontal()).toBe(50);
+        expect(testGameScreen.getCenterVertical()).toBe(100);
 
         expect.assertions(11);
     });

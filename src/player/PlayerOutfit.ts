@@ -15,20 +15,20 @@ export class PlayerOutfit {
     private head: headType;
     private hair: hairType;
 
-    public SetBody(value: bodyType): void
+    public setBody(value: bodyType): void
     {
         this.body = value;
     }
-    public SetHead(value: headType): void
+    public setHead(value: headType): void
     {
         this.head = value;
     }
-    public SetHair(value: hairType): void
+    public setHair(value: hairType): void
     {
         this.hair = value;
     }
 
-    public GetValues(): [body: number, head: number, hair: number]
+    public getValues(): [body: number, head: number, hair: number]
     {
         return [this.body, this.head, this.hair];
     }

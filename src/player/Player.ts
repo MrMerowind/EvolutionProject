@@ -12,7 +12,7 @@ export default class Player{
     private playerOutfit: PlayerOutfit;
     private positionX: number;
     private positionY: number;
-    public readonly scale = 0.2;
+    public readonly scale = 10;
 
     constructor()
     {
@@ -22,113 +22,113 @@ export default class Player{
         this.strength = 0;
         this.vitality = 0;
         this.agility = 0;
-        this.currentHp = this.GetMaxHp();
+        this.currentHp = this.getMaxHp();
         this.points = 0;
         this.playerOutfit = new PlayerOutfit();
         this.positionX = 0;
         this.positionY = 0;
     }
 
-    public GetPositionX(): number
+    public getPositionX(): number
     {
         return this.positionX;
     }
-    public GetPositionY(): number
+    public getPositionY(): number
     {
         return this.positionY;
     }
-    public GetPosition(): [x: number, y: number]
+    public getPosition(): [x: number, y: number]
     {
         return [this.positionX, this.positionY];
     }
-    public GetOutfit(): PlayerOutfit
+    public getOutfit(): PlayerOutfit
     {
         return this.playerOutfit;
     }
-    public GetId(): string
+    public getId(): string
     {
         return this.id;
     }
-    public GetMaxHp(): number
+    public getMaxHp(): number
     {
         return 100 * (this.vitality + 1);
     }
-    public GetCurrentHp(): number
+    public getCurrentHp(): number
     {
         return this.currentHp;
     }
-    public GetNeededExp(): number
+    public getNeededExp(): number
     {
         return (this.level * 10);
     }
-    public GetCurrentExp(): number
+    public getCurrentExp(): number
     {
         return this.currentExp;
     }
-    public GetStrength(): number
+    public getStrength(): number
     {
         return this.strength;
     }
-    public GetVitality(): number
+    public getVitality(): number
     {
         return this.vitality;
     }
-    public GetAgility(): number
+    public getAgility(): number
     {
         return this.agility;
     }
-    public GetLevel(): number
+    public getLevel(): number
     {
         return this.level;
     }
-    public GetPoints(): number
+    public getPoints(): number
     {
         return this.points;
     }
 
 
-    public AddHp(value: number): void
+    public addHp(value: number): void
     {
         this.currentHp += value;
         if(this.currentHp < 0) this.currentHp = 0;
-        if(this.currentHp > this.GetMaxHp()) this.currentHp = this.GetMaxHp();
+        if(this.currentHp > this.getMaxHp()) this.currentHp = this.getMaxHp();
     }
-    public AddExp(value: number): void
+    public addExp(value: number): void
     {
         this.currentExp += value;
         if(this.currentExp < 0) this.currentExp = 0;
-        while(this.currentExp >= this.GetNeededExp())
+        while(this.currentExp >= this.getNeededExp())
         {
-            this.currentExp -= this.GetNeededExp();
-            this.AddLevel(1);
+            this.currentExp -= this.getNeededExp();
+            this.addLevel(1);
         }
     }
-    public AddStrength(value: number): void
+    public addStrength(value: number): void
     {
         if(value < 0) return;
         this.strength += value;
     }
-    public AddVitality(value: number): void
+    public addVitality(value: number): void
     {
         if(value < 0) return;
         this.vitality += value;
     }
-    public AddAgility(value: number): void
+    public addAgility(value: number): void
     {
         if(value < 0) return;
         this.agility += value;
     }
-    public AddLevel(value: number): void
+    public addLevel(value: number): void
     {
         if(value < 0) return;
         this.level += value;
     }
-    public AddPoints(value: number): void
+    public addPoints(value: number): void
     {
         this.points += value;
         if(this.points < 0)
         {
-            throw new Error("Player point are below zero");
+            throw new Error("Player points are below zero");
         }
     }
 }

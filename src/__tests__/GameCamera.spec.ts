@@ -5,24 +5,24 @@ describe("Game camera", () => {
         const testGameCamera = new GameCamera();
 
         expect(testGameCamera).toBeDefined();
-        expect(testGameCamera.GetOffsetX()).toBe(0);
-        expect(testGameCamera.GetOffsetY()).toBe(0);
-        expect(testGameCamera.GetOffset()[0]).toBe(0);
-        expect(testGameCamera.GetOffset()[1]).toBe(0);
+        expect(testGameCamera.getOffsetX()).toBe(0);
+        expect(testGameCamera.getOffsetY()).toBe(0);
+        expect(testGameCamera.getOffset()[0]).toBe(0);
+        expect(testGameCamera.getOffset()[1]).toBe(0);
 
-        testGameCamera.SetOffset(100,200);
+        testGameCamera.setOffset(100,200);
 
-        expect(testGameCamera.GetOffsetX()).toBe(100);
-        expect(testGameCamera.GetOffsetY()).toBe(200);
-        expect(testGameCamera.GetOffset()[0]).toBe(100);
-        expect(testGameCamera.GetOffset()[1]).toBe(200);
+        expect(testGameCamera.getOffsetX()).toBe(100);
+        expect(testGameCamera.getOffsetY()).toBe(200);
+        expect(testGameCamera.getOffset()[0]).toBe(100);
+        expect(testGameCamera.getOffset()[1]).toBe(200);
 
-        testGameCamera.Move(-50, -50);
+        testGameCamera.move(-50, -50);
 
-        expect(testGameCamera.GetOffsetX()).toBe(50);
-        expect(testGameCamera.GetOffsetY()).toBe(150);
-        expect(testGameCamera.GetOffset()[0]).toBe(50);
-        expect(testGameCamera.GetOffset()[1]).toBe(150);
+        expect(testGameCamera.getOffsetX()).toBe(50);
+        expect(testGameCamera.getOffsetY()).toBe(150);
+        expect(testGameCamera.getOffset()[0]).toBe(50);
+        expect(testGameCamera.getOffset()[1]).toBe(150);
 
         expect.assertions(13);
     });

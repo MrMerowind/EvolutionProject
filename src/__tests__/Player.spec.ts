@@ -3,40 +3,40 @@ import Player from "../player/Player";
 describe("Player details", () => {
     it("Values generated", () => {
         const testPlayer = new Player();
-        expect(testPlayer.GetId()).toBeTruthy();
-        expect(testPlayer.GetMaxHp())
-            .toBe(testPlayer.GetCurrentHp());
-        expect(testPlayer.GetNeededExp()).toBeGreaterThanOrEqual(0);
-        expect(testPlayer.GetCurrentExp()).toBe(0);
-        expect(testPlayer.GetStrength()).toBe(0);
-        expect(testPlayer.GetVitality()).toBe(0);
-        expect(testPlayer.GetAgility()).toBe(0);
-        expect(testPlayer.GetLevel()).toBe(1);
-        expect(testPlayer.GetPoints()).toBe(0);
+        expect(testPlayer.getId()).toBeTruthy();
+        expect(testPlayer.getMaxHp())
+            .toBe(testPlayer.getCurrentHp());
+        expect(testPlayer.getNeededExp()).toBeGreaterThanOrEqual(0);
+        expect(testPlayer.getCurrentExp()).toBe(0);
+        expect(testPlayer.getStrength()).toBe(0);
+        expect(testPlayer.getVitality()).toBe(0);
+        expect(testPlayer.getAgility()).toBe(0);
+        expect(testPlayer.getLevel()).toBe(1);
+        expect(testPlayer.getPoints()).toBe(0);
         expect.assertions(9);
     });
 
 
     it("Adding count to player details", () => {
         const testPlayer = new Player();
-        testPlayer.AddStrength(1);
-        testPlayer.AddVitality(1);
-        testPlayer.AddAgility(1);
-        testPlayer.AddLevel(1);
-        testPlayer.AddExp(1);
-        testPlayer.AddHp(1000);
-        testPlayer.AddPoints(1);
+        testPlayer.addStrength(1);
+        testPlayer.addVitality(1);
+        testPlayer.addAgility(1);
+        testPlayer.addLevel(1);
+        testPlayer.addExp(1);
+        testPlayer.addHp(1000);
+        testPlayer.addPoints(1);
 
-        expect(testPlayer.GetId()).toBeTruthy();
-        expect(testPlayer.GetMaxHp())
-            .toBeGreaterThanOrEqual(testPlayer.GetCurrentHp());
-        expect(testPlayer.GetNeededExp()).toBeGreaterThanOrEqual(0);
-        expect(testPlayer.GetCurrentExp()).toBe(1);
-        expect(testPlayer.GetStrength()).toBe(1);
-        expect(testPlayer.GetVitality()).toBe(1);
-        expect(testPlayer.GetAgility()).toBe(1);
-        expect(testPlayer.GetLevel()).toBe(2);
-        expect(testPlayer.GetPoints()).toBe(1);
+        expect(testPlayer.getId()).toBeTruthy();
+        expect(testPlayer.getMaxHp())
+            .toBeGreaterThanOrEqual(testPlayer.getCurrentHp());
+        expect(testPlayer.getNeededExp()).toBeGreaterThanOrEqual(0);
+        expect(testPlayer.getCurrentExp()).toBe(1);
+        expect(testPlayer.getStrength()).toBe(1);
+        expect(testPlayer.getVitality()).toBe(1);
+        expect(testPlayer.getAgility()).toBe(1);
+        expect(testPlayer.getLevel()).toBe(2);
+        expect(testPlayer.getPoints()).toBe(1);
         expect.assertions(9);
     });
 })
