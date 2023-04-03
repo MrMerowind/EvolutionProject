@@ -1,3 +1,5 @@
+import { AnimationData } from "../animation/AnimationData";
+import { AnimationState } from "../global/types";
 import { PlayerOutfit } from "./PlayerOutfit";
 
 export default class Player{
@@ -12,7 +14,11 @@ export default class Player{
     private playerOutfit: PlayerOutfit;
     private positionX: number;
     private positionY: number;
-    public readonly scale = 10;
+    public readonly scale = 1;
+
+    private animationDataWalking: AnimationData;
+    private animationDataAttacking: AnimationData;
+    private animationDataStanding: AnimationData;
 
     constructor()
     {
@@ -27,8 +33,21 @@ export default class Player{
         this.playerOutfit = new PlayerOutfit();
         this.positionX = 0;
         this.positionY = 0;
+        this.animationDataWalking = new AnimationData();
+        this.animationDataAttacking = new AnimationData();
+        this.animationDataStanding = new AnimationData();
     }
 
+    public getAnimationData(animationState: AnimationState): AnimationData
+    {
+        switch(animationState)
+        {
+            case "attacking": return this.animationDataAttacking;
+            case "standing": return this.animationDataStanding;
+            case "walking": return this.animationDataWalking;
+        }
+        throw new Error("Unknown animationState in Player.getAnimationData()");
+    }
     public getPositionX(): number
     {
         return this.positionX;

@@ -5,11 +5,11 @@ export const graphicPath =
     player:
     {
         idle:
-            serverPath.toString() + "img/Base/MainCharacter/player_idle.png",
+            serverPath.toString() + "img/MainCharacter/player_idle.png",
         attack:
-            serverPath.toString() + "img/Base/MainCharacter/player_attack.png",
+            serverPath.toString() + "img/MainCharacter/player_attack.png",
         walk:
-            serverPath.toString() + "img/Base/MainCharacter/player_walk.png"
+            serverPath.toString() + "img/MainCharacter/player_walk.png"
 
     }
 }
