@@ -43,9 +43,9 @@ export default class Player{
     {
         switch(animationState)
         {
-            case "attacking": return this.animationDataAttacking;
-            case "standing": return this.animationDataStanding;
-            case "walking": return this.animationDataWalking;
+            case AnimationState.attacking: return this.animationDataAttacking;
+            case AnimationState.standing: return this.animationDataStanding;
+            case AnimationState.walking: return this.animationDataWalking;
         }
         throw new Error("Unknown animationState in Player.getAnimationData()");
     }

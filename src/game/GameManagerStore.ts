@@ -4,6 +4,7 @@ import Player from "../player/Player";
 import { GameCamera } from "../screen/GameCamera";
 import { GameScreen } from "../screen/GameScreen";
 import { graphicPath } from "../globalData/GraphicPaths";
+import { AnimationState, Direction } from "../globalData/Types";
 
 export interface IGameManagerStore{
     camera: GameCamera;
@@ -39,7 +40,7 @@ export class GameManagerStore implements IGameManagerStore{
             PIXI.Assets.add("player_walk_right", graphicPath.player.walk);
             PIXI.Assets.load("player_walk_right").then((graphic) => {
                 
-                this.player.getAnimationData("walking").getAnimation("right").setData(10,1,"right",0,9,200,960,96, graphic);
+                this.player.getAnimationData(AnimationState.walking).getAnimation(Direction.right).setData(10,1,0,9,200,960,96, graphic);
 
             }).then(() => {
                 this.areGraphicsLoaded = true;
@@ -48,6 +49,14 @@ export class GameManagerStore implements IGameManagerStore{
                 this.camera.centerOnPlayer();
             });
 
+            PIXI.Assets.add("player_idle_right", graphicPath.player.idle);
+            PIXI.Assets.load("player_idle_right").then((graphic) => {
+                
+                this.player.getAnimationData(AnimationState.standing).getAnimation(Direction.right).setData(50,1,0,49,200,4800,96, graphic);
+
+            }).then(() => {
+                this.areGraphicsLoaded = true;
+            });
         }
         
         makeAutoObservable(this);

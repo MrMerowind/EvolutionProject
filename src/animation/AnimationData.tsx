@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 class AnimationSubData{
     horizontalFrames: number;
     verticalFrames: number;
-    animationDirection: Direction;
     animationFrameIndexStart: number;
     animationFrameIndexEnd: number;
     animationFrameTime: number;
@@ -20,7 +19,6 @@ class AnimationSubData{
     {
         this.horizontalFrames = 0;
         this.verticalFrames = 0;
-        this.animationDirection = null;
         this.animationFrameIndexStart = 0;
         this.animationFrameIndexEnd = 0;
         this.animationFrameTime = 0;
@@ -29,13 +27,12 @@ class AnimationSubData{
         this.imageRef = null;
     }
 
-    setData(horizontalFrames: number, verticalFrames: number,
-        animationDirection: Direction, animationFrameIndexStart: number, animationFrameIndexEnd: number, animationFrameTime: number,
+    setData(horizontalFrames: number, verticalFrames: number, animationFrameIndexStart: number,
+        animationFrameIndexEnd: number, animationFrameTime: number,
         graphicWidth: number, graphicHeight: number, imgRef: PIXI.BaseTexture)
     {
         this.horizontalFrames = horizontalFrames;
         this.verticalFrames = verticalFrames;
-        this.animationDirection = animationDirection;
         this.animationFrameIndexStart = animationFrameIndexStart;
         this.animationFrameIndexEnd = animationFrameIndexEnd;
         this.animationFrameTime = animationFrameTime;
@@ -52,13 +49,8 @@ export class AnimationData{
     animationUp: AnimationSubData;
     animationDown: AnimationSubData;
 
-    isSetLeft: boolean;
-    isSetRight: boolean;
-
     constructor()
     {
-        this.isSetLeft = false;
-        this.isSetRight = false;
         this.animationDown = new AnimationSubData();
         this.animationUp = new AnimationSubData();
         this.animationLeft = new AnimationSubData();
@@ -68,16 +60,17 @@ export class AnimationData{
 
     public getAnimation(direction: Direction | DirectionHorizontal): AnimationSubData
     {
-        console.log(direction);
         switch(direction)
         {
-            case "right":
-                return this.animationRight;
-            case "up":
+            case Direction.up:
                 return this.animationUp;
-            case "down":
+            case Direction.down:
                 return this.animationDown;
-            case "left":
+            case Direction.right:
+            case DirectionHorizontal.right:
+                return this.animationRight;
+            case Direction.left:
+            case DirectionHorizontal.left:
                 return this.animationLeft;
             default:
                 throw new Error("AnimationData direction is null");
@@ -104,16 +97,14 @@ interface AnimationRendererProps{
 
 export default function AnimationRenderer(props: AnimationRendererProps) {
 
-    const ctx = useGameManagerStore();
-
     let animDataChosen: AnimationData;
     let reversed = false;
 
     switch(props.animationState)
     {
-        case "attacking": animDataChosen = props.animationDataAttacking; break; 
-        case "walking": animDataChosen = props.animationDataWalking; break; 
-        case "standing": animDataChosen = props.animationDataStanding; break; 
+        case AnimationState.attacking: animDataChosen = props.animationDataAttacking; break; 
+        case AnimationState.walking: animDataChosen = props.animationDataWalking; break; 
+        case AnimationState.standing: animDataChosen = props.animationDataStanding; break; 
         default: return null;
     }
     let animationDataStateAndDirection: AnimationSubData | null;
@@ -126,8 +117,12 @@ export default function AnimationRenderer(props: AnimationRendererProps) {
     if(animationDataStateAndDirection.imageRef === null)
     {
         // Choosing oposite direction if graphics are missing
-        animationDataStateAndDirection = animDataChosen.getAnimation((props.secondaryFacedDirection === "left" ? "right" : "left"));
+        animationDataStateAndDirection = animDataChosen.getAnimation(props.secondaryFacedDirection === DirectionHorizontal.left ? DirectionHorizontal.right : DirectionHorizontal.left);
         reversed = true;
+    }
+    else
+    {
+        reversed = false;
     }
     if(animationDataStateAndDirection.imageRef === null)
     {
@@ -151,8 +146,7 @@ export default function AnimationRenderer(props: AnimationRendererProps) {
 
     
 
-    const imageRef = animationDataStateAndDirection?.imageRef;
-    if(imageRef === null) return null;
+    const imageRef = animationDataStateAndDirection.imageRef;
 
     const cutRegion = new PIXI.Rectangle(graphicPositionX, graphicPositionY, graphicWidth, graphicHeight);
     const cutTexture = new PIXI.Texture(imageRef, cutRegion);
@@ -162,7 +156,7 @@ export default function AnimationRenderer(props: AnimationRendererProps) {
     else reversedMultiplier = 1;
 
   return (
-    <Sprite texture={cutTexture} width={graphicWidth * props.scale * reversedMultiplier} height={graphicHeight * props.scale} 
+    <Sprite texture={cutTexture} width={(graphicWidth * props.scale * reversedMultiplier)} height={(graphicHeight * props.scale)} scale={props.scale}
      x={props.positionX} y={props.positionY} rotation={props.rotation} anchor={0.5}/>
   )
 }

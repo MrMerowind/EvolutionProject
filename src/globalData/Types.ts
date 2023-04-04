@@ -1,3 +1,3 @@
-export type Direction = "left" | "right" | "up" | "down" | null;
-export type DirectionHorizontal = "left" | "right" | null;
-export type AnimationState = "standing" | "attacking" | "walking" | null;
+export enum Direction {"left", "right", "up", "down", null};
+export enum DirectionHorizontal {"left", "right", null};
+export enum AnimationState {"standing", "attacking", "walking", null};

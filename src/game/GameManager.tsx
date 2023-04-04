@@ -1,12 +1,12 @@
 import * as PIXI from "pixi.js";
 import { Stage, Container, Sprite, Text } from '@pixi/react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { mainPixiFont } from "../globalData/Fonts";
 import { GameManagerStoreProvider, useGameManagerStore } from "./GameManagerStoreContext";
 import { GameManagerStore } from "./GameManagerStore";
 import AnimationRenderer from "../animation/AnimationData";
 import Player from "../player/Player";
-import { Direction, DirectionHorizontal } from "../globalData/Types";
+import { AnimationState, Direction, DirectionHorizontal } from "../globalData/Types";
 
 
 
@@ -14,19 +14,20 @@ export const GameManager = () => {
 
   const ctx = useGameManagerStore();
 
+  // TODO: Get rid of this states.
   const [miliseconds, setMiliseconds] = useState(0);
   const [buttonLeftPressed, setButtonLeftPressed] = useState(false);
   const [buttonRightPressed, setButtonRightPressed] = useState(false);
   const [buttonUpPressed, setButtonUpPressed] = useState(false);
   const [buttonDownPressed, setButtonDownPressed] = useState(false);
-  const [facedDirection, setFacedDirection] = useState<Direction>("down");
-  const [facedSecondaryDirection, setFacedSecondaryDirection] = useState<DirectionHorizontal>("left");
+  const [facedDirection, setFacedDirection] = useState<Direction>(Direction.left);
+  const [facedSecondaryDirection, setFacedSecondaryDirection] = useState<DirectionHorizontal>(DirectionHorizontal.left);
 
   const handleUserKeyPressDown = (e: KeyboardEvent) => {
-    if (e.code === 'KeyW') { setButtonUpPressed(true); }
-    if (e.code === 'KeyA') { setButtonLeftPressed(true); }
-    if (e.code === 'KeyD') { setButtonRightPressed(true); }
-    if (e.code === 'KeyS') { setButtonDownPressed(true); }
+    if (e.code === 'KeyW') { setButtonUpPressed(true); setFacedDirection(Direction.up);}
+    if (e.code === 'KeyS') { setButtonDownPressed(true); setFacedDirection(Direction.down);}
+    if (e.code === 'KeyA') { setButtonLeftPressed(true); setFacedDirection(Direction.left); setFacedSecondaryDirection(DirectionHorizontal.left);}
+    if (e.code === 'KeyD') { setButtonRightPressed(true); setFacedDirection(Direction.right); setFacedSecondaryDirection(DirectionHorizontal.right);}
   }
 
   const handleUserKeyPressUp = (e: KeyboardEvent) => {
@@ -51,22 +52,16 @@ export const GameManager = () => {
   useEffect(() => {
     if(buttonDownPressed) {
       ctx.player.moveUnits(0,1);
-      setFacedDirection("down");
     }
     if(buttonUpPressed){
       ctx.player.moveUnits(0,-1);
-      setFacedDirection("up");
     } 
     if(buttonRightPressed)
     {
       ctx.player.moveUnits(1,0);
-      setFacedDirection("right");
-      setFacedSecondaryDirection("right");
     } 
     if(buttonLeftPressed){
       ctx.player.moveUnits(-1,0);
-      setFacedDirection("left");
-      setFacedSecondaryDirection("left");
     } 
   }, [miliseconds]);
 
@@ -86,6 +81,12 @@ export const GameManager = () => {
     setPlayerPosition([ctx.player.getPositionX(), ctx.player.getPositionY()]);
   }, [miliseconds]);
 
+  const [animationState, setAnimationState] = useState(AnimationState.standing);
+  useEffect(() => {
+    if(buttonDownPressed || buttonLeftPressed || buttonRightPressed || buttonUpPressed) setAnimationState(AnimationState.walking);
+    else setAnimationState(AnimationState.standing);
+  }, [buttonDownPressed, buttonLeftPressed, buttonRightPressed, buttonUpPressed]);
+
   const areGraphicLoaded = useRef<boolean>(ctx.areGraphicsLoaded);
 
   if(!areGraphicLoaded) return null;
@@ -94,11 +95,11 @@ export const GameManager = () => {
     <GameManagerStoreProvider gameData={ctx}>
       <Stage width={ctx.screen.getWidth()} height={ctx.screen.getHeight()}>
         {/*Render player*/}
-        <AnimationRenderer animationDataWalking={ctx.player.getAnimationData("walking")}
-          animationDataStanding={ctx.player.getAnimationData("standing")}
-          animationDataAttacking={ctx.player.getAnimationData("attacking")}
-          animationState={"walking"} facedDirection={facedDirection} secondaryFacedDirection={facedSecondaryDirection}
-          time={miliseconds} scale={3} positionX={playerPosition[0] - ctx.camera.getOffsetX()} positionY={playerPosition[1] - ctx.camera.getOffsetY()} rotation={0}/>
+        <AnimationRenderer animationDataWalking={ctx.player.getAnimationData(AnimationState.walking)}
+          animationDataStanding={ctx.player.getAnimationData(AnimationState.standing)}
+          animationDataAttacking={ctx.player.getAnimationData(AnimationState.attacking)}
+          animationState={animationState} facedDirection={facedDirection} secondaryFacedDirection={facedSecondaryDirection}
+          time={miliseconds} scale={2} positionX={playerPosition[0] - ctx.camera.getOffsetX()} positionY={playerPosition[1] - ctx.camera.getOffsetY()} rotation={0}/>
 
         {/*Render UI*/}
 
