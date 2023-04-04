@@ -9,6 +9,7 @@ import Player from "../player/Player";
 import { AnimationState, Direction, DirectionHorizontal } from "../globalData/Types";
 import PlayerRenderer from "../player/PlayerRenderer";
 import MapRenderer from "../map/MapRenderer";
+import { LoadingScreenRenderer } from "../loadingScreen/LoadingScreenRenderer";
 
 
 
@@ -33,7 +34,14 @@ export const GameManager = () => {
 
   const areGraphicLoaded = useRef<boolean>(ctx.areGraphicsLoaded);
 
-  if(!areGraphicLoaded) return null;
+  
+  if(!areGraphicLoaded) return (
+    <GameManagerStoreProvider gameData={ctx}>
+      <Stage width={ctx.screen.getWidth()} height={ctx.screen.getHeight()}>
+        <LoadingScreenRenderer />
+      </Stage>
+    </GameManagerStoreProvider>
+  );
   // TODO: rewrite
   return (
     <GameManagerStoreProvider gameData={ctx}>
@@ -43,12 +51,7 @@ export const GameManager = () => {
         <MapRenderer />
         {/*Render player*/}
         <PlayerRenderer miliseconds={miliseconds}/>
-        
-
         {/*Render UI*/}
-
-
-
 
         {/*<Container x={0} y={0}>
           <Text text="O, dziala!" x={0} y={0} anchor={{ x: 0, y: 0 }} style={mainPixiFont}/>

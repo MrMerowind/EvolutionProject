@@ -6,6 +6,7 @@ import { GameScreen } from "../screen/GameScreen";
 import { graphicPath } from "../globalData/GraphicPaths";
 import { AnimationState, Direction } from "../globalData/Types";
 import GameMap from "../map/Map";
+import LoadingScreen from "../loadingScreen/LoadingScreen";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -14,8 +15,10 @@ export interface IGameManagerStore{
     screen: GameScreen;
     player: Player;
     map: GameMap;
+    loadingScreen: LoadingScreen;
     areGraphicsLoaded: boolean;
     loadData: LoadDataFn;
+    loadLoadingScreen: LoadDataFn;
 }
 
 export class GameManagerStore implements IGameManagerStore{
@@ -23,7 +26,8 @@ export class GameManagerStore implements IGameManagerStore{
     public screen: GameScreen;
     public player: Player;
     public map: GameMap;
-    public areGraphicsLoaded = false;
+    public areGraphicsLoaded: boolean;
+    public loadingScreen: LoadingScreen; 
 
     constructor(gameData: GameManagerStore | null = null)
     {
@@ -33,15 +37,25 @@ export class GameManagerStore implements IGameManagerStore{
             this.screen = gameData.screen;
             this.player = gameData.player;
             this.map = gameData.map;
+            this.loadingScreen = gameData.loadingScreen;
+            this.areGraphicsLoaded = gameData.areGraphicsLoaded;
         }
         else
         {
             // Game loading screen
             // TODO: Add loading scren
+            
+            
+            this.areGraphicsLoaded = false;
+            this.loadingScreen = new LoadingScreen();
             this.camera = new GameCamera();
             this.screen = new GameScreen();
             this.player = new Player();
             this.map = new GameMap();
+            
+            this.loadLoadingScreen().then(() => {
+                this.loadingScreen.isLoaded = true;
+            });
 
             this.loadData().then(() => {
                 this.camera.setGameScreenHandle(this.screen);
@@ -54,6 +68,12 @@ export class GameManagerStore implements IGameManagerStore{
         }
         
         makeAutoObservable(this);
+    }
+
+    loadLoadingScreen = async() => {
+        await PIXI.Assets.load(graphicPath.loadingScreen).then((graphic) => {
+            this.loadingScreen.texture = graphic;
+        }).then(() => this.loadingScreen.isLoaded = true);
     }
 
     loadData = async() =>

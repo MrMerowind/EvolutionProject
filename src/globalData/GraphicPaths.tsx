@@ -13,5 +13,7 @@ export const graphicPath =
 
     },
     mapFolder:
-        serverPath.toString() + "img/Map/"
+        serverPath.toString() + "img/Map/",
+    loadingScreen:
+        serverPath.toString() + "img/MainScreen/Background/1.png"
 }
