@@ -26,27 +26,31 @@ export class GameCamera{
     }
     public centerOnPlayer(): void
     {
-        if(this.gameScreenHandle === null) throw new Error("GameCamera: screen handle not set");
-        if(this.playerHandle === null) throw new Error("GameCamera: player handle not set");
+        if(this.gameScreenHandle === null) return;
+        if(this.playerHandle === null) return;
 
         this.offsetX = this.playerHandle.getPositionX() - this.gameScreenHandle.getCenterHorizontal();
         this.offsetY = this.playerHandle.getPositionY() - this.gameScreenHandle.getCenterVertical();
     }
     public moveTowardsPlayer(): void
     {
-        if(this.gameScreenHandle === null) throw new Error("GameCamera: screen handle not set");
-        if(this.playerHandle === null) throw new Error("GameCamera: player handle not set");
+        // TODO: Fix this. It is not working
+        if(this.gameScreenHandle === null) return;
+        if(this.playerHandle === null) return;
 
-        let moveToX  = this.playerHandle.getPositionX() - this.gameScreenHandle.getCenterHorizontal();
-        let moveToY  = this.playerHandle.getPositionY() - this.gameScreenHandle.getCenterVertical();
+        let moveToX: number = this.playerHandle.getPositionX() - this.gameScreenHandle.getCenterHorizontal();
+        let moveToY: number = this.playerHandle.getPositionY() - this.gameScreenHandle.getCenterVertical();
 
-        let vectorLength = Math.sqrt(Math.abs(moveToX) * Math.abs(moveToX) + Math.abs(moveToY) * Math.abs(moveToY));
+        let moveToXAbs = moveToX - this.offsetX;
+        let moveToYAbs = moveToY - this.offsetY;
+
+        let vectorLength = Math.sqrt(Math.abs(moveToXAbs) * Math.abs(moveToXAbs) + Math.abs(moveToYAbs) * Math.abs(moveToYAbs));
         
-        moveToX /= vectorLength;
-        moveToY /= vectorLength;
+        moveToXAbs /= vectorLength;
+        moveToYAbs /= vectorLength;
 
-        this.offsetX += moveToX;
-        this.offsetY += moveToY;
+        this.offsetX += moveToXAbs;
+        this.offsetY += moveToYAbs;
     }
     public setOffset(x: number, y: number): void
     {

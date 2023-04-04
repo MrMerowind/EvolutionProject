@@ -11,5 +11,7 @@ export const graphicPath =
         walk:
             serverPath.toString() + "img/MainCharacter/player_walk.png"
 
-    }
+    },
+    mapFolder:
+        serverPath.toString() + "img/Map/"
 }
