@@ -59,15 +59,15 @@ export class GameManagerStore implements IGameManagerStore{
     loadData = async() =>
     {
         await PIXI.Assets.load(graphicPath.player.walk).then((graphic) => {
-            this.player.getAnimationData(AnimationState.walking).getAnimation(Direction.right).setData(10,1,0,9,200,960,96, graphic);
+            this.player.getAnimationData(AnimationState.walking).getAnimation(Direction.right).setData(10,1,0,9,120,960,96, graphic);
         });
         await PIXI.Assets.load(graphicPath.player.idle).then((graphic) => {   
-            this.player.getAnimationData(AnimationState.standing).getAnimation(Direction.right).setData(50,1,0,49,200,4800,96, graphic);
+            this.player.getAnimationData(AnimationState.standing).getAnimation(Direction.right).setData(50,1,0,49,120,4800,96, graphic);
         });
         for(let i = 1; i <= this.map.levelCount; i++)
         {
             await PIXI.Assets.load(graphicPath.mapFolder + i.toString() + ".png").then((graphic) => {   
-                this.map.textures[i - 1] = graphic;
+                this.map.textures.set(i, graphic);
             });
         }
     }
