@@ -1,5 +1,5 @@
 import { AnimationData } from "../animation/AnimationData";
-import { AnimationState } from "../global/types";
+import { AnimationState } from "../globalData/Types";
 import { PlayerOutfit } from "./PlayerOutfit";
 
 export default class Player{
@@ -15,6 +15,7 @@ export default class Player{
     private positionX: number;
     private positionY: number;
     public readonly scale = 1;
+    public readonly speed = 5;
 
     private animationDataWalking: AnimationData;
     private animationDataAttacking: AnimationData;
@@ -105,7 +106,16 @@ export default class Player{
         return this.points;
     }
 
-
+    public move(x:number, y: number)
+    {
+        this.positionX += x;
+        this.positionY += y;
+    }
+    public moveUnits(x:number, y: number)
+    {
+        this.positionX += x * this.speed;
+        this.positionY += y * this.speed;
+    }
     public addHp(value: number): void
     {
         this.currentHp += value;
