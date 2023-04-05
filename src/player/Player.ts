@@ -1,3 +1,4 @@
+import { disconnect } from "process";
 import { AnimationData } from "../animation/AnimationData";
 import EnemyList from "../enemies/EnemyList";
 import { AnimationState } from "../globalData/Types";
@@ -104,7 +105,10 @@ export default class Player{
     {
         return this.points;
     }
-
+    public getSpeed(): number
+    {
+        return this.speed;
+    }
     public move(x:number, y: number)
     {
         this.positionX += x;
@@ -112,12 +116,23 @@ export default class Player{
     }
     public moveUnits(x:number, y: number, enemyListHandle: EnemyList)
     {
+        // Preventing moving too fast on both axises
+        let distance = Math.hypot(x,y);
 
-        let newPositionX = this.positionX + x * this.speed;
-        let newPositionY = this.positionY + y * this.speed;
+        let newPositionX = this.positionX;
+        let newPositionY = this.positionY;
+
+        if(x !== 0)
+        {
+           newPositionX = this.positionX + x / distance * this.speed;
+        }
+        if(y !== 0)
+        {
+            newPositionY = this.positionY + y / distance * this.speed;
+        }
 
 
-        // TODO: prevent moving on emeny
+        // Prevent moving through enemy
         let changePosition = true;
         enemyListHandle.getList().forEach(p => {
             const distanceToAnother = Math.hypot(newPositionX - p.getPositionX(), newPositionY - p.getPositionY());

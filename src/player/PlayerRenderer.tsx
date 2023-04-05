@@ -47,17 +47,41 @@ export default function PlayerRenderer(props: PlayerRendererProps) {
   }, []);
 
   useEffect(() => {
-    if(buttonDownPressed) {
+    if(buttonLeftPressed && buttonRightPressed)
+    {
+      ctx.player.moveUnits(0, 0, ctx.enemyList);
+    }
+    else if(buttonUpPressed && buttonDownPressed)
+    {
+      ctx.player.moveUnits(0, 0, ctx.enemyList);
+    }
+    else if(buttonLeftPressed && buttonDownPressed)
+    {
+      ctx.player.moveUnits(-1, 1, ctx.enemyList);
+    }
+    else if(buttonLeftPressed && buttonUpPressed)
+    {
+      ctx.player.moveUnits(-1, -1, ctx.enemyList);
+    }
+    else if(buttonRightPressed && buttonDownPressed)
+    {
+      ctx.player.moveUnits(1, 1, ctx.enemyList);
+    }
+    else if(buttonRightPressed && buttonUpPressed)
+    {
+      ctx.player.moveUnits(1, -1, ctx.enemyList);
+    }
+    else if(buttonDownPressed) {
       ctx.player.moveUnits(0, 1, ctx.enemyList);
     }
-    if(buttonUpPressed){
+    else if(buttonUpPressed){
       ctx.player.moveUnits(0, -1, ctx.enemyList);
     } 
-    if(buttonRightPressed)
+    else if(buttonRightPressed)
     {
       ctx.player.moveUnits(1, 0, ctx.enemyList);
     } 
-    if(buttonLeftPressed){
+    else if(buttonLeftPressed){
       ctx.player.moveUnits(-1, 0, ctx.enemyList);
     } 
   }, [props.miliseconds]);

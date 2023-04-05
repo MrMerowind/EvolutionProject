@@ -22,8 +22,9 @@ export const GameManager = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setMiliseconds(p => p + 20);
-      ctx.camera.centerOnPlayer();
+      ctx.camera.moveTowardsPlayer();
     }, 20);
+    ctx.camera.centerOnPlayer();
 
     return () => {
       clearInterval(interval);

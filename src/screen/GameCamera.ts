@@ -1,10 +1,11 @@
+import { disconnect } from "process";
 import Player from "../player/Player";
 import { GameScreen } from "./GameScreen";
 
 export class GameCamera{
     private offsetX;
     private offsetY;
-    private cameraSpeed = 1;
+    private cameraSpeed = 3;
     private gameScreenHandle: GameScreen | null;
     private playerHandle: Player | null;
 
@@ -34,7 +35,6 @@ export class GameCamera{
     }
     public moveTowardsPlayer(): void
     {
-        // TODO: Fix this. It is not working
         if(this.gameScreenHandle === null) return;
         if(this.playerHandle === null) return;
 
@@ -44,13 +44,19 @@ export class GameCamera{
         let moveToXAbs = moveToX - this.offsetX;
         let moveToYAbs = moveToY - this.offsetY;
 
-        let vectorLength = Math.sqrt(Math.abs(moveToXAbs) * Math.abs(moveToXAbs) + Math.abs(moveToYAbs) * Math.abs(moveToYAbs));
-        
-        moveToXAbs /= vectorLength;
-        moveToYAbs /= vectorLength;
+        let distance = Math.hypot(moveToXAbs, moveToYAbs);
 
-        this.offsetX += moveToXAbs;
-        this.offsetY += moveToYAbs;
+        if(distance >= Math.min(...this.gameScreenHandle.getCenter()) * 0.8)
+        {
+            if(Math.abs(moveToXAbs) > 0) this.offsetX += (moveToXAbs / distance) * this.playerHandle.getSpeed();
+            if(Math.abs(moveToYAbs) > 0) this.offsetY += (moveToYAbs / distance) * this.playerHandle.getSpeed();
+        }
+        else if(distance >= 10)
+        {
+            if(Math.abs(moveToXAbs) > 0) this.offsetX += (moveToXAbs / distance) * this.cameraSpeed;
+            if(Math.abs(moveToYAbs) > 0) this.offsetY += (moveToYAbs / distance) * this.cameraSpeed;
+        }
+
     }
     public setOffset(x: number, y: number): void
     {

@@ -89,10 +89,10 @@ export class GameManagerStore implements IGameManagerStore{
     {
         // Loading player
         await PIXI.Assets.load(graphicPath.player.walk).then((graphic) => {
-            this.player.getAnimationData(AnimationState.walking).getAnimation(Direction.right).setData(10,1,0,9,120,960,96, graphic);
+            this.player.getAnimationData(AnimationState.walking).getAnimation(Direction.right).setData(10,1,0,9,100,960,96, graphic);
         });
         await PIXI.Assets.load(graphicPath.player.idle).then((graphic) => {   
-            this.player.getAnimationData(AnimationState.standing).getAnimation(Direction.right).setData(50,1,0,49,120,4800,96, graphic);
+            this.player.getAnimationData(AnimationState.standing).getAnimation(Direction.right).setData(50,1,0,49,100,4800,96, graphic);
         });
 
         // Loading terrain
@@ -126,7 +126,7 @@ export class GameManagerStore implements IGameManagerStore{
                 animDataStanding.getAnimation(Direction.left).setData(10,4,10,10,60,640,256,graphic2);
                 animDataStanding.getAnimation(Direction.right).setData(10,4,20,20,60,640,256,graphic2);
                 animDataStanding.getAnimation(Direction.down).setData(10,4,30,30,60,640,256,graphic2);
-            }).then(() => console.log(animDataWalking));
+            });
 
             enemyPointer.createPrototype(1,1,1,1,1,3,animDataStanding,animDataWalking,animDataAttacking);
             this.enemyPrototypes.addEnemy(enemyPointer);
