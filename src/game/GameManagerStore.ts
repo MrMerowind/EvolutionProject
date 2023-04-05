@@ -52,9 +52,6 @@ export class GameManagerStore implements IGameManagerStore{
         else
         {
             // Game loading screen
-            // TODO: Add loading scren
-            
-            
             this.areGraphicsLoaded = false;
             this.loadingScreen = new LoadingScreen();
             
@@ -117,14 +114,19 @@ export class GameManagerStore implements IGameManagerStore{
             animDataAttacking.getAnimation(Direction.up).setData(13,4,0,12,60,832,256,graphic);
             animDataAttacking.getAnimation(Direction.left).setData(13,4,13,26,60,832,256,graphic);
             animDataAttacking.getAnimation(Direction.right).setData(13,4,27,39,60,832,256,graphic);
-            animDataAttacking.getAnimation(Direction.down).setData(13,4,40,52,60,832,256,graphic);
+            animDataAttacking.getAnimation(Direction.down).setData(13,4,40,51,60,832,256,graphic);
 
             PIXI.Assets.load(graphicPath.enemies + "1_walk.png").then((graphic2) => {
                 animDataWalking.getAnimation(Direction.up).setData(10,4,0,9,60,640,256,graphic2);
                 animDataWalking.getAnimation(Direction.left).setData(10,4,10,19,60,640,256,graphic2);
                 animDataWalking.getAnimation(Direction.right).setData(10,4,20,29,60,640,256,graphic2);
                 animDataWalking.getAnimation(Direction.down).setData(10,4,30,39,60,640,256,graphic2);
-            });
+                
+                animDataStanding.getAnimation(Direction.up).setData(10,4,0,0,60,640,256,graphic2);
+                animDataStanding.getAnimation(Direction.left).setData(10,4,10,10,60,640,256,graphic2);
+                animDataStanding.getAnimation(Direction.right).setData(10,4,20,20,60,640,256,graphic2);
+                animDataStanding.getAnimation(Direction.down).setData(10,4,30,30,60,640,256,graphic2);
+            }).then(() => console.log(animDataWalking));
 
             enemyPointer.createPrototype(1,1,1,1,1,3,animDataStanding,animDataWalking,animDataAttacking);
             this.enemyPrototypes.addEnemy(enemyPointer);

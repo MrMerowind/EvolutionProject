@@ -138,17 +138,14 @@ export default function AnimationRenderer(props: AnimationRendererProps) {
     const aFIE = animationDataStateAndDirection!.animationFrameIndexEnd;
     const aFT = animationDataStateAndDirection!.animationFrameTime;
 
-    const frameNumber = Math.floor(props.time / aFT) % Math.floor(aFIE - aFIS + 1);
+    // TODO: this is probably wrong
+    const frameNumber = Math.floor(props.time / aFT) % Math.floor(aFIE - aFIS + 1) + aFIS;
 
-    const graphicPositionX = (frameNumber % animationDataStateAndDirection!.horizontalFrames) * graphicWidth;
+    const graphicPositionX = (frameNumber % animationDataStateAndDirection.horizontalFrames) * graphicWidth;
 
     // TODO: Fix calculation of graphicPositionY
-    const graphicPositionY = ((frameNumber - (frameNumber % animationDataStateAndDirection!.horizontalFrames)))
-        / animationDataStateAndDirection!.horizontalFrames * graphicHeight;
-
-    // TODO: remove log
-    console.log(frameNumber,graphicPositionX, graphicPositionY);
-    
+    const graphicPositionY = Math.floor((frameNumber - Math.floor(frameNumber % animationDataStateAndDirection.horizontalFrames)) / animationDataStateAndDirection.horizontalFrames) * graphicHeight;
+    console.log(frameNumber,graphicPositionY);
 
     const imageRef = animationDataStateAndDirection.imageRef;
 
@@ -161,6 +158,6 @@ export default function AnimationRenderer(props: AnimationRendererProps) {
 
   return (
     <Sprite texture={cutTexture} width={(graphicWidth * props.scale * reversedMultiplier)} height={(graphicHeight * props.scale)} scale={props.scale}
-     x={props.positionX} y={props.positionY} rotation={props.rotation} anchor={0.5}/>
+     x={props.positionX} y={props.positionY} rotation={props.rotation} anchor={[0.5,0.6]}/>
   )
 }

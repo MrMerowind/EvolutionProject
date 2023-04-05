@@ -11,9 +11,9 @@ export default class Player{
     private agility: number;
     private currentHp: number;
     private points: number;
-    private playerOutfit: PlayerOutfit;
     private positionX: number;
     private positionY: number;
+    private readonly spaceRadius: number = 40;
     public readonly scale = 1;
     public readonly speed = 5;
 
@@ -31,14 +31,16 @@ export default class Player{
         this.agility = 0;
         this.currentHp = this.getMaxHp();
         this.points = 0;
-        this.playerOutfit = new PlayerOutfit();
         this.positionX = 0;
         this.positionY = 0;
         this.animationDataWalking = new AnimationData();
         this.animationDataAttacking = new AnimationData();
         this.animationDataStanding = new AnimationData();
     }
-
+    public getSpaceRadius(): number
+    {
+        return this.spaceRadius;
+    }
     public getAnimationData(animationState: AnimationState): AnimationData
     {
         switch(animationState)
@@ -60,10 +62,6 @@ export default class Player{
     public getPosition(): [x: number, y: number]
     {
         return [this.positionX, this.positionY];
-    }
-    public getOutfit(): PlayerOutfit
-    {
-        return this.playerOutfit;
     }
     public getId(): string
     {

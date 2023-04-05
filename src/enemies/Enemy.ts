@@ -1,5 +1,7 @@
 import { AnimationData } from "../animation/AnimationData";
 import { AnimationState, Direction, DirectionHorizontal } from "../globalData/Types";
+import Player from "../player/Player";
+import EnemyList from "./EnemyList";
 
 export default class Enemy{
     private id: string;
@@ -15,6 +17,7 @@ export default class Enemy{
     private expReward: number;
     private scale: number;
     private speed: number;
+    private spaceRadius: number;
 
     private animationDataWalking: AnimationData;
     private animationDataAttacking: AnimationData;
@@ -35,6 +38,7 @@ export default class Enemy{
         this.facedDirection = Direction.down;
         this.secondaryFacedDirection = DirectionHorizontal.right;
         this.animationState = AnimationState.walking;
+        this.spaceRadius = 30;
 
         this.animationDataAttacking = new AnimationData();
         this.animationDataWalking = new AnimationData();
@@ -58,6 +62,7 @@ export default class Enemy{
         result.animationDataAttacking = this.animationDataAttacking;
         result.animationDataStanding = this.animationDataStanding;
         result.animationDataWalking = this.animationDataWalking;
+        result.spaceRadius = this.spaceRadius;
         return result;
     }
     public getAnimationData(animationState: AnimationState): AnimationData
@@ -122,6 +127,10 @@ export default class Enemy{
     {
         return this.speed;
     }
+    public getSpaceRadius(): number
+    {
+        return this.spaceRadius;
+    }
     public move(x:number, y: number)
     {
         this.positionX += x;
@@ -132,10 +141,10 @@ export default class Enemy{
         this.positionX += x * this.speed;
         this.positionY += y * this.speed;
     }
-    public moveUnitTowardsPlayer(playerX: number, playerY: number)
+    public moveUnitTowardsPlayer(playerHandle: Player, currentEnemiesHandle: EnemyList)
     {
-        const moveX = playerX - this.positionX;
-        const moveY = playerY - this.positionY;
+        const moveX = playerHandle.getPositionX() - this.positionX;
+        const moveY = playerHandle.getPositionY() - this.positionY;
 
         const distance = Math.hypot(moveX, moveY);
 
@@ -153,10 +162,37 @@ export default class Enemy{
         if(moveX >= 0) this.secondaryFacedDirection = DirectionHorizontal.right;
         else this.secondaryFacedDirection = DirectionHorizontal.left;
 
-        this.animationState = AnimationState.walking;
+        const finalPositionX = this.positionX + moveX / distance * this.getSpeed();
+        const finalPositionY = this.positionY + moveY / distance * this.getSpeed();
 
-        this.positionX += moveX / distance * this.getSpeed();
-        this.positionY += moveY / distance * this.getSpeed();
+        const distanceToPlayer = Math.hypot(finalPositionX - playerHandle.getPositionX(), finalPositionY - playerHandle.getPositionY());
+        if(distanceToPlayer <= playerHandle.getSpaceRadius())
+        {
+            playerHandle.addHp(this.damage);
+            this.animationState = AnimationState.attacking;
+            return;
+        }
+
+        let changePosition = true;
+
+        currentEnemiesHandle.getList().forEach(p => {
+            if(p !== this)
+            {
+                const distanceToAnother = Math.hypot(finalPositionX - p.getPositionX(), finalPositionY - p.getPositionY());
+                if(distanceToAnother <= Math.max(p.getSpaceRadius(), this.spaceRadius)) {changePosition = false; return;}
+            }
+        });
+
+        if(changePosition)
+        {
+            this.animationState = AnimationState.walking;
+            this.positionX = finalPositionX;
+            this.positionY = finalPositionY;
+        }
+        else
+        {
+            this.animationState = AnimationState.standing;
+        }
     }
     public addHp(value: number): void
     {
@@ -185,7 +221,7 @@ export default class Enemy{
     public createPrototype(level: number, maxHp: number, damage: number,
         expReward: number, scale: number, speed: number,
         animationDataStanding: AnimationData, animationDataWalking: AnimationData,
-        animationDataAttacking: AnimationData): void
+        animationDataAttacking: AnimationData, spaceRadius: number = 30): void
     {
         this.level = level;
         this.maxHp = maxHp;
@@ -196,5 +232,6 @@ export default class Enemy{
         this.animationDataStanding = animationDataStanding;
         this.animationDataWalking = animationDataWalking;
         this.animationDataAttacking = animationDataAttacking;
+        this.spaceRadius = spaceRadius;
     }
 }

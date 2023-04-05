@@ -17,10 +17,7 @@ import EnemyRenderer from "../enemies/EnemyRenderer";
 export const GameManager = () => {
 
   const ctx = useGameManagerStore();
-
-  // TODO: Get rid of this states.
   const [miliseconds, setMiliseconds] = useState(0);
-  
 
   useEffect(() => {
     const interval = setInterval(() => {

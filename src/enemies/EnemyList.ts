@@ -38,8 +38,6 @@ export default class EnemyList{
     }
     public moveTowardsPlayer(playerHandle: Player)
     {
-        const playerX = playerHandle.getPositionX();
-        const playerY = playerHandle.getPositionY();
-        this.enemies.forEach(p => p.moveUnitTowardsPlayer(playerX, playerY));
+        this.enemies.forEach(p => p.moveUnitTowardsPlayer(playerHandle, this));
     }
 }
