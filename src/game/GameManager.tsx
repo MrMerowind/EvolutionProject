@@ -10,6 +10,7 @@ import { AnimationState, Direction, DirectionHorizontal } from "../globalData/Ty
 import PlayerRenderer from "../player/PlayerRenderer";
 import MapRenderer from "../map/MapRenderer";
 import { LoadingScreenRenderer } from "../loadingScreen/LoadingScreenRenderer";
+import EnemyRenderer from "../enemies/EnemyRenderer";
 
 
 
@@ -34,7 +35,7 @@ export const GameManager = () => {
 
   const areGraphicLoaded = useRef<boolean>(ctx.areGraphicsLoaded);
 
-  
+
   if(!areGraphicLoaded) return (
     <GameManagerStoreProvider gameData={ctx}>
       <Stage width={ctx.screen.getWidth()} height={ctx.screen.getHeight()}>
@@ -49,6 +50,8 @@ export const GameManager = () => {
 
         {/*Render map*/}
         <MapRenderer />
+        {/*Render enemies*/}
+        <EnemyRenderer miliseconds={miliseconds}/>
         {/*Render player*/}
         <PlayerRenderer miliseconds={miliseconds}/>
         {/*Render UI*/}

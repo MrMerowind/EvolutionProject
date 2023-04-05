@@ -141,9 +141,13 @@ export default function AnimationRenderer(props: AnimationRendererProps) {
     const frameNumber = Math.floor(props.time / aFT) % Math.floor(aFIE - aFIS + 1);
 
     const graphicPositionX = (frameNumber % animationDataStateAndDirection!.horizontalFrames) * graphicWidth;
-    const graphicPositionY = ((frameNumber - (frameNumber % animationDataStateAndDirection!.horizontalFrames))
-        / animationDataStateAndDirection!.horizontalFrames) * graphicHeight;
 
+    // TODO: Fix calculation of graphicPositionY
+    const graphicPositionY = ((frameNumber - (frameNumber % animationDataStateAndDirection!.horizontalFrames)))
+        / animationDataStateAndDirection!.horizontalFrames * graphicHeight;
+
+    // TODO: remove log
+    console.log(frameNumber,graphicPositionX, graphicPositionY);
     
 
     const imageRef = animationDataStateAndDirection.imageRef;

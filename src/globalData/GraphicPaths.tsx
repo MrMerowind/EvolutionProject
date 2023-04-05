@@ -15,5 +15,7 @@ export const graphicPath =
     mapFolder:
         serverPath.toString() + "img/Map/",
     loadingScreen:
-        serverPath.toString() + "img/MainScreen/Background/1.png"
+        serverPath.toString() + "img/MainScreen/Background/1.png",
+    enemies:
+        serverPath.toString() + "img/Enemies/"
 }

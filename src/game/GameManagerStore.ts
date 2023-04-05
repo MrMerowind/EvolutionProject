@@ -7,6 +7,9 @@ import { graphicPath } from "../globalData/GraphicPaths";
 import { AnimationState, Direction } from "../globalData/Types";
 import GameMap from "../map/Map";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
+import EnemyList from "../enemies/EnemyList";
+import Enemy from "../enemies/Enemy";
+import { AnimationData } from "../animation/AnimationData";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -19,6 +22,8 @@ export interface IGameManagerStore{
     areGraphicsLoaded: boolean;
     loadData: LoadDataFn;
     loadLoadingScreen: LoadDataFn;
+    enemyPrototypes: EnemyList;
+    enemyList: EnemyList;
 }
 
 export class GameManagerStore implements IGameManagerStore{
@@ -28,6 +33,8 @@ export class GameManagerStore implements IGameManagerStore{
     public map: GameMap;
     public areGraphicsLoaded: boolean;
     public loadingScreen: LoadingScreen; 
+    public enemyPrototypes: EnemyList;
+    public enemyList: EnemyList;
 
     constructor(gameData: GameManagerStore | null = null)
     {
@@ -39,6 +46,8 @@ export class GameManagerStore implements IGameManagerStore{
             this.map = gameData.map;
             this.loadingScreen = gameData.loadingScreen;
             this.areGraphicsLoaded = gameData.areGraphicsLoaded;
+            this.enemyPrototypes = gameData.enemyPrototypes;
+            this.enemyList = gameData.enemyList;
         }
         else
         {
@@ -48,14 +57,17 @@ export class GameManagerStore implements IGameManagerStore{
             
             this.areGraphicsLoaded = false;
             this.loadingScreen = new LoadingScreen();
-            this.camera = new GameCamera();
-            this.screen = new GameScreen();
-            this.player = new Player();
-            this.map = new GameMap();
             
             this.loadLoadingScreen().then(() => {
                 this.loadingScreen.isLoaded = true;
             });
+
+            this.camera = new GameCamera();
+            this.screen = new GameScreen();
+            this.player = new Player();
+            this.map = new GameMap();
+            this.enemyPrototypes = new EnemyList();
+            this.enemyList = new EnemyList();
 
             this.loadData().then(() => {
                 this.camera.setGameScreenHandle(this.screen);
@@ -78,17 +90,44 @@ export class GameManagerStore implements IGameManagerStore{
 
     loadData = async() =>
     {
+        // Loading player
         await PIXI.Assets.load(graphicPath.player.walk).then((graphic) => {
             this.player.getAnimationData(AnimationState.walking).getAnimation(Direction.right).setData(10,1,0,9,120,960,96, graphic);
         });
         await PIXI.Assets.load(graphicPath.player.idle).then((graphic) => {   
             this.player.getAnimationData(AnimationState.standing).getAnimation(Direction.right).setData(50,1,0,49,120,4800,96, graphic);
         });
+
+        // Loading terrain
         for(let i = 1; i <= this.map.levelCount; i++)
         {
             await PIXI.Assets.load(graphicPath.mapFolder + i.toString() + ".png").then((graphic) => {   
                 this.map.textures.set(i, graphic);
             });
         }
+
+        // TODO: Save this data to a file and load acordingly
+        // Loading enemies
+        await PIXI.Assets.load(graphicPath.enemies + "1_attack.png").then((graphic) => {
+            //Enemy 1
+            let enemyPointer = new Enemy();
+            let animDataAttacking = new AnimationData();
+            let animDataStanding = new AnimationData();
+            let animDataWalking = new AnimationData();
+            animDataAttacking.getAnimation(Direction.up).setData(13,4,0,12,60,832,256,graphic);
+            animDataAttacking.getAnimation(Direction.left).setData(13,4,13,26,60,832,256,graphic);
+            animDataAttacking.getAnimation(Direction.right).setData(13,4,27,39,60,832,256,graphic);
+            animDataAttacking.getAnimation(Direction.down).setData(13,4,40,52,60,832,256,graphic);
+
+            PIXI.Assets.load(graphicPath.enemies + "1_walk.png").then((graphic2) => {
+                animDataWalking.getAnimation(Direction.up).setData(10,4,0,9,60,640,256,graphic2);
+                animDataWalking.getAnimation(Direction.left).setData(10,4,10,19,60,640,256,graphic2);
+                animDataWalking.getAnimation(Direction.right).setData(10,4,20,29,60,640,256,graphic2);
+                animDataWalking.getAnimation(Direction.down).setData(10,4,30,39,60,640,256,graphic2);
+            });
+
+            enemyPointer.createPrototype(1,1,1,1,1,3,animDataStanding,animDataWalking,animDataAttacking);
+            this.enemyPrototypes.addEnemy(enemyPointer);
+        });
     }
 }
