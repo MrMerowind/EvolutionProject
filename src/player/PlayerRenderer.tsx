@@ -48,17 +48,17 @@ export default function PlayerRenderer(props: PlayerRendererProps) {
 
   useEffect(() => {
     if(buttonDownPressed) {
-      ctx.player.moveUnits(0,1);
+      ctx.player.moveUnits(0, 1, ctx.enemyList);
     }
     if(buttonUpPressed){
-      ctx.player.moveUnits(0,-1);
+      ctx.player.moveUnits(0, -1, ctx.enemyList);
     } 
     if(buttonRightPressed)
     {
-      ctx.player.moveUnits(1,0);
+      ctx.player.moveUnits(1, 0, ctx.enemyList);
     } 
     if(buttonLeftPressed){
-      ctx.player.moveUnits(-1,0);
+      ctx.player.moveUnits(-1, 0, ctx.enemyList);
     } 
   }, [props.miliseconds]);
 

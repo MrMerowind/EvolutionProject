@@ -1,4 +1,5 @@
 import { AnimationData } from "../animation/AnimationData";
+import EnemyList from "../enemies/EnemyList";
 import { AnimationState } from "../globalData/Types";
 import { PlayerOutfit } from "./PlayerOutfit";
 
@@ -109,10 +110,25 @@ export default class Player{
         this.positionX += x;
         this.positionY += y;
     }
-    public moveUnits(x:number, y: number)
+    public moveUnits(x:number, y: number, enemyListHandle: EnemyList)
     {
-        this.positionX += x * this.speed;
-        this.positionY += y * this.speed;
+
+        let newPositionX = this.positionX + x * this.speed;
+        let newPositionY = this.positionY + y * this.speed;
+
+
+        // TODO: prevent moving on emeny
+        let changePosition = true;
+        enemyListHandle.getList().forEach(p => {
+            const distanceToAnother = Math.hypot(newPositionX - p.getPositionX(), newPositionY - p.getPositionY());
+            if(distanceToAnother <= Math.max(p.getSpaceRadius(), this.spaceRadius)) {changePosition = false; return;}
+        });
+        if(changePosition)
+        {
+            this.positionX = newPositionX;
+            this.positionY = newPositionY;
+        }
+        
     }
     public addHp(value: number): void
     {
