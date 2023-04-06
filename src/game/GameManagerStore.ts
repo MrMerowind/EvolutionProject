@@ -133,7 +133,7 @@ export class GameManagerStore implements IGameManagerStore{
                 animDataStanding.getAnimation(Direction.down).setData(10,4,30,30,60,640,256,graphic2);
             });
 
-            enemyPointer.createPrototype(1,1,1,1,1,3,animDataStanding,animDataWalking,animDataAttacking);
+            enemyPointer.createPrototype(1,1,1,1,1,0.15,animDataStanding,animDataWalking,animDataAttacking);
             this.enemyPrototypes.addEnemy(enemyPointer);
         });
 

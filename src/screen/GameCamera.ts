@@ -4,7 +4,7 @@ import { GameScreen } from "./GameScreen";
 export class GameCamera{
     private offsetX;
     private offsetY;
-    private cameraSpeed = 3;
+    private cameraSpeed = 0.15;
     private gameScreenHandle: GameScreen | null;
     private playerHandle: Player | null;
 
@@ -32,7 +32,7 @@ export class GameCamera{
         this.offsetX = this.playerHandle.getPositionX() - this.gameScreenHandle.getCenterHorizontal();
         this.offsetY = this.playerHandle.getPositionY() - this.gameScreenHandle.getCenterVertical();
     }
-    public moveTowardsPlayer(): void
+    public moveTowardsPlayer(delta: number): void
     {
         if(this.gameScreenHandle === null) return;
         if(this.playerHandle === null) return;
@@ -47,13 +47,13 @@ export class GameCamera{
 
         if(distance >= Math.min(...this.gameScreenHandle.getCenter()) * 0.8)
         {
-            if(Math.abs(moveToXAbs) > 0) this.offsetX += (moveToXAbs / distance) * this.playerHandle.getSpeed();
-            if(Math.abs(moveToYAbs) > 0) this.offsetY += (moveToYAbs / distance) * this.playerHandle.getSpeed();
+            if(Math.abs(moveToXAbs) > 0) this.offsetX += (moveToXAbs / distance) * this.playerHandle.getSpeed() * delta;
+            if(Math.abs(moveToYAbs) > 0) this.offsetY += (moveToYAbs / distance) * this.playerHandle.getSpeed() * delta;
         }
         else if(distance >= 10)
         {
-            if(Math.abs(moveToXAbs) > 0) this.offsetX += (moveToXAbs / distance) * this.cameraSpeed;
-            if(Math.abs(moveToYAbs) > 0) this.offsetY += (moveToYAbs / distance) * this.cameraSpeed;
+            if(Math.abs(moveToXAbs) > 0) this.offsetX += (moveToXAbs / distance) * this.cameraSpeed * delta;
+            if(Math.abs(moveToYAbs) > 0) this.offsetY += (moveToYAbs / distance) * this.cameraSpeed * delta;
         }
 
     }

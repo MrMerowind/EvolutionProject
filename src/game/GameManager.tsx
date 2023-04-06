@@ -29,7 +29,7 @@ export const GameManager = () => {
             timeDifference.current = currentTime.current - prevTime.current;
             setMiliseconds(previousTime => previousTime + timeDifference.current);
             prevTime.current = currentTime.current;
-            ctx.camera.moveTowardsPlayer();
+            ctx.camera.moveTowardsPlayer(timeDifference.current);
         }, 1);
         ctx.camera.centerOnPlayer();
 

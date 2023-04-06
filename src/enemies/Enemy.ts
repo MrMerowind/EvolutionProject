@@ -34,7 +34,7 @@ export default class Enemy{
         this.positionY = 0;
         this.expReward = 1;
         this.scale = 1;
-        this.speed = 1;
+        this.speed = 0.025;
         this.facedDirection = Direction.down;
         this.secondaryFacedDirection = DirectionHorizontal.right;
         this.animationState = AnimationState.walking;
@@ -153,8 +153,8 @@ export default class Enemy{
 
         if(distance !== 0)
         {
-            finalPositionX = this.positionX + moveX / distance * this.getSpeed() * delta / 20;
-            finalPositionY = this.positionY + moveY / distance * this.getSpeed() * delta / 20;
+            finalPositionX = this.positionX + moveX / distance * this.getSpeed() * delta;
+            finalPositionY = this.positionY + moveY / distance * this.getSpeed() * delta;
         }
 
         if(distance > 4000)
@@ -216,14 +216,14 @@ export default class Enemy{
 
         if(distance !== 0)
         {
-            finalPositionX = this.positionX + moveX / distance * this.getSpeed() * delta / 20;
-            finalPositionY = this.positionY + moveY / distance * this.getSpeed() * delta / 20;
+            finalPositionX = this.positionX + moveX / distance * this.getSpeed() * delta;
+            finalPositionY = this.positionY + moveY / distance * this.getSpeed() * delta;
         }
 
         if(distance > 4000)
         {
-            finalPositionX = this.positionX + moveX / distance * playerHandle.getSpeed() * delta / 20;
-            finalPositionY = this.positionY + moveY / distance * playerHandle.getSpeed() * delta / 20;
+            finalPositionX = this.positionX + moveX / distance * playerHandle.getSpeed() * delta;
+            finalPositionY = this.positionY + moveY / distance * playerHandle.getSpeed() * delta;
         }
 
         

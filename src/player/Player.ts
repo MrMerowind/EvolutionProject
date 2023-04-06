@@ -15,7 +15,7 @@ export default class Player{
     private positionY: number;
     private readonly spaceRadius: number = 40;
     public readonly scale = 1;
-    public readonly speed = 5;
+    public readonly speed = 0.25;
 
     private animationDataWalking: AnimationData;
     private animationDataAttacking: AnimationData;
@@ -122,11 +122,11 @@ export default class Player{
 
         if(x !== 0)
         {
-            newPositionX = this.positionX + x / distance * this.speed * delta / 20;
+            newPositionX = this.positionX + x / distance * this.speed * delta;
         }
         if(y !== 0)
         {
-            newPositionY = this.positionY + y / distance * this.speed * delta / 20;
+            newPositionY = this.positionY + y / distance * this.speed * delta;
         }
 
 
