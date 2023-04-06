@@ -231,7 +231,7 @@ export default class Enemy{
         const distanceToPlayer = Math.hypot(finalPositionX - playerHandle.getPositionX(), finalPositionY - playerHandle.getPositionY());
         if(distanceToPlayer <= playerHandle.getSpaceRadius())
         {
-            playerHandle.subtractHp(this.damage);
+            playerHandle.subtractHp(this.damage * delta);
             this.animationState = AnimationState.attacking;
             return;
         }

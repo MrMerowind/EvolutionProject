@@ -69,7 +69,7 @@ export default class Player{
     }
     public getMaxHp(): number
     {
-        return 100 * 50 * (this.vitality + 1);
+        return 100000 * (this.vitality + 1);
     }
     public getCurrentHp(): number
     {
