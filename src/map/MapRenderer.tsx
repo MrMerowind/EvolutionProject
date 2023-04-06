@@ -18,22 +18,23 @@ export default function MapRenderer() {
     const repeatHorizontaly = Math.floor(screenWidth / ctx.map.textureWidth) + 3;
     const repeatVerticaly = Math.floor(screenHeight / ctx.map.textureHeight) + 3;
 
-    let array: Array<[x:number, y: number, k: number]> = new Array(repeatHorizontaly * repeatVerticaly);
+    let arrayOfPositionAndKey: Array<[x:number, y: number, k: number]> = new Array(repeatHorizontaly * repeatVerticaly);
 
     for(let i = -1; i < repeatHorizontaly; i++)
     {
         for(let j = -1; j < repeatVerticaly; j++)
         {
-            array.push([i * ctx.map.textureWidth - 0 - ctx.camera.getOffsetX() % ctx.map.textureWidth,
-                j * ctx.map.textureHeight - 0 - ctx.camera.getOffsetY() % ctx.map.textureHeight,
-            (i + 1) * repeatHorizontaly + (j + 1)]);
+            const mapChunkPositionX = i * ctx.map.textureWidth - 0 - ctx.camera.getOffsetX() % ctx.map.textureWidth;
+            const mapChunkPositionY = j * ctx.map.textureHeight - 0 - ctx.camera.getOffsetY() % ctx.map.textureHeight;
+            const keyValue = (i + 1) * repeatHorizontaly + (j + 1);
+            arrayOfPositionAndKey.push([mapChunkPositionX, mapChunkPositionY, keyValue]);
         }
     }
 
     return (
-        <>{array.map((p) =>
-            <Sprite key={p[2]} texture={cutTexture} width={ctx.map.textureWidth} height={ctx.map.textureHeight} scale={1}
-                x={p[0]} y={p[1]} rotation={0} anchor={0}/>
+        <>{arrayOfPositionAndKey.map(([x,y,keyValue]) =>
+            <Sprite key={keyValue} texture={cutTexture} width={ctx.map.textureWidth} height={ctx.map.textureHeight} scale={1}
+                x={x} y={y} rotation={0} anchor={0}/>
         )}</>
   )
 }

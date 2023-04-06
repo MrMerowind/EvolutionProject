@@ -21,7 +21,7 @@ export const GameManager = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setMiliseconds(p => p + 20);
+      setMiliseconds(previousTime => previousTime + 20);
       ctx.camera.moveTowardsPlayer();
     }, 20);
     ctx.camera.centerOnPlayer();
@@ -48,10 +48,12 @@ export const GameManager = () => {
 
         {/*Render map*/}
         <MapRenderer />
+
         {/*Render enemies*/}
         <EnemyRenderer miliseconds={miliseconds}/>
-        {/*Render player*/}
-        <PlayerRenderer miliseconds={miliseconds}/>
+
+        {/*Player is rendered in Enemy Renderer so its z index is correct.*/}
+
         {/*Render UI*/}
 
         {/*<Container x={0} y={0}>

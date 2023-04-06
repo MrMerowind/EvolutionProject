@@ -47,6 +47,7 @@ export default function PlayerRenderer(props: PlayerRendererProps) {
     }
   }, []);
 
+  // TODO: Throw out the trash
   useEffect(() => {
     if(buttonLeftPressed && buttonRightPressed)
     {
@@ -100,16 +101,18 @@ export default function PlayerRenderer(props: PlayerRendererProps) {
   }, [buttonDownPressed, buttonLeftPressed, buttonRightPressed, buttonUpPressed]);
 
 
+  const playerOnScreenPositionX = playerPosition[0] - ctx.camera.getOffsetX();
+  const playerOnScreenPositionY = playerPosition[1] - ctx.camera.getOffsetY();
+
+
   return (
     <>
       <AnimationRenderer animationDataWalking={ctx.player.getAnimationData(AnimationState.walking)}
           animationDataStanding={ctx.player.getAnimationData(AnimationState.standing)}
           animationDataAttacking={ctx.player.getAnimationData(AnimationState.attacking)}
           animationState={animationState} facedDirection={facedDirection} secondaryFacedDirection={facedSecondaryDirection}
-          time={props.miliseconds} scale={2} positionX={playerPosition[0] - ctx.camera.getOffsetX()}
-          positionY={playerPosition[1] - ctx.camera.getOffsetY()} rotation={0}/>
-      <AboveHeadHealthRenderer positionX={playerPosition[0] - ctx.camera.getOffsetX()} positionY={playerPosition[1] - ctx.camera.getOffsetY()} 
-          percentage={ctx.player.getCurrentHp() * 100.0 / ctx.player.getMaxHp()} heightOffset={/* TODO: Put here height of image */ 60} player={true} />
+          time={props.miliseconds} scale={2} positionX={playerOnScreenPositionX}
+          positionY={playerOnScreenPositionY} rotation={0}/>
     </>
   )
 }

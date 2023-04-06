@@ -33,11 +33,12 @@ export default class EnemyList{
     public isNextWaveReady(currentTime: number, level: number): boolean
     {
         if(this.currentWave >= level * 10) return false;
-        if(this.lastWaveTime + Math.max(5000 - level * 100, 1000) < currentTime) return true;
+        const waveDuration = Math.max(5000 - level * 100, 1000);
+        if(this.lastWaveTime + waveDuration < currentTime) return true;
         else return false;
     }
     public moveTowardsPlayer(playerHandle: Player)
     {
-        this.enemies.forEach(p => p.moveUnitTowardsPlayer(playerHandle, this));
+        this.enemies.forEach(enemy => enemy.moveUnitTowardsPlayer(playerHandle, this));
     }
 }

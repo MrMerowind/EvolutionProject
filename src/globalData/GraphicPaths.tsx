@@ -9,7 +9,9 @@ export const graphicPath =
         attack:
             serverPath.toString() + "img/MainCharacter/player_attack.png",
         walk:
-            serverPath.toString() + "img/MainCharacter/player_walk.png"
+            serverPath.toString() + "img/MainCharacter/player_walk.png",
+        hpAboveHead:
+            serverPath.toString() + "img/HealthBar/hpAboveHeadPlayer.png",
 
     },
     mapFolder:
@@ -18,6 +20,6 @@ export const graphicPath =
         serverPath.toString() + "img/MainScreen/Background/1.png",
     enemies:
         serverPath.toString() + "img/Enemies/",
-    uiHealth:
-        serverPath.toString() + "img/HealthBar/hpAndEnemiesLeft_hp.png"
+    hpAboveHeadEnemy:
+        serverPath.toString() + "img/HealthBar/hpAboveHeadEnemy.png"
 }

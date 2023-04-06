@@ -46,7 +46,7 @@ export default class Enemy{
     }
     clone(): Enemy
     {
-        let result = new Enemy();
+        const result = new Enemy();
         result.level = this.level;
         result.maxHp = this.maxHp;
         result.currentHp = this.maxHp;
@@ -141,6 +141,54 @@ export default class Enemy{
         this.positionX += x * this.speed;
         this.positionY += y * this.speed;
     }
+    public moveUnitOrthogonal(playerHandle: Player, currentEnemiesHandle: EnemyList)
+    {
+        const moveX = - (playerHandle.getPositionY() - this.positionY);
+        const moveY = playerHandle.getPositionX() - this.positionX;
+
+        const distance = Math.hypot(moveX, moveY);
+
+        let finalPositionX = this.positionX;
+        let finalPositionY = this.positionY;
+
+        if(distance !== 0)
+        {
+            finalPositionX = this.positionX + moveX / distance * this.getSpeed();
+            finalPositionY = this.positionY + moveY / distance * this.getSpeed();
+        }
+
+        if(distance > 4000)
+        {
+            finalPositionX = this.positionX + moveX / distance * playerHandle.getSpeed();
+            finalPositionY = this.positionY + moveY / distance * playerHandle.getSpeed();
+        }
+
+        // Preventing moving through each other
+        let changePosition = true;
+        currentEnemiesHandle.getList().forEach(enemy => {
+            if(enemy !== this)
+            {
+                const distanceToAnother = Math.hypot(finalPositionX - enemy.getPositionX(), finalPositionY - enemy.getPositionY());
+                const minimumSpaceBetween = Math.max(enemy.getSpaceRadius(), this.spaceRadius);
+                if(distanceToAnother <= minimumSpaceBetween)
+                {
+                    changePosition = false;
+                    return;
+                }
+            }
+        });
+
+        if(changePosition)
+        {
+            this.animationState = AnimationState.walking;
+            this.positionX = finalPositionX;
+            this.positionY = finalPositionY;
+        }
+        else
+        {
+            this.animationState = AnimationState.standing;
+        }
+    } 
     public moveUnitTowardsPlayer(playerHandle: Player, currentEnemiesHandle: EnemyList)
     {
         const moveX = playerHandle.getPositionX() - this.positionX;
@@ -179,7 +227,7 @@ export default class Enemy{
         }
 
         
-
+        // Attacking
         const distanceToPlayer = Math.hypot(finalPositionX - playerHandle.getPositionX(), finalPositionY - playerHandle.getPositionY());
         if(distanceToPlayer <= playerHandle.getSpaceRadius())
         {
@@ -188,13 +236,19 @@ export default class Enemy{
             return;
         }
 
+        // Preventing moving through each other
         let changePosition = true;
-
-        currentEnemiesHandle.getList().forEach(p => {
-            if(p !== this)
+        currentEnemiesHandle.getList().forEach(enemy => {
+            if(enemy !== this)
             {
-                const distanceToAnother = Math.hypot(finalPositionX - p.getPositionX(), finalPositionY - p.getPositionY());
-                if(distanceToAnother <= Math.max(p.getSpaceRadius(), this.spaceRadius)) {changePosition = false; return;}
+                const distanceToAnother = Math.hypot(finalPositionX - enemy.getPositionX(), finalPositionY - enemy.getPositionY());
+                const minimumSpaceBetween = Math.max(enemy.getSpaceRadius(), this.spaceRadius);
+                if(distanceToAnother <= minimumSpaceBetween)
+                {
+                    this.moveUnitOrthogonal(playerHandle, currentEnemiesHandle);
+                    changePosition = false;
+                    return;
+                }
             }
         });
 
@@ -206,7 +260,7 @@ export default class Enemy{
         }
         else
         {
-            this.animationState = AnimationState.standing;
+            // this.animationState = AnimationState.standing;
         }
     }
     public addHp(value: number): void

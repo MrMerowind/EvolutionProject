@@ -6,6 +6,7 @@ import AnimationRenderer, { AnimationData } from '../animation/AnimationData';
 import { AnimationState } from '../globalData/Types';
 import EnemyHealthRenderer from '../ui/AboveHeadHealthRenderer';
 import AboveHeadHealthRenderer from '../ui/AboveHeadHealthRenderer';
+import PlayerRenderer from '../player/PlayerRenderer';
 
 interface EnemyRendererProps{
     miliseconds: number;
@@ -18,42 +19,34 @@ export default function EnemyRenderer(props: EnemyRendererProps) {
     
 
     useEffect(() => {
-        if(ctx.enemyList.isNextWaveReady(props.miliseconds,ctx.map.level))
+        if(!ctx.enemyList.isNextWaveReady(props.miliseconds,ctx.map.level))
         {
-            ctx.enemyList.nextWave(props.miliseconds);
-            ctx.enemyPrototypes.getList().forEach((p) => {
-                if(p.getLevel() === ctx.map.level)
-                {
-                    for(let i = 0; i < ctx.map.level * 5; i++)
-                    {
-                        const objClone = p.clone();
-                        let r = Math.floor(Math.random() * 4);
-                        if(r === 0)
-                        {
-                            objClone.setPositionX(ctx.player.getPositionX() - (ctx.screen.getCenterHorizontal() + 100));
-                            objClone.setPositionY(ctx.player.getPositionY() + ctx.screen.getHeight() * Math.random() - ctx.screen.getCenterVertical());
-                        }
-                        else if(r === 1)
-                        {
-                            objClone.setPositionX(ctx.player.getPositionX() + (ctx.screen.getCenterHorizontal() + 100));
-                            objClone.setPositionY(ctx.player.getPositionY() + ctx.screen.getHeight() * Math.random() - ctx.screen.getCenterVertical());
-                        }
-                        else if(r === 2)
-                        {
-                            objClone.setPositionY(ctx.player.getPositionY() - (ctx.screen.getCenterVertical() + 100));
-                            objClone.setPositionX(ctx.player.getPositionX() + ctx.screen.getWidth() * Math.random() - ctx.screen.getCenterHorizontal());
-                        }
-                        else if(r === 3)
-                        {
-                            objClone.setPositionY(ctx.player.getPositionY() + (ctx.screen.getCenterVertical() + 100));
-                            objClone.setPositionX(ctx.player.getPositionX() + ctx.screen.getWidth() * Math.random() - ctx.screen.getCenterHorizontal());
-                        }
-
-                        ctx.enemyList.addEnemy(objClone);
-                    }
-                }
-            });
+            // Moving enemies towards player
+            ctx.enemyList.moveTowardsPlayer(ctx.player);
+            return;
         }
+        
+        ctx.enemyList.nextWave(props.miliseconds);
+        ctx.enemyPrototypes.getList().forEach(enemy => {
+            if(enemy.getLevel() === ctx.map.level)
+            {
+                for(let i = 0; i < ctx.map.level * 5; i++)
+                {
+                    const objClone = enemy.clone();
+                    const randomBorder = Math.floor(Math.random() * 4);
+
+                    const maxScreenAxisLength = Math.max(...ctx.screen.getSize());
+                    const spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % 2 === 0 ? -1 : 1) * (randomBorder < 2 ? 1 : Math.random());
+                    const spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < 2 ? -1 : 1) * (randomBorder >= 2 ? 1 : Math.random());
+
+                    objClone.setPositionX(spawnPositionX);
+                    objClone.setPositionY(spawnPositionY);
+
+                    ctx.enemyList.addEnemy(objClone);
+                }
+            }
+        });
+        
 
         // Moving enemies towards player
         ctx.enemyList.moveTowardsPlayer(ctx.player);
@@ -61,25 +54,41 @@ export default function EnemyRenderer(props: EnemyRendererProps) {
 
     }, [props.miliseconds]);
 
+    const playerOnScreenPositionX = ctx.player.getPositionX() - ctx.camera.getOffsetX();
+    const playerOnScreenPositionY = ctx.player.getPositionY() - ctx.camera.getOffsetY();
+    const playerHealthPercentage = ctx.player.getCurrentHp() * 100.0 / ctx.player.getMaxHp();
+    
 
   return (
     <>
-        {ctx.enemyList.getList().map(p => {
+        {ctx.enemyList.getList().map(enemy => {
+
+            const enemyOnScreenPositionX = enemy.getPositionX() - ctx.camera.getOffsetX();
+            const enemyOnScreenPositionY = enemy.getPositionY() - ctx.camera.getOffsetY();
+
             return (
-                <AnimationRenderer  animationDataAttacking={p.getAnimationData(AnimationState.attacking)}
-                    animationDataStanding={p.getAnimationData(AnimationState.standing)}
-                    animationDataWalking={p.getAnimationData(AnimationState.walking)}
-                    facedDirection={p.getFacedDirection()} secondaryFacedDirection={p.getSecondaryFacedDirection()}
-                    positionX={p.getPositionX() - ctx.camera.getOffsetX()} positionY={p.getPositionY() - ctx.camera.getOffsetY()} scale={p.getScale()} rotation={0}
-                    animationState={p.getAnimationState()} time={props.miliseconds} key={p.getId() + "enemy"}/>
+                <AnimationRenderer  animationDataAttacking={enemy.getAnimationData(AnimationState.attacking)}
+                    animationDataStanding={enemy.getAnimationData(AnimationState.standing)}
+                    animationDataWalking={enemy.getAnimationData(AnimationState.walking)}
+                    facedDirection={enemy.getFacedDirection()} secondaryFacedDirection={enemy.getSecondaryFacedDirection()}
+                    positionX={enemyOnScreenPositionX} positionY={enemyOnScreenPositionY} scale={enemy.getScale()} rotation={0}
+                    animationState={enemy.getAnimationState()} time={props.miliseconds} key={enemy.getId() + "enemy"}/>
             )
         })}
-        {ctx.enemyList.getList().map(p => {
+        <PlayerRenderer miliseconds={props.miliseconds}/>
+        {ctx.enemyList.getList().map(enemy => {
+            
+            const enemyOnScreenPositionX = enemy.getPositionX() - ctx.camera.getOffsetX();
+            const enemyOnScreenPositionY = enemy.getPositionY() - ctx.camera.getOffsetY();
+
             return (
-                <AboveHeadHealthRenderer positionX={p.getPositionX() - ctx.camera.getOffsetX()} positionY={p.getPositionY() - ctx.camera.getOffsetY()} 
-                    percentage={p.getCurrentHp() * 100 / p.getMaxHp()} heightOffset={/* TODO: Put here height of image */ 60} player={false} key={p.getId() + "enemyhp"}/>
+                <AboveHeadHealthRenderer positionX={enemyOnScreenPositionX} positionY={enemyOnScreenPositionY} 
+                    percentage={enemy.getCurrentHp() * 100 / enemy.getMaxHp()} heightOffset={/* TODO: Put here height of image */ 30} player={false} key={enemy.getId() + "enemyhp"}/>
             )
         })}
+        <AboveHeadHealthRenderer positionX={playerOnScreenPositionX} positionY={playerOnScreenPositionY} 
+          percentage={playerHealthPercentage}
+          heightOffset={/* TODO: Put here height of image */ 60} player={true} />
     </>
   )
 }

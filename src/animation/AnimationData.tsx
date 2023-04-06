@@ -117,7 +117,8 @@ export default function AnimationRenderer(props: AnimationRendererProps) {
     if(animationDataStateAndDirection.imageRef === null)
     {
         // Choosing oposite direction if graphics are missing
-        animationDataStateAndDirection = animDataChosen.getAnimation(props.secondaryFacedDirection === DirectionHorizontal.left ? DirectionHorizontal.right : DirectionHorizontal.left);
+        const opositeDirection = props.secondaryFacedDirection === DirectionHorizontal.left ? DirectionHorizontal.right : DirectionHorizontal.left;
+        animationDataStateAndDirection = animDataChosen.getAnimation(opositeDirection);
         reversed = true;
     }
     else

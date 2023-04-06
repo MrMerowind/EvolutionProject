@@ -1,8 +1,6 @@
-import { disconnect } from "process";
 import { AnimationData } from "../animation/AnimationData";
 import EnemyList from "../enemies/EnemyList";
 import { AnimationState } from "../globalData/Types";
-import { PlayerOutfit } from "./PlayerOutfit";
 
 export default class Player{
     private id: string;
@@ -134,9 +132,14 @@ export default class Player{
 
         // Prevent moving through enemy
         let changePosition = true;
-        enemyListHandle.getList().forEach(p => {
-            const distanceToAnother = Math.hypot(newPositionX - p.getPositionX(), newPositionY - p.getPositionY());
-            if(distanceToAnother <= Math.max(p.getSpaceRadius(), this.spaceRadius)) {changePosition = false; return;}
+        enemyListHandle.getList().forEach(enemy => {
+            const distanceToAnother = Math.hypot(newPositionX - enemy.getPositionX(), newPositionY - enemy.getPositionY());
+            const minimumSpaceBetween = Math.max(enemy.getSpaceRadius(), this.spaceRadius);
+            if(distanceToAnother <= minimumSpaceBetween)
+            {
+                changePosition = false;
+                return;
+            }
         });
         if(changePosition)
         {

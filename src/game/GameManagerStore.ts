@@ -117,9 +117,9 @@ export class GameManagerStore implements IGameManagerStore{
             let animDataStanding = new AnimationData();
             let animDataWalking = new AnimationData();
             animDataAttacking.getAnimation(Direction.up).setData(13,4,0,12,60,832,256,graphic);
-            animDataAttacking.getAnimation(Direction.left).setData(13,4,13,26,60,832,256,graphic);
-            animDataAttacking.getAnimation(Direction.right).setData(13,4,27,39,60,832,256,graphic);
-            animDataAttacking.getAnimation(Direction.down).setData(13,4,40,51,60,832,256,graphic);
+            animDataAttacking.getAnimation(Direction.left).setData(13,4,13,25,60,832,256,graphic);
+            animDataAttacking.getAnimation(Direction.right).setData(13,4,26,38,60,832,256,graphic);
+            animDataAttacking.getAnimation(Direction.down).setData(13,4,39,51,60,832,256,graphic);
 
             PIXI.Assets.load(graphicPath.enemies + "1_walk.png").then((graphic2) => {
                 animDataWalking.getAnimation(Direction.up).setData(10,4,0,9,60,640,256,graphic2);
@@ -138,7 +138,10 @@ export class GameManagerStore implements IGameManagerStore{
         });
 
         // Loading User Interface
-        await PIXI.Assets.load(graphicPath.uiHealth).then((graphic) => {   
+        await PIXI.Assets.load(graphicPath.player.hpAboveHead).then((graphic) => {   
+            this.userInterfaceData.setPlayerHpTexture(graphic);
+        });
+        await PIXI.Assets.load(graphicPath.hpAboveHeadEnemy).then((graphic) => {   
             this.userInterfaceData.setHpTexture(graphic);
         });
 

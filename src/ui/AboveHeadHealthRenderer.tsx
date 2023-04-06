@@ -16,7 +16,16 @@ export default function AboveHeadHealthRenderer(props: AboveHeadRendererProps) {
 
     const ctx = useGameManagerStore();
 
-    const imageRef = ctx.userInterfaceData.getHpTexture();
+    let imageRef: PIXI.BaseTexture | null;
+
+    if(props.player)
+    {
+      imageRef = ctx.userInterfaceData.getPlayerHpTexture();
+    }
+    else {
+      imageRef = ctx.userInterfaceData.getHpTexture();
+    }
+
 
     let percentageCopy = props.percentage;
 
@@ -25,14 +34,17 @@ export default function AboveHeadHealthRenderer(props: AboveHeadRendererProps) {
     if(percentageCopy > 100) percentageCopy = 100;
 
 
-    const cutRegion = new PIXI.Rectangle(0, 0, imageRef.width * percentageCopy / 100.0, imageRef.height);
+    const cutRegion = new PIXI.Rectangle(0, 0, imageRef.width, imageRef.height);
     const cutTexture = new PIXI.Texture(imageRef, cutRegion);
+
+    const barOnScreenPositionX = props.positionX;
+    const barOnScreenPositionY = props.positionY - props.heightOffset;
 
   return (
     <>
         <Sprite texture={cutTexture} width={imageRef.width * percentageCopy / 100.0 * ctx.userInterfaceData.getAboveHeadHpScale()}
-            height={imageRef.height * ctx.userInterfaceData.getAboveHeadHpScale() * (props.player ? 3 : 1)}
-             x={props.positionX} y={props.positionY - props.heightOffset} rotation={0} anchor={[0.5,1]} />
+            height={imageRef.height * ctx.userInterfaceData.getAboveHeadHpScale()}
+             x={barOnScreenPositionX} y={barOnScreenPositionY} rotation={0} anchor={[0.5,1]} />
     </>
   )
 }
