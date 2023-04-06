@@ -103,7 +103,7 @@ export class GameManagerStore implements IGameManagerStore{
         // Loading terrain
         for(let i = 1; i <= this.map.levelCount; i++)
         {
-            await PIXI.Assets.load(graphicPath.mapFolder + /*i.toString() +*/ "11.png").then((graphic) => {   
+            await PIXI.Assets.load(graphicPath.mapFolder + i.toString() + ".png").then((graphic) => {   
                 this.map.textures.set(i, graphic);
             });
         }
