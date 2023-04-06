@@ -37,8 +37,8 @@ export default class EnemyList{
         if(this.lastWaveTime + waveDuration < currentTime) return true;
         else return false;
     }
-    public moveTowardsPlayer(playerHandle: Player)
+    public moveTowardsPlayer(playerHandle: Player, delta: number)
     {
-        this.enemies.forEach(enemy => enemy.moveUnitTowardsPlayer(playerHandle, this));
+        this.enemies.forEach(enemy => enemy.moveUnitTowardsPlayer(playerHandle, this, delta));
     }
 }

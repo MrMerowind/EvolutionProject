@@ -141,7 +141,7 @@ export default class Enemy{
         this.positionX += x * this.speed;
         this.positionY += y * this.speed;
     }
-    public moveUnitOrthogonal(playerHandle: Player, currentEnemiesHandle: EnemyList)
+    public moveUnitOrthogonal(playerHandle: Player, currentEnemiesHandle: EnemyList, delta: number)
     {
         const moveX = - (playerHandle.getPositionY() - this.positionY);
         const moveY = playerHandle.getPositionX() - this.positionX;
@@ -153,8 +153,8 @@ export default class Enemy{
 
         if(distance !== 0)
         {
-            finalPositionX = this.positionX + moveX / distance * this.getSpeed();
-            finalPositionY = this.positionY + moveY / distance * this.getSpeed();
+            finalPositionX = this.positionX + moveX / distance * this.getSpeed() * delta / 20;
+            finalPositionY = this.positionY + moveY / distance * this.getSpeed() * delta / 20;
         }
 
         if(distance > 4000)
@@ -189,7 +189,7 @@ export default class Enemy{
             this.animationState = AnimationState.standing;
         }
     } 
-    public moveUnitTowardsPlayer(playerHandle: Player, currentEnemiesHandle: EnemyList)
+    public moveUnitTowardsPlayer(playerHandle: Player, currentEnemiesHandle: EnemyList, delta: number)
     {
         const moveX = playerHandle.getPositionX() - this.positionX;
         const moveY = playerHandle.getPositionY() - this.positionY;
@@ -216,14 +216,14 @@ export default class Enemy{
 
         if(distance !== 0)
         {
-            finalPositionX = this.positionX + moveX / distance * this.getSpeed();
-            finalPositionY = this.positionY + moveY / distance * this.getSpeed();
+            finalPositionX = this.positionX + moveX / distance * this.getSpeed() * delta / 20;
+            finalPositionY = this.positionY + moveY / distance * this.getSpeed() * delta / 20;
         }
 
         if(distance > 4000)
         {
-            finalPositionX = this.positionX + moveX / distance * playerHandle.getSpeed();
-            finalPositionY = this.positionY + moveY / distance * playerHandle.getSpeed();
+            finalPositionX = this.positionX + moveX / distance * playerHandle.getSpeed() * delta / 20;
+            finalPositionY = this.positionY + moveY / distance * playerHandle.getSpeed() * delta / 20;
         }
 
         
@@ -245,7 +245,7 @@ export default class Enemy{
                 const minimumSpaceBetween = Math.max(enemy.getSpaceRadius(), this.spaceRadius);
                 if(distanceToAnother <= minimumSpaceBetween)
                 {
-                    this.moveUnitOrthogonal(playerHandle, currentEnemiesHandle);
+                    this.moveUnitOrthogonal(playerHandle, currentEnemiesHandle, delta);
                     changePosition = false;
                     return;
                 }

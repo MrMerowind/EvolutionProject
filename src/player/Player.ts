@@ -112,7 +112,7 @@ export default class Player{
         this.positionX += x;
         this.positionY += y;
     }
-    public moveUnits(x:number, y: number, enemyListHandle: EnemyList)
+    public moveUnits(x:number, y: number, enemyListHandle: EnemyList, delta: number)
     {
         // Preventing moving too fast on both axises
         const distance = Math.hypot(x,y);
@@ -122,11 +122,11 @@ export default class Player{
 
         if(x !== 0)
         {
-            newPositionX = this.positionX + x / distance * this.speed;
+            newPositionX = this.positionX + x / distance * this.speed * delta / 20;
         }
         if(y !== 0)
         {
-            newPositionY = this.positionY + y / distance * this.speed;
+            newPositionY = this.positionY + y / distance * this.speed * delta / 20;
         }
 
 

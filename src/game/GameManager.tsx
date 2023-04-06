@@ -19,11 +19,18 @@ export const GameManager = () => {
     const ctx = useGameManagerStore();
     const [miliseconds, setMiliseconds] = useState(0);
 
+    const prevTime = useRef(new Date().getTime());
+    const currentTime = useRef(new Date().getTime());
+    const timeDifference = useRef(0);
+
     useEffect(() => {
         const interval = setInterval(() => {
-            setMiliseconds(previousTime => previousTime + 20);
+            currentTime.current = new Date().getTime();
+            timeDifference.current = currentTime.current - prevTime.current;
+            setMiliseconds(previousTime => previousTime + timeDifference.current);
+            prevTime.current = currentTime.current;
             ctx.camera.moveTowardsPlayer();
-        }, 20);
+        }, 1);
         ctx.camera.centerOnPlayer();
 
         return () => {
@@ -50,7 +57,7 @@ export const GameManager = () => {
                 <MapRenderer />
 
                 {/*Render enemies*/}
-                <EnemyRenderer miliseconds={miliseconds}/>
+                <EnemyRenderer miliseconds={miliseconds} delta={timeDifference.current}/>
 
                 {/*Player is rendered in Enemy Renderer so its z index is correct.*/}
 

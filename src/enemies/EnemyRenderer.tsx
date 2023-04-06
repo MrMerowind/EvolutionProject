@@ -10,6 +10,7 @@ import PlayerRenderer from "../player/PlayerRenderer";
 
 interface EnemyRendererProps{
     miliseconds: number;
+    delta: number;
 }
 
 export default function EnemyRenderer(props: EnemyRendererProps) {
@@ -22,7 +23,7 @@ export default function EnemyRenderer(props: EnemyRendererProps) {
         if(!ctx.enemyList.isNextWaveReady(props.miliseconds,ctx.map.level))
         {
             // Moving enemies towards player
-            ctx.enemyList.moveTowardsPlayer(ctx.player);
+            ctx.enemyList.moveTowardsPlayer(ctx.player, props.delta);
             return;
         }
         
@@ -49,7 +50,7 @@ export default function EnemyRenderer(props: EnemyRendererProps) {
         
 
         // Moving enemies towards player
-        ctx.enemyList.moveTowardsPlayer(ctx.player);
+        ctx.enemyList.moveTowardsPlayer(ctx.player, props.delta);
 
 
     }, [props.miliseconds]);
@@ -75,7 +76,7 @@ export default function EnemyRenderer(props: EnemyRendererProps) {
                         animationState={enemy.getAnimationState()} time={props.miliseconds} key={enemy.getId() + "enemy"}/>
                 );
             })}
-            <PlayerRenderer miliseconds={props.miliseconds}/>
+            <PlayerRenderer miliseconds={props.miliseconds} delta={props.delta}/>
             {ctx.enemyList.getList().map(enemy => {
             
                 const enemyOnScreenPositionX = enemy.getPositionX() - ctx.camera.getOffsetX();

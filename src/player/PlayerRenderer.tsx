@@ -8,6 +8,7 @@ import AboveHeadHealthRenderer from "../ui/AboveHeadHealthRenderer";
 
 interface PlayerRendererProps{
   miliseconds: number;
+  delta: number;
 }
 
 export default function PlayerRenderer(props: PlayerRendererProps) {
@@ -52,8 +53,8 @@ export default function PlayerRenderer(props: PlayerRendererProps) {
         const x = (buttonLeftPressed ? -1 : 0) + (buttonRightPressed ? 1 : 0);
         const y = (buttonUpPressed ? -1 : 0) + (buttonDownPressed ? 1 : 0);
 
-        ctx.player.moveUnits(x, y, ctx.enemyList);
-        
+        ctx.player.moveUnits(x, y, ctx.enemyList, props.delta);
+
     }, [props.miliseconds]);
 
     const [playerPosition, setPlayerPosition] = useState(ctx.player.getPosition());
