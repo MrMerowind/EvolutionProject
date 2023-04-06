@@ -162,13 +162,28 @@ export default class Enemy{
         if(moveX >= 0) this.secondaryFacedDirection = DirectionHorizontal.right;
         else this.secondaryFacedDirection = DirectionHorizontal.left;
 
-        const finalPositionX = this.positionX + moveX / distance * this.getSpeed();
-        const finalPositionY = this.positionY + moveY / distance * this.getSpeed();
+
+        let finalPositionX = this.positionX;
+        let finalPositionY = this.positionY;
+
+        if(distance !== 0)
+        {
+            finalPositionX = this.positionX + moveX / distance * this.getSpeed();
+            finalPositionY = this.positionY + moveY / distance * this.getSpeed();
+        }
+
+        if(distance > 4000)
+        {
+            finalPositionX = this.positionX + moveX / distance * playerHandle.getSpeed();
+            finalPositionY = this.positionY + moveY / distance * playerHandle.getSpeed();
+        }
+
+        
 
         const distanceToPlayer = Math.hypot(finalPositionX - playerHandle.getPositionX(), finalPositionY - playerHandle.getPositionY());
         if(distanceToPlayer <= playerHandle.getSpaceRadius())
         {
-            playerHandle.addHp(this.damage);
+            playerHandle.subtractHp(this.damage);
             this.animationState = AnimationState.attacking;
             return;
         }

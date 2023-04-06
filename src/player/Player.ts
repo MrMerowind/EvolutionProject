@@ -71,7 +71,7 @@ export default class Player{
     }
     public getMaxHp(): number
     {
-        return 100 * (this.vitality + 1);
+        return 100 * 50 * (this.vitality + 1);
     }
     public getCurrentHp(): number
     {
@@ -148,6 +148,12 @@ export default class Player{
     public addHp(value: number): void
     {
         this.currentHp += value;
+        if(this.currentHp < 0) this.currentHp = 0;
+        if(this.currentHp > this.getMaxHp()) this.currentHp = this.getMaxHp();
+    }
+    public subtractHp(value: number): void
+    {
+        this.currentHp -= value;
         if(this.currentHp < 0) this.currentHp = 0;
         if(this.currentHp > this.getMaxHp()) this.currentHp = this.getMaxHp();
     }

@@ -4,6 +4,8 @@ import Enemy from './Enemy';
 import { Sprite } from '@pixi/react';
 import AnimationRenderer, { AnimationData } from '../animation/AnimationData';
 import { AnimationState } from '../globalData/Types';
+import EnemyHealthRenderer from '../ui/AboveHeadHealthRenderer';
+import AboveHeadHealthRenderer from '../ui/AboveHeadHealthRenderer';
 
 interface EnemyRendererProps{
     miliseconds: number;
@@ -62,14 +64,22 @@ export default function EnemyRenderer(props: EnemyRendererProps) {
 
   return (
     <>
-    {ctx.enemyList.getList().map(p => {
-        return <AnimationRenderer animationDataAttacking={p.getAnimationData(AnimationState.attacking)}
-        animationDataStanding={p.getAnimationData(AnimationState.standing)}
-        animationDataWalking={p.getAnimationData(AnimationState.walking)}
-        facedDirection={p.getFacedDirection()} secondaryFacedDirection={p.getSecondaryFacedDirection()}
-        positionX={p.getPositionX() - ctx.camera.getOffsetX()} positionY={p.getPositionY() - ctx.camera.getOffsetY()} scale={p.getScale()} rotation={0}
-        animationState={p.getAnimationState()} time={props.miliseconds} key={p.getId()}/>
-    })}
+        {ctx.enemyList.getList().map(p => {
+            return (
+                <AnimationRenderer  animationDataAttacking={p.getAnimationData(AnimationState.attacking)}
+                    animationDataStanding={p.getAnimationData(AnimationState.standing)}
+                    animationDataWalking={p.getAnimationData(AnimationState.walking)}
+                    facedDirection={p.getFacedDirection()} secondaryFacedDirection={p.getSecondaryFacedDirection()}
+                    positionX={p.getPositionX() - ctx.camera.getOffsetX()} positionY={p.getPositionY() - ctx.camera.getOffsetY()} scale={p.getScale()} rotation={0}
+                    animationState={p.getAnimationState()} time={props.miliseconds} key={p.getId() + "enemy"}/>
+            )
+        })}
+        {ctx.enemyList.getList().map(p => {
+            return (
+                <AboveHeadHealthRenderer positionX={p.getPositionX() - ctx.camera.getOffsetX()} positionY={p.getPositionY() - ctx.camera.getOffsetY()} 
+                    percentage={p.getCurrentHp() * 100 / p.getMaxHp()} heightOffset={/* TODO: Put here height of image */ 60} player={false} key={p.getId() + "enemyhp"}/>
+            )
+        })}
     </>
   )
 }

@@ -10,6 +10,7 @@ import LoadingScreen from "../loadingScreen/LoadingScreen";
 import EnemyList from "../enemies/EnemyList";
 import Enemy from "../enemies/Enemy";
 import { AnimationData } from "../animation/AnimationData";
+import UserInterfaceData from "../ui/UserInterfaceData";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -24,6 +25,7 @@ export interface IGameManagerStore{
     loadLoadingScreen: LoadDataFn;
     enemyPrototypes: EnemyList;
     enemyList: EnemyList;
+    userInterfaceData: UserInterfaceData;
 }
 
 export class GameManagerStore implements IGameManagerStore{
@@ -35,6 +37,7 @@ export class GameManagerStore implements IGameManagerStore{
     public loadingScreen: LoadingScreen; 
     public enemyPrototypes: EnemyList;
     public enemyList: EnemyList;
+    public userInterfaceData: UserInterfaceData;
 
     constructor(gameData: GameManagerStore | null = null)
     {
@@ -48,6 +51,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.areGraphicsLoaded = gameData.areGraphicsLoaded;
             this.enemyPrototypes = gameData.enemyPrototypes;
             this.enemyList = gameData.enemyList;
+            this.userInterfaceData = gameData.userInterfaceData;
         }
         else
         {
@@ -65,6 +69,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.map = new GameMap();
             this.enemyPrototypes = new EnemyList();
             this.enemyList = new EnemyList();
+            this.userInterfaceData = new UserInterfaceData();
 
             this.loadData().then(() => {
                 this.camera.setGameScreenHandle(this.screen);
@@ -98,7 +103,7 @@ export class GameManagerStore implements IGameManagerStore{
         // Loading terrain
         for(let i = 1; i <= this.map.levelCount; i++)
         {
-            await PIXI.Assets.load(graphicPath.mapFolder + i.toString() + ".png").then((graphic) => {   
+            await PIXI.Assets.load(graphicPath.mapFolder + /*i.toString() +*/ "11.png").then((graphic) => {   
                 this.map.textures.set(i, graphic);
             });
         }
@@ -131,5 +136,12 @@ export class GameManagerStore implements IGameManagerStore{
             enemyPointer.createPrototype(1,1,1,1,1,3,animDataStanding,animDataWalking,animDataAttacking);
             this.enemyPrototypes.addEnemy(enemyPointer);
         });
+
+        // Loading User Interface
+        await PIXI.Assets.load(graphicPath.uiHealth).then((graphic) => {   
+            this.userInterfaceData.setHpTexture(graphic);
+        });
+
+
     }
 }

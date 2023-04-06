@@ -17,5 +17,7 @@ export const graphicPath =
     loadingScreen:
         serverPath.toString() + "img/MainScreen/Background/1.png",
     enemies:
-        serverPath.toString() + "img/Enemies/"
+        serverPath.toString() + "img/Enemies/",
+    uiHealth:
+        serverPath.toString() + "img/HealthBar/hpAndEnemiesLeft_hp.png"
 }

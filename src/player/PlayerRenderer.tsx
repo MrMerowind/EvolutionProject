@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useGameManagerStore } from "../game/GameManagerStoreContext";
 import { AnimationState, Direction, DirectionHorizontal } from "../globalData/Types";
 import AnimationRenderer from "../animation/AnimationData";
+import AboveHeadHealthRenderer from "../ui/AboveHeadHealthRenderer";
 
 
 interface PlayerRendererProps{
@@ -100,11 +101,15 @@ export default function PlayerRenderer(props: PlayerRendererProps) {
 
 
   return (
-    <AnimationRenderer animationDataWalking={ctx.player.getAnimationData(AnimationState.walking)}
+    <>
+      <AnimationRenderer animationDataWalking={ctx.player.getAnimationData(AnimationState.walking)}
           animationDataStanding={ctx.player.getAnimationData(AnimationState.standing)}
           animationDataAttacking={ctx.player.getAnimationData(AnimationState.attacking)}
           animationState={animationState} facedDirection={facedDirection} secondaryFacedDirection={facedSecondaryDirection}
           time={props.miliseconds} scale={2} positionX={playerPosition[0] - ctx.camera.getOffsetX()}
           positionY={playerPosition[1] - ctx.camera.getOffsetY()} rotation={0}/>
+      <AboveHeadHealthRenderer positionX={playerPosition[0] - ctx.camera.getOffsetX()} positionY={playerPosition[1] - ctx.camera.getOffsetY()} 
+          percentage={ctx.player.getCurrentHp() * 100.0 / ctx.player.getMaxHp()} heightOffset={/* TODO: Put here height of image */ 60} player={true} />
+    </>
   )
 }
