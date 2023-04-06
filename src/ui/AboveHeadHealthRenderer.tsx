@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Sprite } from "@pixi/react";
-import React from 'react'
-import { useGameManagerStore } from '../game/GameManagerStoreContext';
+import React from "react";
+import { useGameManagerStore } from "../game/GameManagerStoreContext";
 
 interface AboveHeadRendererProps
 {
@@ -20,10 +20,10 @@ export default function AboveHeadHealthRenderer(props: AboveHeadRendererProps) {
 
     if(props.player)
     {
-      imageRef = ctx.userInterfaceData.getPlayerHpTexture();
+        imageRef = ctx.userInterfaceData.getPlayerHpTexture();
     }
     else {
-      imageRef = ctx.userInterfaceData.getHpTexture();
+        imageRef = ctx.userInterfaceData.getHpTexture();
     }
 
 
@@ -40,11 +40,11 @@ export default function AboveHeadHealthRenderer(props: AboveHeadRendererProps) {
     const barOnScreenPositionX = props.positionX;
     const barOnScreenPositionY = props.positionY - props.heightOffset;
 
-  return (
-    <>
-        <Sprite texture={cutTexture} width={imageRef.width * percentageCopy / 100.0 * ctx.userInterfaceData.getAboveHeadHpScale()}
-            height={imageRef.height * ctx.userInterfaceData.getAboveHeadHpScale()}
-             x={barOnScreenPositionX} y={barOnScreenPositionY} rotation={0} anchor={[0.5,1]} />
-    </>
-  )
+    return (
+        <>
+            <Sprite texture={cutTexture} width={imageRef.width * percentageCopy / 100.0 * ctx.userInterfaceData.getAboveHeadHpScale()}
+                height={imageRef.height * ctx.userInterfaceData.getAboveHeadHpScale()}
+                x={barOnScreenPositionX} y={barOnScreenPositionY} rotation={0} anchor={[0.5,1]} />
+        </>
+    );
 }

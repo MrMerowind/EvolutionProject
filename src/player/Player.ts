@@ -45,9 +45,9 @@ export default class Player{
     {
         switch(animationState)
         {
-            case AnimationState.attacking: return this.animationDataAttacking;
-            case AnimationState.standing: return this.animationDataStanding;
-            case AnimationState.walking: return this.animationDataWalking;
+        case AnimationState.attacking: return this.animationDataAttacking;
+        case AnimationState.standing: return this.animationDataStanding;
+        case AnimationState.walking: return this.animationDataWalking;
         }
         throw new Error("Unknown animationState in Player.getAnimationData()");
     }
@@ -115,14 +115,14 @@ export default class Player{
     public moveUnits(x:number, y: number, enemyListHandle: EnemyList)
     {
         // Preventing moving too fast on both axises
-        let distance = Math.hypot(x,y);
+        const distance = Math.hypot(x,y);
 
         let newPositionX = this.positionX;
         let newPositionY = this.positionY;
 
         if(x !== 0)
         {
-           newPositionX = this.positionX + x / distance * this.speed;
+            newPositionX = this.positionX + x / distance * this.speed;
         }
         if(y !== 0)
         {

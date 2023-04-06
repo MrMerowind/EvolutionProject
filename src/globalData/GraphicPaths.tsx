@@ -22,4 +22,4 @@ export const graphicPath =
         serverPath.toString() + "img/Enemies/",
     hpAboveHeadEnemy:
         serverPath.toString() + "img/HealthBar/hpAboveHeadEnemy.png"
-}
+};

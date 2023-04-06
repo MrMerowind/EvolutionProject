@@ -1,4 +1,3 @@
-import { disconnect } from "process";
 import Player from "../player/Player";
 import { GameScreen } from "./GameScreen";
 
@@ -38,13 +37,13 @@ export class GameCamera{
         if(this.gameScreenHandle === null) return;
         if(this.playerHandle === null) return;
 
-        let moveToX: number = this.playerHandle.getPositionX() - this.gameScreenHandle.getCenterHorizontal();
-        let moveToY: number = this.playerHandle.getPositionY() - this.gameScreenHandle.getCenterVertical();
+        const moveToX: number = this.playerHandle.getPositionX() - this.gameScreenHandle.getCenterHorizontal();
+        const moveToY: number = this.playerHandle.getPositionY() - this.gameScreenHandle.getCenterVertical();
 
-        let moveToXAbs = moveToX - this.offsetX;
-        let moveToYAbs = moveToY - this.offsetY;
+        const moveToXAbs = moveToX - this.offsetX;
+        const moveToYAbs = moveToY - this.offsetY;
 
-        let distance = Math.hypot(moveToXAbs, moveToYAbs);
+        const distance = Math.hypot(moveToXAbs, moveToYAbs);
 
         if(distance >= Math.min(...this.gameScreenHandle.getCenter()) * 0.8)
         {

@@ -69,9 +69,9 @@ export default class Enemy{
     {
         switch(animationState)
         {
-            case AnimationState.attacking: return this.animationDataAttacking;
-            case AnimationState.standing: return this.animationDataStanding;
-            case AnimationState.walking: return this.animationDataWalking;
+        case AnimationState.attacking: return this.animationDataAttacking;
+        case AnimationState.standing: return this.animationDataStanding;
+        case AnimationState.walking: return this.animationDataWalking;
         }
         throw new Error("Unknown animationState in Player.getAnimationData()");
     }
@@ -290,7 +290,7 @@ export default class Enemy{
     public createPrototype(level: number, maxHp: number, damage: number,
         expReward: number, scale: number, speed: number,
         animationDataStanding: AnimationData, animationDataWalking: AnimationData,
-        animationDataAttacking: AnimationData, spaceRadius: number = 30): void
+        animationDataAttacking: AnimationData, spaceRadius = 30): void
     {
         this.level = level;
         this.maxHp = maxHp;

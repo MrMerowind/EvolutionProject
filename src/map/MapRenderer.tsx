@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Sprite } from "@pixi/react";
-import React from 'react'
+import React from "react";
 import { useGameManagerStore } from "../game/GameManagerStoreContext";
 
 
@@ -18,7 +18,7 @@ export default function MapRenderer() {
     const repeatHorizontaly = Math.floor(screenWidth / ctx.map.textureWidth) + 3;
     const repeatVerticaly = Math.floor(screenHeight / ctx.map.textureHeight) + 3;
 
-    let arrayOfPositionAndKey: Array<[x:number, y: number, k: number]> = new Array(repeatHorizontaly * repeatVerticaly);
+    const arrayOfPositionAndKey: Array<[x:number, y: number, k: number]> = new Array(repeatHorizontaly * repeatVerticaly);
 
     for(let i = -1; i < repeatHorizontaly; i++)
     {
@@ -36,5 +36,5 @@ export default function MapRenderer() {
             <Sprite key={keyValue} texture={cutTexture} width={ctx.map.textureWidth} height={ctx.map.textureHeight} scale={1}
                 x={x} y={y} rotation={0} anchor={0}/>
         )}</>
-  )
+    );
 }

@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
-import { Stage, Container, Sprite, Text } from '@pixi/react';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Stage, Container, Sprite, Text } from "@pixi/react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { mainPixiFont } from "../globalData/Fonts";
 import { GameManagerStoreProvider, useGameManagerStore } from "./GameManagerStoreContext";
 import { GameManagerStore } from "./GameManagerStore";
@@ -16,50 +16,50 @@ import EnemyRenderer from "../enemies/EnemyRenderer";
 
 export const GameManager = () => {
 
-  const ctx = useGameManagerStore();
-  const [miliseconds, setMiliseconds] = useState(0);
+    const ctx = useGameManagerStore();
+    const [miliseconds, setMiliseconds] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMiliseconds(previousTime => previousTime + 20);
-      ctx.camera.moveTowardsPlayer();
-    }, 20);
-    ctx.camera.centerOnPlayer();
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setMiliseconds(previousTime => previousTime + 20);
+            ctx.camera.moveTowardsPlayer();
+        }, 20);
+        ctx.camera.centerOnPlayer();
 
-    return () => {
-      clearInterval(interval);
-    }
-  }, []);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
-  const areGraphicLoaded = useRef<boolean>(ctx.areGraphicsLoaded);
+    const areGraphicLoaded = useRef<boolean>(ctx.areGraphicsLoaded);
 
 
-  if(!areGraphicLoaded) return (
-    <GameManagerStoreProvider gameData={ctx}>
-      <Stage width={ctx.screen.getWidth()} height={ctx.screen.getHeight()}>
-        <LoadingScreenRenderer />
-      </Stage>
-    </GameManagerStoreProvider>
-  );
-  // TODO: rewrite
-  return (
-    <GameManagerStoreProvider gameData={ctx}>
-      <Stage width={ctx.screen.getWidth()} height={ctx.screen.getHeight()}>
+    if(!areGraphicLoaded) return (
+        <GameManagerStoreProvider gameData={ctx}>
+            <Stage width={ctx.screen.getWidth()} height={ctx.screen.getHeight()}>
+                <LoadingScreenRenderer />
+            </Stage>
+        </GameManagerStoreProvider>
+    );
+    // TODO: rewrite
+    return (
+        <GameManagerStoreProvider gameData={ctx}>
+            <Stage width={ctx.screen.getWidth()} height={ctx.screen.getHeight()}>
 
-        {/*Render map*/}
-        <MapRenderer />
+                {/*Render map*/}
+                <MapRenderer />
 
-        {/*Render enemies*/}
-        <EnemyRenderer miliseconds={miliseconds}/>
+                {/*Render enemies*/}
+                <EnemyRenderer miliseconds={miliseconds}/>
 
-        {/*Player is rendered in Enemy Renderer so its z index is correct.*/}
+                {/*Player is rendered in Enemy Renderer so its z index is correct.*/}
 
-        {/*Render UI*/}
+                {/*Render UI*/}
 
-        {/*<Container x={0} y={0}>
+                {/*<Container x={0} y={0}>
           <Text text="O, dziala!" x={0} y={0} anchor={{ x: 0, y: 0 }} style={mainPixiFont}/>
         </Container>*/}
-      </Stage>
-    </GameManagerStoreProvider>
-  );
+            </Stage>
+        </GameManagerStoreProvider>
+    );
 };

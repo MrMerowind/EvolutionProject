@@ -62,18 +62,18 @@ export class AnimationData{
     {
         switch(direction)
         {
-            case Direction.up:
-                return this.animationUp;
-            case Direction.down:
-                return this.animationDown;
-            case Direction.right:
-            case DirectionHorizontal.right:
-                return this.animationRight;
-            case Direction.left:
-            case DirectionHorizontal.left:
-                return this.animationLeft;
-            default:
-                throw new Error("AnimationData direction is null");
+        case Direction.up:
+            return this.animationUp;
+        case Direction.down:
+            return this.animationDown;
+        case Direction.right:
+        case DirectionHorizontal.right:
+            return this.animationRight;
+        case Direction.left:
+        case DirectionHorizontal.left:
+            return this.animationLeft;
+        default:
+            throw new Error("AnimationData direction is null");
         }
     }
     
@@ -102,10 +102,10 @@ export default function AnimationRenderer(props: AnimationRendererProps) {
 
     switch(props.animationState)
     {
-        case AnimationState.attacking: animDataChosen = props.animationDataAttacking; break; 
-        case AnimationState.walking: animDataChosen = props.animationDataWalking; break; 
-        case AnimationState.standing: animDataChosen = props.animationDataStanding; break; 
-        default: return null;
+    case AnimationState.attacking: animDataChosen = props.animationDataAttacking; break; 
+    case AnimationState.walking: animDataChosen = props.animationDataWalking; break; 
+    case AnimationState.standing: animDataChosen = props.animationDataStanding; break; 
+    default: return null;
     }
     let animationDataStateAndDirection: AnimationSubData | null;
     animationDataStateAndDirection = animDataChosen.getAnimation(props.facedDirection);
@@ -155,8 +155,9 @@ export default function AnimationRenderer(props: AnimationRendererProps) {
     if(reversed) reversedMultiplier = -1;
     else reversedMultiplier = 1;
 
-  return (
-    <Sprite texture={cutTexture} width={(graphicWidth * props.scale * reversedMultiplier)} height={(graphicHeight * props.scale)} scale={props.scale}
-     x={props.positionX} y={props.positionY} rotation={props.rotation} anchor={[0.5,0.6]}/>
-  )
+    return (
+        // eslint-disable-next-line react/react-in-jsx-scope
+        <Sprite texture={cutTexture} width={(graphicWidth * props.scale * reversedMultiplier)} height={(graphicHeight * props.scale)} scale={props.scale}
+            x={props.positionX} y={props.positionY} rotation={props.rotation} anchor={[0.5,0.6]}/>
+    );
 }

@@ -1,7 +1,7 @@
 const defaultGameScreenSize = {
     width: 800,
     height: 600
-}
+};
 
 export class GameScreen{
     private width: number;

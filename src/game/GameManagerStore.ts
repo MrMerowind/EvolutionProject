@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { makeAutoObservable } from "mobx"
+import { makeAutoObservable } from "mobx";
 import Player from "../player/Player";
 import { GameCamera } from "../screen/GameCamera";
 import { GameScreen } from "../screen/GameScreen";
@@ -88,7 +88,7 @@ export class GameManagerStore implements IGameManagerStore{
         await PIXI.Assets.load(graphicPath.loadingScreen).then((graphic) => {
             this.loadingScreen.texture = graphic;
         }).then(() => this.loadingScreen.isLoaded = true);
-    }
+    };
 
     loadData = async() =>
     {
@@ -112,10 +112,10 @@ export class GameManagerStore implements IGameManagerStore{
         // Loading enemies
         await PIXI.Assets.load(graphicPath.enemies + "1_attack.png").then((graphic) => {
             //Enemy 1
-            let enemyPointer = new Enemy();
-            let animDataAttacking = new AnimationData();
-            let animDataStanding = new AnimationData();
-            let animDataWalking = new AnimationData();
+            const enemyPointer = new Enemy();
+            const animDataAttacking = new AnimationData();
+            const animDataStanding = new AnimationData();
+            const animDataWalking = new AnimationData();
             animDataAttacking.getAnimation(Direction.up).setData(13,4,0,12,60,832,256,graphic);
             animDataAttacking.getAnimation(Direction.left).setData(13,4,13,25,60,832,256,graphic);
             animDataAttacking.getAnimation(Direction.right).setData(13,4,26,38,60,832,256,graphic);
@@ -146,5 +146,5 @@ export class GameManagerStore implements IGameManagerStore{
         });
 
 
-    }
+    };
 }
