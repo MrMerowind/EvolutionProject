@@ -11,6 +11,7 @@ import EnemyList from "./EnemyList";
 import Enemy from "./Enemy";
 import { AnimationData } from "./AnimationData";
 import UserInterfaceData from "./UserInterfaceData";
+import { StatisticsData } from "./StatisticsData";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -19,6 +20,7 @@ export interface IGameManagerStore{
     screen: GameScreen;
     player: Player;
     map: GameMap;
+    statistics: StatisticsData;
     loadingScreen: LoadingScreen;
     areGraphicsLoaded: boolean;
     loadData: LoadDataFn;
@@ -38,6 +40,7 @@ export class GameManagerStore implements IGameManagerStore{
     public enemyPrototypes: EnemyList;
     public enemyList: EnemyList;
     public userInterfaceData: UserInterfaceData;
+    public statistics: StatisticsData;
 
     constructor(gameData: GameManagerStore | null = null)
     {
@@ -52,6 +55,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.enemyPrototypes = gameData.enemyPrototypes;
             this.enemyList = gameData.enemyList;
             this.userInterfaceData = gameData.userInterfaceData;
+            this.statistics = gameData.statistics;
         }
         else
         {
@@ -70,6 +74,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.enemyPrototypes = new EnemyList();
             this.enemyList = new EnemyList();
             this.userInterfaceData = new UserInterfaceData();
+            this.statistics = new StatisticsData();
 
             this.loadData().then(() => {
                 this.camera.setGameScreenHandle(this.screen);
@@ -144,7 +149,18 @@ export class GameManagerStore implements IGameManagerStore{
         await Assets.load(graphicPath.hpAboveHeadEnemy).then((graphic) => {   
             this.userInterfaceData.setHpTexture(graphic);
         });
-
+        await Assets.load(graphicPath.statistics.corner).then((graphic) => {   
+            this.statistics.setCornerOverlay(graphic);
+        });
+        await Assets.load(graphicPath.statistics.overlay).then((graphic) => {   
+            this.statistics.setHealthOverlay(graphic);
+        });
+        await Assets.load(graphicPath.statistics.hp).then((graphic) => {   
+            this.statistics.setHealthBar(graphic);
+        });
+        await Assets.load(graphicPath.statistics.exp).then((graphic) => {   
+            this.statistics.setExpBar(graphic);
+        });
 
     };
 }

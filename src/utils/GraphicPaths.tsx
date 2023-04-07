@@ -21,5 +21,16 @@ export const graphicPath =
     enemies:
         serverPath.toString() + "img/Enemies/",
     hpAboveHeadEnemy:
-        serverPath.toString() + "img/HealthBar/hpAboveHeadEnemy.png"
+        serverPath.toString() + "img/HealthBar/hpAboveHeadEnemy.png",
+    statistics:
+    {
+        overlay:
+            serverPath.toString() + "img/HealthBar/statisticsOverlay.png",
+        corner:
+            serverPath.toString() + "img/HealthBar/corner.png",
+        hp:
+            serverPath.toString() + "img/HealthBar/statisticsHealth.png",
+        exp:
+            serverPath.toString() + "img/HealthBar/statisticsExp.png"
+    }
 };

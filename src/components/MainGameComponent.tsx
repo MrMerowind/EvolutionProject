@@ -4,6 +4,7 @@ import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import MapComponent from "./MapComponent";
 import { LoadingScreenComponent } from "./LoadingScreenComponent";
 import EnemyComponent from "./EnemyComponent";
+import StatisticsComponent from "./StatisticsComponent";
 
 
 
@@ -37,7 +38,7 @@ export function MainGameComponent(){
             <LoadingScreenComponent />
         </AppProvider>
     );
-    // TODO: rewrite
+
     return (
         <AppProvider value={app}>
             {/*Render map*/}
@@ -48,6 +49,7 @@ export function MainGameComponent(){
             <EnemyComponent miliseconds={miliseconds} delta={deltaTime.current}/>
 
             {/*Render UI*/}
+            <StatisticsComponent />
 
         </AppProvider>
     );
