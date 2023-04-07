@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-no-undef */
 import React from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
-import { Sprite } from "@pixi/react";
+import { Sprite, Text } from "@pixi/react";
 import { Rectangle, Texture } from "pixi.js";
+import { levelFont, statsFont } from "../utils/Fonts";
 
 export default function StatisticsComponent() {
 
@@ -33,6 +34,16 @@ export default function StatisticsComponent() {
     const hpBarHeight = imageRefHpBar.height * ctx.player.getCurrentHp() / ctx.player.getMaxHp();
     const expBarHeiht = imageRefExpBar.height * ctx.player.getCurrentExp() / ctx.player.getNeededExp();
 
+    const textOffsetBig = 230;
+    const textOffsetSmall = 25;
+
+    const textDescriptionX = ctx.screen.getWidth() - textOffsetBig;
+    const textValueX = ctx.screen.getWidth() - textOffsetSmall;
+
+    const textY = [ctx.screen.getHeight() - 150,
+        ctx.screen.getHeight() - 100,
+        ctx.screen.getHeight() - 70,
+        ctx.screen.getHeight() - 40];
 
     return (
         <>
@@ -53,6 +64,16 @@ export default function StatisticsComponent() {
             {/* Health and exp overlay*/}
             <Sprite texture={cutTextureOverlay} width={imageRefHealthOverlay.width} height={imageRefHealthOverlay.height} scale={1}
                 x={ctx.screen.getWidth()} y={ctx.screen.getHeight()} rotation={0} anchor={[1,1]}/>  
+
+            {/* Level and stats */}
+            <Text text={"Level: "} anchor={0} x={textDescriptionX} y={textY[0]} style={levelFont} />
+            <Text text={"Strenght: "} anchor={0} x={textDescriptionX } y={textY[1]} style={statsFont} />
+            <Text text={"Vitality: "} anchor={0} x={textDescriptionX } y={textY[2]} style={statsFont} />
+            <Text text={"Agility: "} anchor={0} x={textDescriptionX } y={textY[3]} style={statsFont} />
+            <Text text={ctx.player.getLevel().toString()} anchor={[1,0]} x={textValueX} y={textY[0]} style={levelFont} />
+            <Text text={ctx.player.getStrength().toString()} anchor={[1,0]} x={textValueX} y={textY[1]} style={statsFont} />
+            <Text text={ctx.player.getVitality().toString()} anchor={[1,0]} x={textValueX} y={textY[2]} style={statsFont} />
+            <Text text={ctx.player.getAgility().toString()} anchor={[1,0]} x={textValueX} y={textY[3]} style={statsFont} />
         </>
     );
 }
