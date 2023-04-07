@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import { GameManager } from "./game/GameManager";
+import { GameManager } from "./utils/GameManager";
 
 function App() {
     return (

@@ -1,17 +1,17 @@
-import * as PIXI from "pixi.js";
+import { Texture, Rectangle} from "pixi.js";
 import { Sprite } from "@pixi/react";
 import React from "react";
-import { useGameManagerStore } from "../game/GameManagerStoreContext";
+import { useGameManagerStore } from "../hooks/useGameManagerStore";
 
 
-export default function MapRenderer() {
+export default function MapComponent() {
   
     const ctx = useGameManagerStore();
   
     const imageRef = ctx.map.textures.get(ctx.map.level);
     if(imageRef === undefined) return null;
-    const cutRegion = new PIXI.Rectangle(0, 0, ctx.map.textureWidth, ctx.map.textureHeight);
-    const cutTexture = new PIXI.Texture(imageRef, cutRegion);
+    const cutRegion = new Rectangle(0, 0, ctx.map.textureWidth, ctx.map.textureHeight);
+    const cutTexture = new Texture(imageRef, cutRegion);
 
     const [screenWidth, screenHeight] = ctx.screen.getSize();
 

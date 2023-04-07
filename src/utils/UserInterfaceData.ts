@@ -1,8 +1,8 @@
-import * as PIXI from "pixi.js";
+import { BaseTexture } from "pixi.js";
 
 export default class UserInterfaceData{
-    private hpTexture: PIXI.BaseTexture | null;
-    private hpPlayerTexture: PIXI.BaseTexture | null;
+    private hpTexture: BaseTexture | null;
+    private hpPlayerTexture: BaseTexture | null;
     private aboveHeadHpScale = 0.2;
     
     constructor()
@@ -10,11 +10,11 @@ export default class UserInterfaceData{
         this.hpTexture = null;
         this.hpPlayerTexture = null;
     }
-    public setHpTexture(value: PIXI.BaseTexture)
+    public setHpTexture(value: BaseTexture)
     {
         this.hpTexture = value;
     }
-    public setPlayerHpTexture(value: PIXI.BaseTexture)
+    public setPlayerHpTexture(value: BaseTexture)
     {
         this.hpPlayerTexture = value;
     }

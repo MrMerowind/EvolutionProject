@@ -1,6 +1,6 @@
-import { AnimationData } from "../animation/AnimationData";
-import { AnimationState, Direction, DirectionHorizontal } from "../globalData/Types";
-import Player from "../player/Player";
+import { AnimationData } from "./AnimationData";
+import { AnimationState, Direction, DirectionHorizontal } from "./Types";
+import Player from "./Player";
 import EnemyList from "./EnemyList";
 
 export default class Enemy{

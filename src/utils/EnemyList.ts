@@ -1,4 +1,4 @@
-import Player from "../player/Player";
+import Player from "./Player";
 import Enemy from "./Enemy";
 
 export default class EnemyList{

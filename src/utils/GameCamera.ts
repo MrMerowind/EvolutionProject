@@ -1,10 +1,10 @@
-import Player from "../player/Player";
+import Player from "./Player";
 import { GameScreen } from "./GameScreen";
 
 export class GameCamera{
     private offsetX;
     private offsetY;
-    private cameraSpeed = 0.15;
+    private cameraSpeed = 3;
     private gameScreenHandle: GameScreen | null;
     private playerHandle: Player | null;
 

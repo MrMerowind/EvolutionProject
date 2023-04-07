@@ -1,19 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useGameManagerStore } from "../game/GameManagerStoreContext";
-import Enemy from "./Enemy";
-import { Sprite } from "@pixi/react";
-import AnimationRenderer, { AnimationData } from "../animation/AnimationData";
-import { AnimationState } from "../globalData/Types";
-import EnemyHealthRenderer from "../ui/AboveHeadHealthRenderer";
-import AboveHeadHealthRenderer from "../ui/AboveHeadHealthRenderer";
-import PlayerRenderer from "../player/PlayerRenderer";
+import React, { useEffect } from "react";
+import { useGameManagerStore } from "../hooks/useGameManagerStore";
+import { AnimationState } from "../utils/Types";
+import AboveHeadHealthComponent from "./AboveHeadHealthComponent";
+import PlayerComponent from "./PlayerComponent";
+import { AnimationComponent } from "./AnimationComponent";
 
-interface EnemyRendererProps{
+interface EnemyComponentProps{
     miliseconds: number;
     delta: number;
 }
 
-export default function EnemyRenderer(props: EnemyRendererProps) {
+export default function EnemyComponent(props: EnemyComponentProps) {
 
     const ctx = useGameManagerStore();
 
@@ -68,7 +65,7 @@ export default function EnemyRenderer(props: EnemyRendererProps) {
                 const enemyOnScreenPositionY = enemy.getPositionY() - ctx.camera.getOffsetY();
 
                 return (
-                    <AnimationRenderer  animationDataAttacking={enemy.getAnimationData(AnimationState.attacking)}
+                    <AnimationComponent  animationDataAttacking={enemy.getAnimationData(AnimationState.attacking)}
                         animationDataStanding={enemy.getAnimationData(AnimationState.standing)}
                         animationDataWalking={enemy.getAnimationData(AnimationState.walking)}
                         facedDirection={enemy.getFacedDirection()} secondaryFacedDirection={enemy.getSecondaryFacedDirection()}
@@ -76,18 +73,18 @@ export default function EnemyRenderer(props: EnemyRendererProps) {
                         animationState={enemy.getAnimationState()} time={props.miliseconds} key={enemy.getId() + "enemy"}/>
                 );
             })}
-            <PlayerRenderer miliseconds={props.miliseconds} delta={props.delta}/>
+            <PlayerComponent miliseconds={props.miliseconds} delta={props.delta}/>
             {ctx.enemyList.getList().map(enemy => {
             
                 const enemyOnScreenPositionX = enemy.getPositionX() - ctx.camera.getOffsetX();
                 const enemyOnScreenPositionY = enemy.getPositionY() - ctx.camera.getOffsetY();
 
                 return (
-                    <AboveHeadHealthRenderer positionX={enemyOnScreenPositionX} positionY={enemyOnScreenPositionY} 
+                    <AboveHeadHealthComponent positionX={enemyOnScreenPositionX} positionY={enemyOnScreenPositionY} 
                         percentage={enemy.getCurrentHp() * 100 / enemy.getMaxHp()} heightOffset={/* TODO: Put here height of image */ 30} player={false} key={enemy.getId() + "enemyhp"}/>
                 );
             })}
-            <AboveHeadHealthRenderer positionX={playerOnScreenPositionX} positionY={playerOnScreenPositionY} 
+            <AboveHeadHealthComponent positionX={playerOnScreenPositionX} positionY={playerOnScreenPositionY} 
                 percentage={playerHealthPercentage}
                 heightOffset={/* TODO: Put here height of image */ 60} player={true} />
         </>

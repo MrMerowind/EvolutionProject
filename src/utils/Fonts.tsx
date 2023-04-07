@@ -1,6 +1,6 @@
-import * as PIXI from "pixi.js";
+import { TextStyle } from "pixi.js";
 
-export const mainPixiFont = new PIXI.TextStyle({
+export const mainPixiFont = new TextStyle({
     align: "center",
     fontFamily: "\"Source Sans Pro\", Helvetica, sans-serif",
     fontSize: 50,

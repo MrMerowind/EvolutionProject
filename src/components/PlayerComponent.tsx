@@ -1,17 +1,16 @@
-import * as PIXI from "pixi.js";
 import React, { useEffect, useState } from "react";
-import { useGameManagerStore } from "../game/GameManagerStoreContext";
-import { AnimationState, Direction, DirectionHorizontal } from "../globalData/Types";
-import AnimationRenderer from "../animation/AnimationData";
-import AboveHeadHealthRenderer from "../ui/AboveHeadHealthRenderer";
+import { useGameManagerStore } from "../hooks/useGameManagerStore";
+import { AnimationState, Direction, DirectionHorizontal } from "../utils/Types";
+import { AnimationComponent } from "./AnimationComponent";
+import { useTick } from "@pixi/react";
 
 
-interface PlayerRendererProps{
+interface PlayerComponentProps{
   miliseconds: number;
   delta: number;
 }
 
-export default function PlayerRenderer(props: PlayerRendererProps) {
+export default function PlayerComponent(props: PlayerComponentProps) {
 
     const ctx = useGameManagerStore();
 
@@ -48,14 +47,12 @@ export default function PlayerRenderer(props: PlayerRendererProps) {
         };
     }, []);
 
-    // TODO: Throw out the trash
-    useEffect(() => {
+    useTick((delta) => {
         const x = (buttonLeftPressed ? -1 : 0) + (buttonRightPressed ? 1 : 0);
         const y = (buttonUpPressed ? -1 : 0) + (buttonDownPressed ? 1 : 0);
 
-        ctx.player.moveUnits(x, y, ctx.enemyList, props.delta);
-
-    }, [props.miliseconds]);
+        ctx.player.moveUnits(x, y, ctx.enemyList, delta);
+    });
 
     const [playerPosition, setPlayerPosition] = useState(ctx.player.getPosition());
 
@@ -76,7 +73,7 @@ export default function PlayerRenderer(props: PlayerRendererProps) {
 
     return (
         <>
-            <AnimationRenderer animationDataWalking={ctx.player.getAnimationData(AnimationState.walking)}
+            <AnimationComponent animationDataWalking={ctx.player.getAnimationData(AnimationState.walking)}
                 animationDataStanding={ctx.player.getAnimationData(AnimationState.standing)}
                 animationDataAttacking={ctx.player.getAnimationData(AnimationState.attacking)}
                 animationState={animationState} facedDirection={facedDirection} secondaryFacedDirection={facedSecondaryDirection}

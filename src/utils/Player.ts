@@ -1,6 +1,6 @@
-import { AnimationData } from "../animation/AnimationData";
-import EnemyList from "../enemies/EnemyList";
-import { AnimationState } from "../globalData/Types";
+import { AnimationData } from "./AnimationData";
+import EnemyList from "./EnemyList";
+import { AnimationState } from "./Types";
 
 export default class Player{
     private id: string;
@@ -15,7 +15,7 @@ export default class Player{
     private positionY: number;
     private readonly spaceRadius: number = 40;
     public readonly scale = 1;
-    public readonly speed = 0.25;
+    public readonly speed = 5;
 
     private animationDataWalking: AnimationData;
     private animationDataAttacking: AnimationData;

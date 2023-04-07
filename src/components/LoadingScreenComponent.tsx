@@ -1,8 +1,8 @@
-import * as PIXI from "pixi.js";
-import { useGameManagerStore } from "../game/GameManagerStoreContext";
+import { Texture, Rectangle} from "pixi.js";
+import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { Sprite } from "@pixi/react";
 
-export function LoadingScreenRenderer() {
+export function LoadingScreenComponent() {
 
     const ctx = useGameManagerStore();
 
@@ -10,8 +10,11 @@ export function LoadingScreenRenderer() {
     if(!ctx.loadingScreen.isLoaded) return null;
 
     const imageRef = ctx.loadingScreen.texture;
-    const cutRegion = new PIXI.Rectangle(0, 0, imageRef!.width, imageRef!.height);
-    const cutTexture = new PIXI.Texture(imageRef!, cutRegion);
+
+    if(imageRef === null) return null;
+
+    const cutRegion = new Rectangle(0, 0, imageRef.width, imageRef.height);
+    const cutTexture = new Texture(imageRef, cutRegion);
 
 
     return (

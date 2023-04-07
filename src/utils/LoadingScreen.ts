@@ -1,7 +1,7 @@
-import * as PIXI from "pixi.js";
+import { BaseTexture } from "pixi.js";
 
 export default class LoadingScreen{
-    texture: PIXI.BaseTexture | null;
+    texture: BaseTexture | null;
     isLoaded: boolean;
     constructor()
     {

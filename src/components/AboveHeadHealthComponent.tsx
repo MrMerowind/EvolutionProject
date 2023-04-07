@@ -1,9 +1,9 @@
-import * as PIXI from "pixi.js";
+import { Texture, Rectangle, BaseTexture} from "pixi.js";
 import { Sprite } from "@pixi/react";
 import React from "react";
-import { useGameManagerStore } from "../game/GameManagerStoreContext";
+import { useGameManagerStore } from "../hooks/useGameManagerStore";
 
-interface AboveHeadRendererProps
+interface AboveHeadComponentProps
 {
     percentage: number;
     positionX: number;
@@ -12,11 +12,11 @@ interface AboveHeadRendererProps
     player: boolean;
 }
 
-export default function AboveHeadHealthRenderer(props: AboveHeadRendererProps) {
+export default function AboveHeadHealthComponent(props: AboveHeadComponentProps) {
 
     const ctx = useGameManagerStore();
 
-    let imageRef: PIXI.BaseTexture | null;
+    let imageRef: BaseTexture | null;
 
     if(props.player)
     {
@@ -34,8 +34,8 @@ export default function AboveHeadHealthRenderer(props: AboveHeadRendererProps) {
     if(percentageCopy > 100) percentageCopy = 100;
 
 
-    const cutRegion = new PIXI.Rectangle(0, 0, imageRef.width, imageRef.height);
-    const cutTexture = new PIXI.Texture(imageRef, cutRegion);
+    const cutRegion = new Rectangle(0, 0, imageRef.width, imageRef.height);
+    const cutTexture = new Texture(imageRef, cutRegion);
 
     const barOnScreenPositionX = props.positionX;
     const barOnScreenPositionY = props.positionY - props.heightOffset;

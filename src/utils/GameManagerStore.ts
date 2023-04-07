@@ -1,16 +1,16 @@
-import * as PIXI from "pixi.js";
+import { Assets } from "pixi.js";
 import { makeAutoObservable } from "mobx";
-import Player from "../player/Player";
-import { GameCamera } from "../screen/GameCamera";
-import { GameScreen } from "../screen/GameScreen";
-import { graphicPath } from "../globalData/GraphicPaths";
-import { AnimationState, Direction } from "../globalData/Types";
-import GameMap from "../map/Map";
-import LoadingScreen from "../loadingScreen/LoadingScreen";
-import EnemyList from "../enemies/EnemyList";
-import Enemy from "../enemies/Enemy";
-import { AnimationData } from "../animation/AnimationData";
-import UserInterfaceData from "../ui/UserInterfaceData";
+import Player from "./Player";
+import { GameCamera } from "./GameCamera";
+import { GameScreen } from "./GameScreen";
+import { graphicPath } from "./GraphicPaths";
+import { AnimationState, Direction } from "./Types";
+import GameMap from "./Map";
+import LoadingScreen from "./LoadingScreen";
+import EnemyList from "./EnemyList";
+import Enemy from "./Enemy";
+import { AnimationData } from "./AnimationData";
+import UserInterfaceData from "./UserInterfaceData";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -85,7 +85,7 @@ export class GameManagerStore implements IGameManagerStore{
     }
 
     loadLoadingScreen = async() => {
-        await PIXI.Assets.load(graphicPath.loadingScreen).then((graphic) => {
+        await Assets.load(graphicPath.loadingScreen).then((graphic) => {
             this.loadingScreen.texture = graphic;
         }).then(() => this.loadingScreen.isLoaded = true);
     };
@@ -93,24 +93,24 @@ export class GameManagerStore implements IGameManagerStore{
     loadData = async() =>
     {
         // Loading player
-        await PIXI.Assets.load(graphicPath.player.walk).then((graphic) => {
+        await Assets.load(graphicPath.player.walk).then((graphic) => {
             this.player.getAnimationData(AnimationState.walking).getAnimation(Direction.right).setData(10,1,0,9,100,960,96, graphic);
         });
-        await PIXI.Assets.load(graphicPath.player.idle).then((graphic) => {   
+        await Assets.load(graphicPath.player.idle).then((graphic) => {   
             this.player.getAnimationData(AnimationState.standing).getAnimation(Direction.right).setData(50,1,0,49,100,4800,96, graphic);
         });
 
         // Loading terrain
         for(let i = 1; i <= this.map.levelCount; i++)
         {
-            await PIXI.Assets.load(graphicPath.mapFolder + i.toString() + ".png").then((graphic) => {   
+            await Assets.load(graphicPath.mapFolder + i.toString() + ".png").then((graphic) => {   
                 this.map.textures.set(i, graphic);
             });
         }
 
         // TODO: Save this data to a file and load acordingly
         // Loading enemies
-        await PIXI.Assets.load(graphicPath.enemies + "1_attack.png").then((graphic) => {
+        await Assets.load(graphicPath.enemies + "1_attack.png").then((graphic) => {
             //Enemy 1
             const enemyPointer = new Enemy();
             const animDataAttacking = new AnimationData();
@@ -121,7 +121,7 @@ export class GameManagerStore implements IGameManagerStore{
             animDataAttacking.getAnimation(Direction.right).setData(13,4,26,38,60,832,256,graphic);
             animDataAttacking.getAnimation(Direction.down).setData(13,4,39,51,60,832,256,graphic);
 
-            PIXI.Assets.load(graphicPath.enemies + "1_walk.png").then((graphic2) => {
+            Assets.load(graphicPath.enemies + "1_walk.png").then((graphic2) => {
                 animDataWalking.getAnimation(Direction.up).setData(10,4,0,9,60,640,256,graphic2);
                 animDataWalking.getAnimation(Direction.left).setData(10,4,10,19,60,640,256,graphic2);
                 animDataWalking.getAnimation(Direction.right).setData(10,4,20,29,60,640,256,graphic2);
@@ -133,15 +133,15 @@ export class GameManagerStore implements IGameManagerStore{
                 animDataStanding.getAnimation(Direction.down).setData(10,4,30,30,60,640,256,graphic2);
             });
 
-            enemyPointer.createPrototype(1,1,1,1,1,0.15,animDataStanding,animDataWalking,animDataAttacking);
+            enemyPointer.createPrototype(1,1,1,1,1,3,animDataStanding,animDataWalking,animDataAttacking);
             this.enemyPrototypes.addEnemy(enemyPointer);
         });
 
         // Loading User Interface
-        await PIXI.Assets.load(graphicPath.player.hpAboveHead).then((graphic) => {   
+        await Assets.load(graphicPath.player.hpAboveHead).then((graphic) => {   
             this.userInterfaceData.setPlayerHpTexture(graphic);
         });
-        await PIXI.Assets.load(graphicPath.hpAboveHeadEnemy).then((graphic) => {   
+        await Assets.load(graphicPath.hpAboveHeadEnemy).then((graphic) => {   
             this.userInterfaceData.setHpTexture(graphic);
         });
 
