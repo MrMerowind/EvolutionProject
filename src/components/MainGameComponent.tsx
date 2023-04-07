@@ -25,10 +25,14 @@ export function MainGameComponent(){
         ctx.camera.moveTowardsPlayer(delta);
     });
 
+    useEffect(() => {
+        areGraphicLoaded.current = ctx.areGraphicsLoaded;
+    }, [ctx.areGraphicsLoaded]);
+
     const areGraphicLoaded = useRef<boolean>(ctx.areGraphicsLoaded);
 
 
-    if(!areGraphicLoaded) return (
+    if(!areGraphicLoaded.current) return (
         <AppProvider value={app}>
             <LoadingScreenComponent />
         </AppProvider>

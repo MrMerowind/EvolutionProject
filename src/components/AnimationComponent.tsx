@@ -57,6 +57,7 @@ export function AnimationComponent(props: AnimationComponentProps) {
     const graphicWidth = animationDataStateAndDirection.graphicWidth / animationDataStateAndDirection.horizontalFrames;
     const graphicHeight = animationDataStateAndDirection.graphicHeight / animationDataStateAndDirection.verticalFrames;
     
+    // To create animated sprite you need separate images so it has to be cut anyway.
     const aFIS = animationDataStateAndDirection.animationFrameIndexStart;
     const aFIE = animationDataStateAndDirection.animationFrameIndexEnd;
     const aFT = animationDataStateAndDirection.animationFrameTime;
