@@ -180,16 +180,18 @@ export class GameManagerStore implements IGameManagerStore{
         // Loading Skills
         await Assets.load(graphicPath.skills.magicOrb).then((graphic) => {   
             const skill = new SkillThrowable();
-            skill.setAnchor(0.5,0.5);
-            skill.setDamage(1);
-            skill.setDamageTimeCooldown(1);
-            skill.setMiddleOffsetMultiplier(1);
-            skill.setName("Magic orb");
-            skill.setScale(0.5);
-            skill.setSpaceRadiusDamage(70);
-            skill.setFireTime(5000);
-            skill.setTimeLasting(5000);
-            skill.setSpeed(20);
+            skill.anchorX = 0.5;
+            skill.anchorY = 0.5;
+            skill.damage = 1;
+            skill.cooldown = 2000;
+            skill.skillName = "Magic orb";
+            skill.scale = 0.5;
+            skill.damageRadius = 80;
+            skill.castTime = 1000;
+            skill.damagingEnemies = true;
+            skill.damagingPlayer = false;
+            skill.explodeable = true;
+            skill.speed = 10;
 
             const animSubData = new AnimationSubData();
             animSubData.setData(1,1,0,0,100,76,73,graphic);

@@ -1,20 +1,21 @@
 import React from "react";
-import SkillList from "../utils/SkillList";
 import SkillComponent from "./SkillComponent";
+import { useGameManagerStore } from "../hooks/useGameManagerStore";
 
 interface SkillListComponentProps{
-    skillList: SkillList;
     miliseconds: number;
+    delta: number;
 }
 
 export default function SkillListComponent(props: SkillListComponentProps) {
 
-    console.log("Skill list component: ", props.skillList);
+    const ctx = useGameManagerStore();
 
     const result: JSX.Element[] = [];
-    props.skillList.getMap().forEach((skill) => {
-        const isAlive = skill.getLastFiredTime() + skill.getTimeLasting() >  + props.miliseconds;
-        if(isAlive) {
+    ctx.skillListOnScreen.getMap().forEach((skill) => {
+
+        if(skill.isAlive(props.miliseconds) && !skill.hasExploded()) {
+            skill.moveUnit(props.delta, props.miliseconds, ctx.enemyList);
             result.push(<SkillComponent miliseconds={props.miliseconds} skillData={skill} key={skill.getId()}/>);
         }
     });

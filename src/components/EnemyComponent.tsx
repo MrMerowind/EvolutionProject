@@ -53,6 +53,19 @@ export default function EnemyComponent(props: EnemyComponentProps) {
     const playerOnScreenPositionX = ctx.player.getPositionX() - ctx.camera.getOffsetX();
     const playerOnScreenPositionY = ctx.player.getPositionY() - ctx.camera.getOffsetY();
     const playerHealthPercentage = ctx.player.getCurrentHp() * 100.0 / ctx.player.getMaxHp();
+
+    // Removing dead enemies
+    for(let i = 0; i < ctx.enemyList.getList().length; i++)
+    {
+        const enemyHp = ctx.enemyList.getList()[i].getCurrentHp();
+        if(enemyHp <= 0)
+        {
+            const addedExp = ctx.enemyList.getList()[i].getExpReward();
+            ctx.player.addExp(addedExp);
+            ctx.enemyList.getList().splice(i,1);
+            i--;
+        }
+    }
     
 
     return (

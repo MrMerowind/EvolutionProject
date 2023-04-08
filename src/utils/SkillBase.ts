@@ -1,132 +1,61 @@
-import { BaseTexture } from "pixi.js";
 import { SkillAnimation } from "./AnimationData";
+import EnemyList from "./EnemyList";
 
 export class SkillBase{
-    private id: string;
-    private skillName: string;
-    protected positionX: number;
-    protected positionY: number;
-    protected finalPositionX: number;
-    protected finalPositionY: number;
-    protected rotation: number;
-    protected anchorX: number;
-    protected anchorY: number;
-    protected anchorYFinal: number;
-    protected middleOffsetMultiplier: number;
-    protected normalizedVectorX: number;
-    protected normalizedVectorY: number;
-    protected isExploding: boolean;
-    protected onExplodeSkill: SkillBase | null;
-    protected angle: number;
-    protected distanceLifetime: number;
-    protected spaceRadiusDamage: number;
-    protected damage: number;
-    protected damageTimeCooldown: number;
-    protected lastFiredTime: number;
-    protected animation: SkillAnimation;
-    protected speed: number;
-    protected scale: number;
-
-    protected damagingPlayer: boolean;
-    protected damagingEnemies: boolean;
-    protected damagedEnemyTimeById: Map<string, number>;
-    protected fireCooldown: number;
-    protected timeLasting: number;
+    public anchorX = 0.5;
+    public anchorY = 0.5;
+    public explodeable = true;
+    public onExplodeSkillCast: SkillBase | null = null;
+    public damageRadius = 50;
+    public damage = 1;
+    public castTime = 0;
+    public cooldown = 1000;
+    public speed = 1;
+    public scale = 1;
+    public damagingPlayer = false;
+    public damagingEnemies = true;
+    public skillName = "Empty";
+    
+    private id: string = Math.floor(Math.random() * 1000000).toString();
+    private normalizedVectorX = 0;
+    private normalizedVectorY = 0;
+    
+    protected positionX = 0;
+    protected positionY = 0;
+    protected destinationX = 0;
+    protected destinationY = 0;
+    protected rotation = 0;
+    protected exploded = false;
+    protected animation: SkillAnimation = new SkillAnimation();
+    protected damagedEnemyTimeById: Map<string, number> = new Map<string, number>();
 
 
     constructor(reference: SkillBase | null = null)
     {
-        this.id = Math.floor(Math.random() * 1000000).toString();
-        this.positionX = 0;
-        this.positionY = 0;
-        this.finalPositionX = 0;
-        this.finalPositionY = 0;
-        this.rotation = 0;
-        this.anchorX = 0;
-        this.anchorY = 0;
-        this.anchorYFinal = 0;
-        this.middleOffsetMultiplier = 0;
-        this.normalizedVectorX = 0;
-        this.normalizedVectorY = 0;
-        this.isExploding = false;
-        this.onExplodeSkill = null;
-        this.angle = 0;
-        this.distanceLifetime = 0;
-        this.spaceRadiusDamage = 0;
-        this.damage = 0;
-        this.damageTimeCooldown = 1000;
-        this.animation = new SkillAnimation();
-        this.speed = 1;
-        this.scale = 1;
-        this.damagingEnemies = true;
-        this.damagingPlayer = false;
-        this.damagedEnemyTimeById = new Map<string, number>();
-        this.skillName = "empty";
-        this.lastFiredTime = 0;
-        this.fireCooldown = 1000;
-        this.timeLasting = 5000;
-
         if(reference === null) return;
-        this.positionX = reference.positionX;
-        this.positionY = reference.positionY;
-        this.finalPositionX = reference.finalPositionX;
-        this.finalPositionY = reference.finalPositionY;
-        this.rotation = reference.rotation;
+        this.id = (Math.floor(Math.random() * 1000000).toString());
         this.anchorX = reference.anchorX;
         this.anchorY = reference.anchorY;
-        this.anchorYFinal = reference.anchorYFinal;
-        this.middleOffsetMultiplier = reference.middleOffsetMultiplier;
-        this.normalizedVectorX = reference.normalizedVectorX;
-        this.normalizedVectorY = reference.normalizedVectorY;
-        this.isExploding = reference.isExploding;
-        this.onExplodeSkill = reference.onExplodeSkill;
-        this.angle = reference.angle;
-        this.distanceLifetime = reference.distanceLifetime;
-        this.spaceRadiusDamage = reference.spaceRadiusDamage;
+        this.explodeable = reference.explodeable;
+        this.onExplodeSkillCast = reference.onExplodeSkillCast;
+        this.damageRadius = reference.damageRadius;
         this.damage = reference.damage;
-        this.damageTimeCooldown = reference.damageTimeCooldown;
-        this.animation = reference.animation;
+        this.castTime = 0;
+        this.cooldown = reference.cooldown;
         this.speed = reference.speed;
         this.scale = reference.scale;
-        this.damagingEnemies = reference.damagingEnemies;
         this.damagingPlayer = reference.damagingPlayer;
-        // this.damagedEnemyTimeById = new Map<string, number>();
+        this.damagingEnemies = reference.damagingEnemies;
         this.skillName = reference.skillName;
-        this.lastFiredTime = reference.lastFiredTime;
-        this.fireCooldown = reference.fireCooldown;
-        this.timeLasting = reference.timeLasting;
+        this.animation = reference.animation;
     }
-    public getPositionX()
+    public getRotation()
     {
-        return this.positionX;
+        return this.rotation;
     }
-    public getPositionY()
+    public getDamageRadius()
     {
-        return this.positionY;
-    }
-    public getDestinationX()
-    {
-        return this.finalPositionX;
-    }
-    public getDestinationY()
-    {
-        return this.finalPositionY;
-    }
-    public getFireCooldown()
-    {
-        return this.fireCooldown;
-    }
-    public getAngle()
-    {
-        return this.angle;
-    }
-    public getMiddleOffsetMultiplier()
-    {
-        return this.middleOffsetMultiplier;
-    }
-    public getSpaceRadiusDamage()
-    {
-        return this.spaceRadiusDamage;
+        return this.damageRadius;
     }   
     public getSkillAnimation(): SkillAnimation
     {
@@ -136,20 +65,20 @@ export class SkillBase{
     {
         return this.skillName;
     }
-    public getLastFiredTime()
-    {
-        return this.lastFiredTime;
-    }
     public isEnemyDamaged(id: string, gameTime: number)
     {
         const damageTime = this.damagedEnemyTimeById.get(id);
         if(damageTime !== undefined)
         {
-            const cooldownRefreshTime = gameTime + this.damageTimeCooldown;
+            const cooldownRefreshTime = gameTime + this.cooldown;
             if(damageTime > cooldownRefreshTime) return true;
         }
 
         return false;
+    }
+    public addDamageEnemy(id: string, gameTime: number)
+    {
+        this.damagedEnemyTimeById.set(id,gameTime);
     }
     public isDamagingEnemies()
     {
@@ -159,72 +88,63 @@ export class SkillBase{
     {
         return this.damagingPlayer;
     }
+    public isExplodable()
+    {
+        return this.explodeable;
+    }
     public getDamage()
     {
         return this.damage;
-    }
-    public getDamageTimeCooldown()
-    {
-        return this.damageTimeCooldown;
     }
     public getId()
     {
         return this.id;
     }
-    public getScale()
+    public moveUnit(delta: number, miliseconds: number, currentEnemiesHandle: EnemyList)
     {
-        return this.scale;
-    }
-    public getAnchor(): [x: number, y: number]
-    {
-        return [this.anchorX, this.anchorYFinal];
-    }
-    public getTimeLasting(): number
-    {
-        return this.timeLasting;
-    }
-    public moveUnit(delta: number)
-    {
-        if(this.normalizedVectorX !== 0 || this.normalizedVectorY !== 0)
+        if(this.normalizedVectorX !== 0) this.positionX += this.normalizedVectorX * delta * this.speed;
+        if(this.normalizedVectorY !== 0) this.positionY += this.normalizedVectorY * delta * this.speed;
+
+        // Skill damage
+        for(let i = 0; i < currentEnemiesHandle.getList().length; i++)
         {
-            this.positionX += this.normalizedVectorX * delta * this.speed; 
-            this.positionY += this.normalizedVectorY * delta * this.speed; 
+            const enemy = currentEnemiesHandle.getList()[i];
+            const distanceEnemyToSkill = Math.hypot(enemy.getPositionX() - this.positionX, enemy.getPositionY() - this.positionY);
+
+            // TODO: hasExploded() not working
+            if(distanceEnemyToSkill <= this.damageRadius
+                && this.isDamagingEnemies()
+                && !this.isEnemyDamaged(enemy.getId(), miliseconds)
+                && !this.hasExploded())
+            {
+                this.addDamageEnemy(enemy.getId(), miliseconds);
+                enemy.addHp(- this.getDamage());
+                if(this.explodeable) this.explode();
+            }
         }
-        const distanceFromDestinationX = this.finalPositionX - this.positionX;
-        const distanceFromDestinationY = this.finalPositionY - this.positionY;
-
-        const distanceFromDestination = Math.hypot(distanceFromDestinationX, distanceFromDestinationY);
-
-        if(Math.abs(distanceFromDestination) < this.spaceRadiusDamage) this.explode();
 
     }
     public explode(): void
     {
-        // For overriding.     
+        // For overriding. 
+        this.exploded = true;
+    }
+    public hasExploded()
+    {
+        return this.exploded;
     }
     public update(delta: number):void
     {
         // For overriding.     
     }
-    public setAnchor(x: number, y: number)
-    {
-        this.anchorX = x;
-        this.anchorY = y;
-        this.anchorYFinal = y * this.middleOffsetMultiplier;
-    }
     public setRotation(value: number)
     {
         this.rotation = value;
     }
-    public setMiddleOffsetMultiplier(value: number)
-    {
-        this.middleOffsetMultiplier = value;
-        this.anchorYFinal = this.anchorY * this.middleOffsetMultiplier;
-    }
     private recalculateNormalizedVector()
     {
-        const relativeLengthX = this.finalPositionX - this.positionX;
-        const relativeLengthY = this.finalPositionY - this.positionY;
+        const relativeLengthX = this.destinationX - this.positionX;
+        const relativeLengthY = this.destinationY - this.positionY;
         const distance = Math.hypot(relativeLengthX, relativeLengthY);
         if(distance > 0)
         {
@@ -237,14 +157,12 @@ export class SkillBase{
             this.normalizedVectorY = 0;
         }
 
-        this.angle = Math.atan2(this.normalizedVectorY, this.normalizedVectorX);
+        this.rotation = Math.atan2(this.normalizedVectorY, this.normalizedVectorX);
 
     }
-    public setDestination(x: number, y: number)
+    public setAnimation(value: SkillAnimation)
     {
-        this.finalPositionX = x;
-        this.finalPositionY = y;
-        this.recalculateNormalizedVector();
+        this.animation = value;
     }
     public setPosition(x: number, y: number)
     {
@@ -252,52 +170,22 @@ export class SkillBase{
         this.positionY = y;
         this.recalculateNormalizedVector();
     }
-    public setSpaceRadiusDamage(value: number)
+    public setDestination(x: number, y: number)
     {
-        this.spaceRadiusDamage = value;
+        this.destinationX = x;
+        this.destinationY = y;
+        this.recalculateNormalizedVector();
     }
-    public setDamage(value: number)
+    public getPosition()
     {
-        this.damage = value;
+        return [this.positionX, this.positionY];
     }
-    public setDamageTimeCooldown(value: number)
+    public getDestination()
     {
-        this.damageTimeCooldown = value;
+        return [this.destinationX, this.destinationY];
     }
-    public setScale(value: number)
+    public isAlive(miliseconds: number)
     {
-        this.scale = value;
-    }
-    public setDamagingPlayer(value: boolean)
-    {
-        this.damagingPlayer = value;
-    }
-    public setDamagingEnemies(value: boolean)
-    {
-        this.damagingEnemies = value;
-    }
-    public setName(value: string)
-    {
-        this.skillName = value;
-    }
-    public setFireTime(value: number)
-    {
-        this.fireCooldown = value;
-    }
-    public setAnimation(value: SkillAnimation)
-    {
-        this.animation = value;
-    }
-    public addFireTime()
-    {
-        this.lastFiredTime += this.fireCooldown;
-    }
-    public setTimeLasting(value: number)
-    {
-        this.timeLasting = value;
-    }
-    public setSpeed(value: number)
-    {
-        this.speed = value;
+        return this.castTime + this.cooldown < miliseconds;
     }
 }

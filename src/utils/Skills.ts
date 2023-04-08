@@ -1,7 +1,7 @@
 import { SkillBase } from "./SkillBase";
 
 export class SkillThrowable extends SkillBase{
-    constructor(reference: SkillThrowable | null = null)
+    constructor(reference: SkillBase | null = null)
     {
         super(reference);
     }

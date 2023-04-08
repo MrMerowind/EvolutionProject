@@ -51,7 +51,7 @@ export function MainGameComponent(){
             <EnemyComponent miliseconds={miliseconds} delta={deltaTime.current}/>
 
             {/*Skills.*/}
-            <SkillListComponent miliseconds={miliseconds} skillList={ctx.skillListOnScreen}/>
+            <SkillListComponent miliseconds={miliseconds} delta={deltaTime.current}/>
 
             {/*Render UI*/}
             <StatisticsComponent />

@@ -47,6 +47,7 @@ export default class Enemy{
     clone(): Enemy
     {
         const result = new Enemy();
+        result.id = Math.floor(Math.random() * 1000000).toString();
         result.level = this.level;
         result.maxHp = this.maxHp;
         result.currentHp = this.maxHp;

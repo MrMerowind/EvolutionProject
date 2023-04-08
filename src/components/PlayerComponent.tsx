@@ -76,15 +76,25 @@ export default function PlayerComponent(props: PlayerComponentProps) {
     useEffect(() => {
         ctx.skillListAvaliable.getMap().forEach((skill) => {
 
-            const skillCooldownAt = skill.getLastFiredTime() + skill.getFireCooldown();
+            const skillAvailableAt = skill.castTime + skill.cooldown;
+            const nearestEnemyToSkill = ctx.enemyList.getNearest(skill.getPosition()[0], skill.getPosition()[1]);
 
-            if(skillCooldownAt  <= props.miliseconds)
-            {
-                skill.addFireTime();
-                // TODO: Fix here
-                const skillCopy = new SkillThrowable(skill);
-                skillCopy.setPosition(playerPosition[0], playerPosition[1]);
-                ctx.skillListOnScreen.castSkill(skillCopy);
+            const nearestEnemyToPlayer = ctx.enemyList.getNearest(ctx.player.getPosition()[0], ctx.player.getPosition()[1]);
+            if(nearestEnemyToPlayer === null) return;
+            const enemyDistanceToPlayer = Math.hypot(nearestEnemyToPlayer.getPositionX() - ctx.player.getPositionX(),
+                nearestEnemyToPlayer.getPositionY() - ctx.player.getPositionY());
+            const visibleDistanceOnScreen = Math.min(...ctx.screen.getCenter());
+            
+            if(nearestEnemyToSkill !== null && enemyDistanceToPlayer < visibleDistanceOnScreen)
+            {  
+                if(skillAvailableAt <= props.miliseconds)
+                {
+                    skill.castTime = props.miliseconds;
+                    const skillCopy = new SkillBase(skill);
+                    skillCopy.setPosition(playerPosition[0], playerPosition[1]);
+                    skillCopy.setDestination(...nearestEnemyToSkill.getPosition());
+                    ctx.skillListOnScreen.castSkill(skillCopy);
+                }
             }
         });
     }, [props.miliseconds]);

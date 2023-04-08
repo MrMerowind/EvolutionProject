@@ -14,18 +14,17 @@ export default function SkillComponent(props: SkillComponentProps) {
 
     const ctx = useGameManagerStore();
 
-    useTick((delta) => {
+    // Getting nearest enemy
+    const skillPositionX = props.skillData.getPosition()[0];
+    const skillPositionY = props.skillData.getPosition()[1];
 
-        // Getting nearest enemy
-        const skillPositionX = props.skillData.getPositionX();
-        const skillPositionY = props.skillData.getPositionY();
+    const nearestEnemy = ctx.enemyList.getNearest(skillPositionX, skillPositionY);
 
-        const nearestEnemy = ctx.enemyList.getNearest(skillPositionX, skillPositionY);
-
-        if(nearestEnemy) props.skillData.setDestination(...nearestEnemy.getPosition());
-
-        props.skillData.moveUnit(delta);
-    });
+    // Skill following enemy
+    if(nearestEnemy !== null)
+    {
+        props.skillData.setDestination(...nearestEnemy.getPosition());
+    }
 
     const imageRef = props.skillData.getSkillAnimation().getAnimation().imageRef;
 
@@ -35,15 +34,15 @@ export default function SkillComponent(props: SkillComponentProps) {
     const cutRegion = new Rectangle(0, 0, imageRef.width, imageRef.height);
     const cutTexture = new Texture(imageRef, cutRegion);
 
-    const positionOnScreenX = props.skillData.getPositionX() - ctx.camera.getOffsetX();
-    const positionOnScreenY = props.skillData.getPositionY() - ctx.camera.getOffsetY();
-    const finalWidth = imageRef.width * props.skillData.getScale();
-    const finalHeight = imageRef.height * props.skillData.getScale();
+    const positionOnScreenX = props.skillData.getPosition()[0] - ctx.camera.getOffsetX();
+    const positionOnScreenY = props.skillData.getPosition()[1] - ctx.camera.getOffsetY();
+    const finalWidth = imageRef.width * props.skillData.scale;
+    const finalHeight = imageRef.height * props.skillData.scale;
 
     return (
         <>
-            <Sprite texture={cutTexture} width={finalWidth} height={finalHeight} scale={props.skillData.getScale()}
-                x={positionOnScreenX} y={positionOnScreenY} rotation={props.skillData.getAngle()} anchor={props.skillData.getAnchor()} />
+            <Sprite texture={cutTexture} width={finalWidth} height={finalHeight} scale={props.skillData.scale}
+                x={positionOnScreenX} y={positionOnScreenY} rotation={props.skillData.getRotation()} anchor={[props.skillData.anchorX, props.skillData.anchorY]} />
         </>
     );
 }
