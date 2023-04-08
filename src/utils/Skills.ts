@@ -6,3 +6,10 @@ export class SkillThrowable extends SkillBase{
         super(reference);
     }
 }
+
+export class SkillNotMoving extends SkillBase{
+    constructor(reference: SkillBase | null = null)
+    {
+        super(reference);
+    }
+}

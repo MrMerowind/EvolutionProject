@@ -4,7 +4,6 @@ import { AnimationState, Direction, DirectionHorizontal } from "../utils/Types";
 import { AnimationComponent } from "./AnimationComponent";
 import { useTick } from "@pixi/react";
 import { SkillBase } from "../utils/SkillBase";
-import { SkillThrowable } from "../utils/Skills";
 
 
 interface PlayerComponentProps{
@@ -91,6 +90,7 @@ export default function PlayerComponent(props: PlayerComponentProps) {
                 {
                     skill.castTime = props.miliseconds;
                     const skillCopy = new SkillBase(skill);
+                    skillCopy.castTime = props.miliseconds;
                     skillCopy.setPosition(playerPosition[0], playerPosition[1]);
                     skillCopy.setDestination(...nearestEnemyToSkill.getPosition());
                     ctx.skillListOnScreen.castSkill(skillCopy);

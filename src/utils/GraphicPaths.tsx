@@ -36,6 +36,8 @@ export const graphicPath =
     skills:
     {
         magicOrb:
-            serverPath.toString() + "img/Skills/1.png"
+            serverPath.toString() + "img/Skills/1.png",
+        swordVortex:
+            serverPath.toString() + "img/Skills/2.png"
     }
 };

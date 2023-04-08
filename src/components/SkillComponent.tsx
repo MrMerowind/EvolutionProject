@@ -1,7 +1,7 @@
 import React from "react";
 import { SkillBase } from "../utils/SkillBase";
 import { Rectangle, Texture } from "pixi.js";
-import { Sprite, useTick } from "@pixi/react";
+import { Sprite } from "@pixi/react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 
 

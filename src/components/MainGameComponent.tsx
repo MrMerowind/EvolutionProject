@@ -45,13 +45,14 @@ export function MainGameComponent(){
         <AppProvider value={app}>
             {/*Render map*/}
             <MapComponent />
-
+           
+            {/*Skills.*/}
+            <SkillListComponent miliseconds={miliseconds} delta={deltaTime.current}/>
+    
             {/*Render enemies*/}
             {/*Player is rendered in Enemy Component so its z index is correct.*/}
             <EnemyComponent miliseconds={miliseconds} delta={deltaTime.current}/>
 
-            {/*Skills.*/}
-            <SkillListComponent miliseconds={miliseconds} delta={deltaTime.current}/>
 
             {/*Render UI*/}
             <StatisticsComponent />

@@ -1,5 +1,6 @@
 import { SkillAnimation } from "./AnimationData";
 import EnemyList from "./EnemyList";
+import Player from "./Player";
 
 export class SkillBase{
     public anchorX = 0.5;
@@ -15,6 +16,8 @@ export class SkillBase{
     public damagingPlayer = false;
     public damagingEnemies = true;
     public skillName = "Empty";
+    public speaning = false;
+    public destroyAfter = 5000;
     
     private id: string = Math.floor(Math.random() * 1000000).toString();
     private normalizedVectorX = 0;
@@ -40,7 +43,7 @@ export class SkillBase{
         this.onExplodeSkillCast = reference.onExplodeSkillCast;
         this.damageRadius = reference.damageRadius;
         this.damage = reference.damage;
-        this.castTime = 0;
+        this.castTime = reference.castTime;
         this.cooldown = reference.cooldown;
         this.speed = reference.speed;
         this.scale = reference.scale;
@@ -48,6 +51,8 @@ export class SkillBase{
         this.damagingEnemies = reference.damagingEnemies;
         this.skillName = reference.skillName;
         this.animation = reference.animation;
+        this.speaning = reference.speaning;
+        this.destroyAfter = reference.destroyAfter;
     }
     public getRotation()
     {
@@ -100,11 +105,23 @@ export class SkillBase{
     {
         return this.id;
     }
-    public moveUnit(delta: number, miliseconds: number, currentEnemiesHandle: EnemyList)
+    public moveUnit(delta: number, miliseconds: number, currentEnemiesHandle: EnemyList, playerHandle: Player)
     {
-        if(this.normalizedVectorX !== 0) this.positionX += this.normalizedVectorX * delta * this.speed;
-        if(this.normalizedVectorY !== 0) this.positionY += this.normalizedVectorY * delta * this.speed;
-
+        // TODO: Fix this if
+        if(!this.isAlive(miliseconds))
+        {
+            this.explode();
+        }
+        if(this.speaning)
+        {
+            this.setPosition(...playerHandle.getPosition());
+            this.rotation -= Math.PI / 180 * delta * this.speed;
+        }
+        else
+        {
+            if(this.normalizedVectorX !== 0) this.positionX += this.normalizedVectorX * delta * this.speed;
+            if(this.normalizedVectorY !== 0) this.positionY += this.normalizedVectorY * delta * this.speed;
+        }
         // Skill damage
         for(let i = 0; i < currentEnemiesHandle.getList().length; i++)
         {
@@ -133,7 +150,7 @@ export class SkillBase{
     {
         return this.exploded;
     }
-    public update(delta: number):void
+    public update():void
     {
         // For overriding.     
     }
@@ -168,13 +185,13 @@ export class SkillBase{
     {
         this.positionX = x;
         this.positionY = y;
-        this.recalculateNormalizedVector();
+        if(!this.speaning) this.recalculateNormalizedVector();
     }
     public setDestination(x: number, y: number)
     {
         this.destinationX = x;
         this.destinationY = y;
-        this.recalculateNormalizedVector();
+        if(!this.speaning) this.recalculateNormalizedVector();
     }
     public getPosition()
     {
@@ -186,6 +203,7 @@ export class SkillBase{
     }
     public isAlive(miliseconds: number)
     {
-        return this.castTime + this.cooldown < miliseconds;
+        if(this.castTime + this.destroyAfter <= miliseconds) return false;
+        return true;
     }
 }

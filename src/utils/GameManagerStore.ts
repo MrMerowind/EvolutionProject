@@ -13,7 +13,7 @@ import { AnimationSubData, CreatureAnimation, SkillAnimation } from "./Animation
 import UserInterfaceData from "./UserInterfaceData";
 import { StatisticsData } from "./StatisticsData";
 import SkillList from "./SkillList";
-import { SkillThrowable } from "./Skills";
+import { SkillNotMoving, SkillThrowable } from "./Skills";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -177,7 +177,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.statistics.setExpBar(graphic);
         });
 
-        // Loading Skills
+        // Loading Skills Magic orb
         await Assets.load(graphicPath.skills.magicOrb).then((graphic) => {   
             const skill = new SkillThrowable();
             skill.anchorX = 0.5;
@@ -186,8 +186,8 @@ export class GameManagerStore implements IGameManagerStore{
             skill.cooldown = 2000;
             skill.skillName = "Magic orb";
             skill.scale = 0.5;
-            skill.damageRadius = 80;
-            skill.castTime = 1000;
+            skill.damageRadius = 20;
+            skill.castTime = 0;
             skill.damagingEnemies = true;
             skill.damagingPlayer = false;
             skill.explodeable = true;
@@ -204,6 +204,38 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillPrototypes.addSkillPrototype(skill);
             this.skillListAvaliable.addSkillPrototype(new SkillThrowable(skill));
         });
+
+        // Loading Skills Sword vortex
+        await Assets.load(graphicPath.skills.swordVortex).then((graphic) => {   
+            const skill = new SkillNotMoving();
+            skill.anchorX = 0.5;
+            skill.anchorY = 1.1;
+            skill.damage = 1;
+            skill.cooldown = 5000;
+            skill.skillName = "Sword vortex";
+            skill.scale = 0.2;
+            skill.damageRadius = 100;
+            skill.castTime = 0;
+            skill.destroyAfter = 650;
+            skill.damagingEnemies = true;
+            skill.damagingPlayer = false;
+            skill.explodeable = false;
+            skill.speed = 9;
+            skill.speaning = true;
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(1,1,0,0,100,76,450,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            skill.setAnimation(animData);
+
+            this.skillPrototypes.addSkillPrototype(skill);
+            // TODO: Remove next line.
+            this.skillListAvaliable.addSkillPrototype(new SkillNotMoving(skill));
+        });
+
 
     };
 }

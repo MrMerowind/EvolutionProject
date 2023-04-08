@@ -13,9 +13,10 @@ export default function SkillListComponent(props: SkillListComponentProps) {
 
     const result: JSX.Element[] = [];
     ctx.skillListOnScreen.getMap().forEach((skill) => {
-
-        if(skill.isAlive(props.miliseconds) && !skill.hasExploded()) {
-            skill.moveUnit(props.delta, props.miliseconds, ctx.enemyList);
+        
+        skill.moveUnit(props.delta, props.miliseconds, ctx.enemyList, ctx.player);
+        
+        if(!skill.hasExploded()) {
             result.push(<SkillComponent miliseconds={props.miliseconds} skillData={skill} key={skill.getId()}/>);
         }
     });
