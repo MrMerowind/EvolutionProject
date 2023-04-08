@@ -40,10 +40,10 @@ export default function StatisticsComponent() {
     const textDescriptionX = ctx.screen.getWidth() - textOffsetBig;
     const textValueX = ctx.screen.getWidth() - textOffsetSmall;
 
-    const textY = [ctx.screen.getHeight() - 150,
-        ctx.screen.getHeight() - 100,
-        ctx.screen.getHeight() - 70,
-        ctx.screen.getHeight() - 40];
+    const textY = [ctx.screen.getHeight() - 140,
+        ctx.screen.getHeight() - 90,
+        ctx.screen.getHeight() - 60,
+        ctx.screen.getHeight() - 30];
 
     return (
         <>

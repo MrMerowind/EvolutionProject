@@ -2,12 +2,6 @@
 - Read the documentation of used libraries thoroughly to not reinvent the wheel
 -
 
-- Project structure - it's generally a good idea to have `components` directory for components, `utils` for utilities, `helpers` for helpers, `hooks` for hooks etc. You can google `react project structure` for some inspiration. For example in your `GameManagerStoreContext.tsx` you have both hook, component and definition of store context.
-- Configure automatic linting in your IDE, that's the summary from `yarn lint` :
-```
-✖ 38 problems (3 errors, 35 warnings)
-  3 errors and 0 warnings potentially fixable with the `--fix` option.
-```
 - Extract magic numbers to one place e.g. in `Enemy.ts` there's  `if(distance > 4000)`. You can add linting rule for magic numbers `no-magic-numbers`
 - Clean up unused assets and scripts from repository
 - Whitespace - add some linting rules to not have random 3 empty lines etc

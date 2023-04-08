@@ -14,8 +14,6 @@ export default function EnemyComponent(props: EnemyComponentProps) {
 
     const ctx = useGameManagerStore();
 
-    
-
     useEffect(() => {
         if(!ctx.enemyList.isNextWaveReady(props.miliseconds,ctx.map.level))
         {

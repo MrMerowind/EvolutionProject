@@ -3,6 +3,8 @@ import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { AnimationState, Direction, DirectionHorizontal } from "../utils/Types";
 import { AnimationComponent } from "./AnimationComponent";
 import { useTick } from "@pixi/react";
+import { SkillBase } from "../utils/SkillBase";
+import { SkillThrowable } from "../utils/Skills";
 
 
 interface PlayerComponentProps{
@@ -70,6 +72,22 @@ export default function PlayerComponent(props: PlayerComponentProps) {
     const playerOnScreenPositionX = playerPosition[0] - ctx.camera.getOffsetX();
     const playerOnScreenPositionY = playerPosition[1] - ctx.camera.getOffsetY();
 
+
+    useEffect(() => {
+        ctx.skillListAvaliable.getMap().forEach((skill) => {
+
+            const skillCooldownAt = skill.getLastFiredTime() + skill.getFireCooldown();
+
+            if(skillCooldownAt  <= props.miliseconds)
+            {
+                skill.addFireTime();
+                // TODO: Fix here
+                const skillCopy = new SkillThrowable(skill);
+                skillCopy.setPosition(playerPosition[0], playerPosition[1]);
+                ctx.skillListOnScreen.castSkill(skillCopy);
+            }
+        });
+    }, [props.miliseconds]);
 
     return (
         <>

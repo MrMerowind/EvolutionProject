@@ -5,6 +5,7 @@ import MapComponent from "./MapComponent";
 import { LoadingScreenComponent } from "./LoadingScreenComponent";
 import EnemyComponent from "./EnemyComponent";
 import StatisticsComponent from "./StatisticsComponent";
+import SkillListComponent from "./SkillListComponent";
 
 
 
@@ -14,6 +15,7 @@ export function MainGameComponent(){
     const app = useApp();
     const [miliseconds, setMiliseconds] = useState(0);
     const deltaTime = useRef(0);
+    const frameTime = 1000 / 60;
 
 
     useEffect(() => {
@@ -22,7 +24,7 @@ export function MainGameComponent(){
 
     useTick((delta) => {
         deltaTime.current = delta;
-        setMiliseconds(previousTime => previousTime + delta * 1000 / 60);
+        setMiliseconds(previousTime => previousTime + delta * frameTime);
         ctx.camera.moveTowardsPlayer(delta);
     });
 
@@ -47,6 +49,9 @@ export function MainGameComponent(){
             {/*Render enemies*/}
             {/*Player is rendered in Enemy Component so its z index is correct.*/}
             <EnemyComponent miliseconds={miliseconds} delta={deltaTime.current}/>
+
+            {/*Skills.*/}
+            <SkillListComponent miliseconds={miliseconds} skillList={ctx.skillListOnScreen}/>
 
             {/*Render UI*/}
             <StatisticsComponent />

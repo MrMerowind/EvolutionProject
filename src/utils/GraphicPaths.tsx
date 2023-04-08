@@ -11,7 +11,7 @@ export const graphicPath =
         walk:
             serverPath.toString() + "img/MainCharacter/player_walk.png",
         hpAboveHead:
-            serverPath.toString() + "img/HealthBar/hpAboveHeadPlayer.png",
+            serverPath.toString() + "img/HealthBar/hpAboveHeadPlayer.png"
 
     },
     mapFolder:
@@ -32,5 +32,10 @@ export const graphicPath =
             serverPath.toString() + "img/HealthBar/statisticsHealth.png",
         exp:
             serverPath.toString() + "img/HealthBar/statisticsExp.png"
+    },
+    skills:
+    {
+        magicOrb:
+            serverPath.toString() + "img/Skills/1.png"
     }
 };

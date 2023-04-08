@@ -9,9 +9,11 @@ import GameMap from "./Map";
 import LoadingScreen from "./LoadingScreen";
 import EnemyList from "./EnemyList";
 import Enemy from "./Enemy";
-import { AnimationData } from "./AnimationData";
+import { AnimationSubData, CreatureAnimation, SkillAnimation } from "./AnimationData";
 import UserInterfaceData from "./UserInterfaceData";
 import { StatisticsData } from "./StatisticsData";
+import SkillList from "./SkillList";
+import { SkillThrowable } from "./Skills";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -28,6 +30,9 @@ export interface IGameManagerStore{
     enemyPrototypes: EnemyList;
     enemyList: EnemyList;
     userInterfaceData: UserInterfaceData;
+    skillPrototypes: SkillList;
+    skillListAvaliable: SkillList;
+    skillListOnScreen: SkillList;
 }
 
 export class GameManagerStore implements IGameManagerStore{
@@ -41,6 +46,9 @@ export class GameManagerStore implements IGameManagerStore{
     public enemyList: EnemyList;
     public userInterfaceData: UserInterfaceData;
     public statistics: StatisticsData;
+    public skillPrototypes: SkillList;
+    public skillListAvaliable: SkillList;
+    public skillListOnScreen: SkillList;
 
     constructor(gameData: GameManagerStore | null = null)
     {
@@ -56,6 +64,9 @@ export class GameManagerStore implements IGameManagerStore{
             this.enemyList = gameData.enemyList;
             this.userInterfaceData = gameData.userInterfaceData;
             this.statistics = gameData.statistics;
+            this.skillListAvaliable = gameData.skillListAvaliable;
+            this.skillListOnScreen = gameData.skillListOnScreen;
+            this.skillPrototypes = gameData.skillPrototypes;
         }
         else
         {
@@ -75,6 +86,9 @@ export class GameManagerStore implements IGameManagerStore{
             this.enemyList = new EnemyList();
             this.userInterfaceData = new UserInterfaceData();
             this.statistics = new StatisticsData();
+            this.skillListAvaliable = new SkillList();
+            this.skillListOnScreen = new SkillList();
+            this.skillPrototypes = new SkillList();
 
             this.loadData().then(() => {
                 this.camera.setGameScreenHandle(this.screen);
@@ -95,6 +109,7 @@ export class GameManagerStore implements IGameManagerStore{
         }).then(() => this.loadingScreen.isLoaded = true);
     };
 
+    // TODO: Rewrite reading from JSON file
     loadData = async() =>
     {
         // Loading player
@@ -118,9 +133,9 @@ export class GameManagerStore implements IGameManagerStore{
         await Assets.load(graphicPath.enemies + "1_attack.png").then((graphic) => {
             //Enemy 1
             const enemyPointer = new Enemy();
-            const animDataAttacking = new AnimationData();
-            const animDataStanding = new AnimationData();
-            const animDataWalking = new AnimationData();
+            const animDataAttacking = new CreatureAnimation();
+            const animDataStanding = new CreatureAnimation();
+            const animDataWalking = new CreatureAnimation();
             animDataAttacking.getAnimation(Direction.up).setData(13,4,0,12,60,832,256,graphic);
             animDataAttacking.getAnimation(Direction.left).setData(13,4,13,25,60,832,256,graphic);
             animDataAttacking.getAnimation(Direction.right).setData(13,4,26,38,60,832,256,graphic);
@@ -160,6 +175,32 @@ export class GameManagerStore implements IGameManagerStore{
         });
         await Assets.load(graphicPath.statistics.exp).then((graphic) => {   
             this.statistics.setExpBar(graphic);
+        });
+
+        // Loading Skills
+        await Assets.load(graphicPath.skills.magicOrb).then((graphic) => {   
+            const skill = new SkillThrowable();
+            skill.setAnchor(0.5,0.5);
+            skill.setDamage(1);
+            skill.setDamageTimeCooldown(1);
+            skill.setMiddleOffsetMultiplier(1);
+            skill.setName("Magic orb");
+            skill.setScale(0.5);
+            skill.setSpaceRadiusDamage(70);
+            skill.setFireTime(5000);
+            skill.setTimeLasting(5000);
+            skill.setSpeed(20);
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(1,1,0,0,100,76,73,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            skill.setAnimation(animData);
+
+            this.skillPrototypes.addSkillPrototype(skill);
+            this.skillListAvaliable.addSkillPrototype(new SkillThrowable(skill));
         });
 
     };

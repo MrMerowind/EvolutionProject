@@ -40,7 +40,7 @@ export class AnimationSubData{
 
 }
 
-export class AnimationData{
+export class CreatureAnimation{
     animationLeft: AnimationSubData;
     animationRight: AnimationSubData;
     animationUp: AnimationSubData;
@@ -72,6 +72,26 @@ export class AnimationData{
         default:
             throw new Error("AnimationData direction is null");
         }
+    }
+    
+}
+
+export class SkillAnimation{
+    animation: AnimationSubData;
+
+    constructor()
+    {
+        this.animation = new AnimationSubData();
+    }
+
+    public getAnimation(): AnimationSubData
+    {
+        return this.animation;
+    }
+
+    public setAnimation(value: AnimationSubData)
+    {
+        this.animation = value;
     }
     
 }

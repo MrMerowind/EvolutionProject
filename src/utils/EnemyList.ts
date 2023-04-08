@@ -25,6 +25,23 @@ export default class EnemyList{
     {
         return this.currentWave;
     }
+    public getNearest(fromX: number, fromY: number): Enemy | null
+    {
+        if(this.enemies.length < 1) return null;
+        let distanceLowest = Math.hypot(this.enemies[0].getPositionX() - fromX, this.enemies[0].getPositionY() - fromY);
+        let idFound = 0;
+        for(let i = 1; i < this.enemies.length; i++)
+        {
+            const nextDistance = Math.hypot(this.enemies[i].getPositionX() - fromX, this.enemies[i].getPositionY() - fromY);
+            if(distanceLowest > nextDistance)
+            {
+                distanceLowest = nextDistance;
+                idFound = i;
+            }
+        }
+
+        return this.enemies[idFound];
+    }
     public nextWave(currentTime: number): void
     {
         this.lastWaveTime = currentTime;

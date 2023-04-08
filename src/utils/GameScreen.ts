@@ -52,8 +52,8 @@ export class GameScreen{
         if(window.screen.width === undefined ||
             window.screen.height === undefined) return;
 
-        this.width = window.innerWidth * 0.9;
-        this.height = window.innerHeight * 0.9;
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
 
         if(this.width < 0 || this.height < 0) throw new Error("GameScreen auto size invalid");
     }

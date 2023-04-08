@@ -1,4 +1,4 @@
-import { AnimationData } from "./AnimationData";
+import { CreatureAnimation } from "./AnimationData";
 import EnemyList from "./EnemyList";
 import { AnimationState } from "./Types";
 
@@ -17,9 +17,9 @@ export default class Player{
     public readonly scale = 1;
     public readonly speed = 5;
 
-    private animationDataWalking: AnimationData;
-    private animationDataAttacking: AnimationData;
-    private animationDataStanding: AnimationData;
+    private animationDataWalking: CreatureAnimation;
+    private animationDataAttacking: CreatureAnimation;
+    private animationDataStanding: CreatureAnimation;
 
     constructor()
     {
@@ -33,15 +33,15 @@ export default class Player{
         this.points = 0;
         this.positionX = 0;
         this.positionY = 0;
-        this.animationDataWalking = new AnimationData();
-        this.animationDataAttacking = new AnimationData();
-        this.animationDataStanding = new AnimationData();
+        this.animationDataWalking = new CreatureAnimation();
+        this.animationDataAttacking = new CreatureAnimation();
+        this.animationDataStanding = new CreatureAnimation();
     }
     public getSpaceRadius(): number
     {
         return this.spaceRadius;
     }
-    public getAnimationData(animationState: AnimationState): AnimationData
+    public getAnimationData(animationState: AnimationState): CreatureAnimation
     {
         switch(animationState)
         {

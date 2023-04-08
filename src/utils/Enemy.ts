@@ -1,4 +1,4 @@
-import { AnimationData } from "./AnimationData";
+import { CreatureAnimation } from "./AnimationData";
 import { AnimationState, Direction, DirectionHorizontal } from "./Types";
 import Player from "./Player";
 import EnemyList from "./EnemyList";
@@ -19,9 +19,9 @@ export default class Enemy{
     private speed: number;
     private spaceRadius: number;
 
-    private animationDataWalking: AnimationData;
-    private animationDataAttacking: AnimationData;
-    private animationDataStanding: AnimationData;
+    private animationDataWalking: CreatureAnimation;
+    private animationDataAttacking: CreatureAnimation;
+    private animationDataStanding: CreatureAnimation;
 
     constructor()
     {
@@ -40,9 +40,9 @@ export default class Enemy{
         this.animationState = AnimationState.walking;
         this.spaceRadius = 30;
 
-        this.animationDataAttacking = new AnimationData();
-        this.animationDataWalking = new AnimationData();
-        this.animationDataStanding = new AnimationData();
+        this.animationDataAttacking = new CreatureAnimation();
+        this.animationDataWalking = new CreatureAnimation();
+        this.animationDataStanding = new CreatureAnimation();
     }
     clone(): Enemy
     {
@@ -65,7 +65,7 @@ export default class Enemy{
         result.spaceRadius = this.spaceRadius;
         return result;
     }
-    public getAnimationData(animationState: AnimationState): AnimationData
+    public getAnimationData(animationState: AnimationState): CreatureAnimation
     {
         switch(animationState)
         {
@@ -289,8 +289,8 @@ export default class Enemy{
     }
     public createPrototype(level: number, maxHp: number, damage: number,
         expReward: number, scale: number, speed: number,
-        animationDataStanding: AnimationData, animationDataWalking: AnimationData,
-        animationDataAttacking: AnimationData, spaceRadius = 30): void
+        animationDataStanding: CreatureAnimation, animationDataWalking: CreatureAnimation,
+        animationDataAttacking: CreatureAnimation, spaceRadius = 30): void
     {
         this.level = level;
         this.maxHp = maxHp;

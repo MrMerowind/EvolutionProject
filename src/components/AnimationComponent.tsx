@@ -2,12 +2,12 @@
 import { Texture, Rectangle} from "pixi.js";
 import { Sprite } from "@pixi/react";
 import { AnimationState, Direction, DirectionHorizontal } from "../utils/Types";
-import { AnimationData, AnimationSubData } from "../utils/AnimationData";
+import { CreatureAnimation, AnimationSubData } from "../utils/AnimationData";
 
 interface AnimationComponentProps{
-    animationDataWalking: AnimationData;
-    animationDataAttacking: AnimationData;
-    animationDataStanding: AnimationData;
+    animationDataWalking: CreatureAnimation;
+    animationDataAttacking: CreatureAnimation;
+    animationDataStanding: CreatureAnimation;
     
     animationState: AnimationState;
     facedDirection: Direction;
@@ -22,7 +22,7 @@ interface AnimationComponentProps{
 
 export function AnimationComponent(props: AnimationComponentProps) {
 
-    let animDataChosen: AnimationData;
+    let animDataChosen: CreatureAnimation;
     let reversed = false;
 
     switch(props.animationState)
