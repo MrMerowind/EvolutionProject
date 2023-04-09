@@ -32,8 +32,22 @@ export default function EnemyComponent(props: EnemyComponentProps) {
                     const randomBorder = Math.floor(Math.random() * 4);
 
                     const maxScreenAxisLength = Math.max(...ctx.screen.getSize());
-                    const spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % 2 === 0 ? -1 : 1) * (randomBorder < 2 ? 1 : Math.random());
-                    const spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < 2 ? -1 : 1) * (randomBorder >= 2 ? 1 : Math.random());
+                    let spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % 2 === 0 ? -1 : 1) * (randomBorder < 2 ? 1 : Math.random());
+                    let spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < 2 ? -1 : 1) * (randomBorder >= 2 ? 1 : Math.random());
+
+                    // Preventing spawning on another
+                    const loop = true;
+                    while(loop)
+                    {
+                        const nearestEnemy = ctx.enemyList.getNearest(spawnPositionX, spawnPositionY);
+                        if(nearestEnemy === null) break;
+                        const enemiesDistance = Math.hypot(nearestEnemy.getPositionX() - spawnPositionX, nearestEnemy.getPositionY() - spawnPositionY);
+                        const minDistance = Math.max(objClone.getSpaceRadius(), nearestEnemy.getSpaceRadius());
+                        if(enemiesDistance > minDistance) break;
+                        
+                        spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % 2 === 0 ? -1 : 1) * (randomBorder < 2 ? 1 : Math.random());
+                        spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < 2 ? -1 : 1) * (randomBorder >= 2 ? 1 : Math.random());
+                    }
 
                     objClone.setPositionX(spawnPositionX);
                     objClone.setPositionY(spawnPositionY);
