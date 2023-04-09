@@ -218,46 +218,46 @@ export class GameManagerStore implements IGameManagerStore{
                             enemy.graphics.walk.graphicWidth,
                             enemy.graphics.walk.graphicHeight,
                             graphic2);
-                    if(enemy.graphics.walk.up)
+                    if(enemy.graphics.attack.up)
                         animDataStanding.getAnimation(Direction.up).setData(
-                            enemy.graphics.walk.framesHorizontal,
-                            enemy.graphics.walk.framesVertical,
-                            enemy.graphics.walk.up.frameStart,
-                            enemy.graphics.walk.up.frameStart,
-                            enemy.graphics.walk.speed,
-                            enemy.graphics.walk.graphicWidth,
-                            enemy.graphics.walk.graphicHeight,
+                            enemy.graphics.attack.framesHorizontal,
+                            enemy.graphics.attack.framesVertical,
+                            enemy.graphics.attack.up.frameStart,
+                            enemy.graphics.attack.up.frameStart,
+                            enemy.graphics.attack.speed,
+                            enemy.graphics.attack.graphicWidth,
+                            enemy.graphics.attack.graphicHeight,
                             graphic2);
-                    if(enemy.graphics.walk.left)
+                    if(enemy.graphics.attack.left)
                         animDataStanding.getAnimation(Direction.left).setData(
-                            enemy.graphics.walk.framesHorizontal,
-                            enemy.graphics.walk.framesVertical,
-                            enemy.graphics.walk.left.frameStart,
-                            enemy.graphics.walk.left.frameStart,
-                            enemy.graphics.walk.speed,
-                            enemy.graphics.walk.graphicWidth,
-                            enemy.graphics.walk.graphicHeight,
+                            enemy.graphics.attack.framesHorizontal,
+                            enemy.graphics.attack.framesVertical,
+                            enemy.graphics.attack.left.frameStart,
+                            enemy.graphics.attack.left.frameStart,
+                            enemy.graphics.attack.speed,
+                            enemy.graphics.attack.graphicWidth,
+                            enemy.graphics.attack.graphicHeight,
                             graphic2);
-                    if(enemy.graphics.walk.right)
+                    if(enemy.graphics.attack.right)
                         animDataStanding.getAnimation(Direction.right).setData(
-                            enemy.graphics.walk.framesHorizontal,
-                            enemy.graphics.walk.framesVertical,
-                            enemy.graphics.walk.right.frameStart,
-                            enemy.graphics.walk.right.frameStart,
-                            enemy.graphics.walk.speed,
-                            enemy.graphics.walk.graphicWidth,
-                            enemy.graphics.walk.graphicHeight,
+                            enemy.graphics.attack.framesHorizontal,
+                            enemy.graphics.attack.framesVertical,
+                            enemy.graphics.attack.right.frameStart,
+                            enemy.graphics.attack.right.frameStart,
+                            enemy.graphics.attack.speed,
+                            enemy.graphics.attack.graphicWidth,
+                            enemy.graphics.attack.graphicHeight,
                             graphic2);
 
-                    if(enemy.graphics.walk.down)
+                    if(enemy.graphics.attack.down)
                         animDataStanding.getAnimation(Direction.down).setData(
-                            enemy.graphics.walk.framesHorizontal,
-                            enemy.graphics.walk.framesVertical,
-                            enemy.graphics.walk.down.frameStart,
-                            enemy.graphics.walk.down.frameStart,
-                            enemy.graphics.walk.speed,
-                            enemy.graphics.walk.graphicWidth,
-                            enemy.graphics.walk.graphicHeight,
+                            enemy.graphics.attack.framesHorizontal,
+                            enemy.graphics.attack.framesVertical,
+                            enemy.graphics.attack.down.frameStart,
+                            enemy.graphics.attack.down.frameStart,
+                            enemy.graphics.attack.speed,
+                            enemy.graphics.attack.graphicWidth,
+                            enemy.graphics.attack.graphicHeight,
                             graphic2);
                 });
     

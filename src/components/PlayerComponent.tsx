@@ -75,6 +75,8 @@ export default function PlayerComponent(props: PlayerComponentProps) {
     useEffect(() => {
         ctx.skillListAvaliable.getMap().forEach((skill) => {
 
+
+            // TODO: Maybe agility lowers cooldown
             const skillAvailableAt = skill.castTime + skill.cooldown;
             const nearestEnemyToSkill = ctx.enemyList.getNearest(skill.getPosition()[0], skill.getPosition()[1]);
 

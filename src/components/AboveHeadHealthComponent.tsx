@@ -31,8 +31,7 @@ export default function AboveHeadHealthComponent(props: AboveHeadComponentProps)
 
     if(imageRef === null) return null;
     if(percentageCopy <= 0) percentageCopy = 0;
-    if(percentageCopy > 100) percentageCopy = 100;
-
+    if(percentageCopy >= 100) return null;
 
     const cutRegion = new Rectangle(0, 0, imageRef.width, imageRef.height);
     const cutTexture = new Texture(imageRef, cutRegion);

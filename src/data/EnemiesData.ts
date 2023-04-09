@@ -50,7 +50,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 3, level: 2, hp: 2, damage: 1, exp: 2, scale: 1, speed: 3, space: 30,
+        id: 3, level: 2, hp: 2, damage: 1, exp: 2, scale: 2, speed: 3, space: 30,
         graphics:
         {
             attack:
@@ -122,7 +122,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 7, level: 1, hp: 1, damage: 1, exp: 1, scale: 1, speed: 3, space: 60,
+        id: 7, level: 4, hp: 1, damage: 1, exp: 1, scale: 1, speed: 3, space: 60,
         graphics:
         {
             attack:
@@ -140,7 +140,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 8, level: 1, hp: 1, damage: 1, exp: 1, scale: 1, speed: 3, space: 20,
+        id: 8, level: 4, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
         graphics:
         {
             attack:
@@ -153,6 +153,294 @@ export const enemiesData = [
             {
                 path: graphicPath.enemies + "8_walk.png",
                 framesHorizontal: 8, framesVertical: 1, graphicWidth: 848, graphicHeight: 22, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 9, level: 5, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "9_attack.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "9_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 10, level: 5, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "10_attack.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "10_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 11, level: 6, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "11_attack.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "11_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 12, level: 6, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "12_attack.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "12_walk.png",
+                framesHorizontal: 4, framesVertical: 1, graphicWidth: 600, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 3}
+            }  
+        },
+    },
+    {
+        id: 13, level: 7, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "13_attack.png",
+                framesHorizontal: 4, framesVertical: 1, graphicWidth: 540, graphicHeight: 135, speed: 80,
+                right:{frameStart: 0, frameEnd: 3}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "13_walk.png",
+                framesHorizontal: 6, framesVertical: 1, graphicWidth: 810, graphicHeight: 135, speed: 80,
+                right:{frameStart: 0, frameEnd: 5}
+            }  
+        },
+    },
+    {
+        id: 14, level: 7, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "14_attack.png",
+                framesHorizontal: 4, framesVertical: 1, graphicWidth: 600, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 3}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "14_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 15, level: 8, hp: 1, damage: 1, exp: 1, scale: 1, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "15_attack.png",
+                framesHorizontal: 4, framesVertical: 1, graphicWidth: 736, graphicHeight: 137, speed: 80,
+                right:{frameStart: 0, frameEnd: 3}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "15_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1472, graphicHeight: 137, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 16, level: 8, hp: 1, damage: 1, exp: 1, scale: 1, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "16_attack.png",
+                framesHorizontal: 6, framesVertical: 1, graphicWidth: 930, graphicHeight: 155, speed: 80,
+                right:{frameStart: 0, frameEnd: 5}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "16_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1240, graphicHeight: 155, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 17, level: 9, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "17_attack.png",
+                framesHorizontal: 4, framesVertical: 1, graphicWidth: 800, graphicHeight: 200, speed: 80,
+                right:{frameStart: 0, frameEnd: 3}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "17_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1600, graphicHeight: 200, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 18, level: 9, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "18_all.png",
+                framesHorizontal: 8, framesVertical: 5, graphicWidth: 384, graphicHeight: 240, speed: 80,
+                left:{frameStart: 16, frameEnd: 23}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "18_all.png",
+                framesHorizontal: 8, framesVertical: 5, graphicWidth: 384, graphicHeight: 240, speed: 80,
+                left:{frameStart: 8, frameEnd: 15}
+            }  
+        },
+    },
+    {
+        id: 19, level: 10, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "19_attack.png",
+                framesHorizontal: 6, framesVertical: 1, graphicWidth: 600, graphicHeight: 100, speed: 80,
+                right:{frameStart: 0, frameEnd: 5}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "19_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 800, graphicHeight: 100, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 20, level: 10, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "20_attack.png",
+                framesHorizontal: 5, framesVertical: 1, graphicWidth: 750, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 4}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "20_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 21, level: 11, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "21_attack.png",
+                framesHorizontal: 6, framesVertical: 1, graphicWidth: 840, graphicHeight: 140, speed: 80,
+                right:{frameStart: 0, frameEnd: 5}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "21_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1120, graphicHeight: 140, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 22, level: 11, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "22_attack.png",
+                framesHorizontal: 7, framesVertical: 1, graphicWidth: 1260, graphicHeight: 180, speed: 80,
+                right:{frameStart: 0, frameEnd: 6}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "22_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1440, graphicHeight: 180, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 26, level: 12, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "26_attack.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 2000, graphicHeight: 250, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "26_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 2000, graphicHeight: 250, speed: 80,
+                right:{frameStart: 0, frameEnd: 7}
+            }  
+        },
+    },
+    {
+        id: 27, level: 12, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        graphics:
+        {
+            attack:
+            {
+                path: graphicPath.enemies + "27_attack.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
+                right:{frameStart: 0, frameEnd:7}
+            },  
+            walk:
+            {
+                path: graphicPath.enemies + "27_walk.png",
+                framesHorizontal: 8, framesVertical: 1, graphicWidth: 1200, graphicHeight: 150, speed: 80,
                 right:{frameStart: 0, frameEnd: 7}
             }  
         },
