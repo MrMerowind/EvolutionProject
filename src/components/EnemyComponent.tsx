@@ -26,7 +26,7 @@ export default function EnemyComponent(props: EnemyComponentProps) {
         ctx.enemyPrototypes.getList().forEach(enemy => {
             if(enemy.getLevel() === ctx.map.level)
             {
-                for(let i = 0; i < ctx.map.level * 10; i++)
+                for(let i = 0; i < ctx.map.level * 5; i++)
                 {
                     const objClone = enemy.clone();
                     const randomBorder = Math.floor(Math.random() * 4);

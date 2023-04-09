@@ -51,6 +51,7 @@ export default function StatisticsComponent() {
 
     const buttonSize = 20;
     const buttonX = textValueX + 5;
+    const hpY = ctx.screen.getHeight() - 15;
 
     return (
         <>
@@ -64,7 +65,7 @@ export default function StatisticsComponent() {
 
             {/* Health and exp*/}
             <Sprite texture={cutTextureHpBar} width={imageRefHpBar.width} height={hpBarHeight}
-                x={ctx.screen.getWidth() - 325} y={ctx.screen.getHeight() - 20} rotation={0} anchor={[1,1]}/> 
+                x={ctx.screen.getWidth() - 325} y={hpY} rotation={0} anchor={[1,1]}/> 
             <Sprite texture={cutTextureExpBar} width={imageRefExpBar.width} height={expBarHeiht}
                 x={ctx.screen.getWidth() - 200} y={ctx.screen.getHeight()} rotation={0} anchor={[1,1]}/> 
 

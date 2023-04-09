@@ -76,9 +76,8 @@ export class SkillBase{
         if(damageTime !== undefined)
         {
             const cooldownRefreshTime = gameTime + this.cooldown;
-            if(damageTime > cooldownRefreshTime) return true;
+            if(damageTime <= cooldownRefreshTime) return true;
         }
-
         return false;
     }
     public addDamageEnemy(id: string, gameTime: number)
@@ -128,7 +127,6 @@ export class SkillBase{
             const enemy = currentEnemiesHandle.getList()[i];
             const distanceEnemyToSkill = Math.hypot(enemy.getPositionX() - this.positionX, enemy.getPositionY() - this.positionY);
 
-            // TODO: hasExploded() not working
             if(distanceEnemyToSkill <= this.damageRadius
                 && this.isDamagingEnemies()
                 && !this.isEnemyDamaged(enemy.getId(), miliseconds)

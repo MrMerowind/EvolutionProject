@@ -3,7 +3,7 @@ import { makeAutoObservable } from "mobx";
 import Player from "./Player";
 import { GameCamera } from "./GameCamera";
 import { GameScreen } from "./GameScreen";
-import { graphicPath } from "./GraphicPaths";
+import { graphicPath } from "../data/GraphicPaths";
 import { AnimationState, Direction } from "./Types";
 import GameMap from "./Map";
 import LoadingScreen from "./LoadingScreen";
@@ -14,6 +14,7 @@ import UserInterfaceData from "./UserInterfaceData";
 import { StatisticsData } from "./StatisticsData";
 import SkillList from "./SkillList";
 import { SkillNotMoving, SkillThrowable } from "./Skills";
+import { enemiesData } from "../data/EnemiesData";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -128,33 +129,151 @@ export class GameManagerStore implements IGameManagerStore{
             });
         }
 
-        // TODO: Save this data to a file and load acordingly
         // Loading enemies
-        await Assets.load(graphicPath.enemies + "1_attack.png").then((graphic) => {
-            //Enemy 1
-            const enemyPointer = new Enemy();
-            const animDataAttacking = new CreatureAnimation();
-            const animDataStanding = new CreatureAnimation();
-            const animDataWalking = new CreatureAnimation();
-            animDataAttacking.getAnimation(Direction.up).setData(13,4,0,12,60,832,256,graphic);
-            animDataAttacking.getAnimation(Direction.left).setData(13,4,13,25,60,832,256,graphic);
-            animDataAttacking.getAnimation(Direction.right).setData(13,4,26,38,60,832,256,graphic);
-            animDataAttacking.getAnimation(Direction.down).setData(13,4,39,51,60,832,256,graphic);
+        enemiesData.forEach(async(enemy) => {
+            await Assets.load(enemy.graphics.attack.path).then((graphic) => {
+                const enemyPointer = new Enemy();
+                const animDataAttacking = new CreatureAnimation();
+                const animDataStanding = new CreatureAnimation();
+                const animDataWalking = new CreatureAnimation();
+                if(enemy.graphics.attack.up)
+                    animDataAttacking.getAnimation(Direction.up).setData(
+                        enemy.graphics.attack.framesHorizontal,
+                        enemy.graphics.attack.framesVertical,
+                        enemy.graphics.attack.up.frameStart,
+                        enemy.graphics.attack.up.frameEnd,
+                        enemy.graphics.attack.speed,
+                        enemy.graphics.attack.graphicWidth,
+                        enemy.graphics.attack.graphicHeight,
+                        graphic);
+                if(enemy.graphics.attack.left)
+                    animDataAttacking.getAnimation(Direction.left).setData(
+                        enemy.graphics.attack.framesHorizontal,
+                        enemy.graphics.attack.framesVertical,
+                        enemy.graphics.attack.left.frameStart,
+                        enemy.graphics.attack.left.frameEnd,
+                        enemy.graphics.attack.speed,
+                        enemy.graphics.attack.graphicWidth,
+                        enemy.graphics.attack.graphicHeight,
+                        graphic);
+                if(enemy.graphics.attack.right)
+                    animDataAttacking.getAnimation(Direction.right).setData(
+                        enemy.graphics.attack.framesHorizontal,
+                        enemy.graphics.attack.framesVertical,
+                        enemy.graphics.attack.right.frameStart,
+                        enemy.graphics.attack.right.frameEnd,
+                        enemy.graphics.attack.speed,
+                        enemy.graphics.attack.graphicWidth,
+                        enemy.graphics.attack.graphicHeight,
+                        graphic);
+                if(enemy.graphics.attack.down)
+                    animDataAttacking.getAnimation(Direction.down).setData(
+                        enemy.graphics.attack.framesHorizontal,
+                        enemy.graphics.attack.framesVertical,
+                        enemy.graphics.attack.down.frameStart,
+                        enemy.graphics.attack.down.frameEnd,
+                        enemy.graphics.attack.speed,
+                        enemy.graphics.attack.graphicWidth,
+                        enemy.graphics.attack.graphicHeight,
+                        graphic);
+    
+                Assets.load(enemy.graphics.walk.path).then((graphic2) => {
+                    if(enemy.graphics.walk.up)
+                        animDataWalking.getAnimation(Direction.up).setData(
+                            enemy.graphics.walk.framesHorizontal,
+                            enemy.graphics.walk.framesVertical,
+                            enemy.graphics.walk.up.frameStart,
+                            enemy.graphics.walk.up.frameEnd,
+                            enemy.graphics.walk.speed,
+                            enemy.graphics.walk.graphicWidth,
+                            enemy.graphics.walk.graphicHeight,
+                            graphic2);
+                    if(enemy.graphics.walk.left)
+                        animDataWalking.getAnimation(Direction.left).setData(
+                            enemy.graphics.walk.framesHorizontal,
+                            enemy.graphics.walk.framesVertical,
+                            enemy.graphics.walk.left.frameStart,
+                            enemy.graphics.walk.left.frameEnd,
+                            enemy.graphics.walk.speed,
+                            enemy.graphics.walk.graphicWidth,
+                            enemy.graphics.walk.graphicHeight,
+                            graphic2);
+                    if(enemy.graphics.walk.right)
+                        animDataWalking.getAnimation(Direction.right).setData(
+                            enemy.graphics.walk.framesHorizontal,
+                            enemy.graphics.walk.framesVertical,
+                            enemy.graphics.walk.right.frameStart,
+                            enemy.graphics.walk.right.frameEnd,
+                            enemy.graphics.walk.speed,
+                            enemy.graphics.walk.graphicWidth,
+                            enemy.graphics.walk.graphicHeight,
+                            graphic2);
+                    if(enemy.graphics.walk.down)
+                        animDataWalking.getAnimation(Direction.down).setData(
+                            enemy.graphics.walk.framesHorizontal,
+                            enemy.graphics.walk.framesVertical,
+                            enemy.graphics.walk.down.frameStart,
+                            enemy.graphics.walk.down.frameEnd,
+                            enemy.graphics.walk.speed,
+                            enemy.graphics.walk.graphicWidth,
+                            enemy.graphics.walk.graphicHeight,
+                            graphic2);
+                    if(enemy.graphics.walk.up)
+                        animDataStanding.getAnimation(Direction.up).setData(
+                            enemy.graphics.walk.framesHorizontal,
+                            enemy.graphics.walk.framesVertical,
+                            enemy.graphics.walk.up.frameStart,
+                            enemy.graphics.walk.up.frameStart,
+                            enemy.graphics.walk.speed,
+                            enemy.graphics.walk.graphicWidth,
+                            enemy.graphics.walk.graphicHeight,
+                            graphic2);
+                    if(enemy.graphics.walk.left)
+                        animDataStanding.getAnimation(Direction.left).setData(
+                            enemy.graphics.walk.framesHorizontal,
+                            enemy.graphics.walk.framesVertical,
+                            enemy.graphics.walk.left.frameStart,
+                            enemy.graphics.walk.left.frameStart,
+                            enemy.graphics.walk.speed,
+                            enemy.graphics.walk.graphicWidth,
+                            enemy.graphics.walk.graphicHeight,
+                            graphic2);
+                    if(enemy.graphics.walk.right)
+                        animDataStanding.getAnimation(Direction.right).setData(
+                            enemy.graphics.walk.framesHorizontal,
+                            enemy.graphics.walk.framesVertical,
+                            enemy.graphics.walk.right.frameStart,
+                            enemy.graphics.walk.right.frameStart,
+                            enemy.graphics.walk.speed,
+                            enemy.graphics.walk.graphicWidth,
+                            enemy.graphics.walk.graphicHeight,
+                            graphic2);
 
-            Assets.load(graphicPath.enemies + "1_walk.png").then((graphic2) => {
-                animDataWalking.getAnimation(Direction.up).setData(10,4,0,9,60,640,256,graphic2);
-                animDataWalking.getAnimation(Direction.left).setData(10,4,10,19,60,640,256,graphic2);
-                animDataWalking.getAnimation(Direction.right).setData(10,4,20,29,60,640,256,graphic2);
-                animDataWalking.getAnimation(Direction.down).setData(10,4,30,39,60,640,256,graphic2);
-                
-                animDataStanding.getAnimation(Direction.up).setData(10,4,0,0,60,640,256,graphic2);
-                animDataStanding.getAnimation(Direction.left).setData(10,4,10,10,60,640,256,graphic2);
-                animDataStanding.getAnimation(Direction.right).setData(10,4,20,20,60,640,256,graphic2);
-                animDataStanding.getAnimation(Direction.down).setData(10,4,30,30,60,640,256,graphic2);
+                    if(enemy.graphics.walk.down)
+                        animDataStanding.getAnimation(Direction.down).setData(
+                            enemy.graphics.walk.framesHorizontal,
+                            enemy.graphics.walk.framesVertical,
+                            enemy.graphics.walk.down.frameStart,
+                            enemy.graphics.walk.down.frameStart,
+                            enemy.graphics.walk.speed,
+                            enemy.graphics.walk.graphicWidth,
+                            enemy.graphics.walk.graphicHeight,
+                            graphic2);
+                });
+    
+                enemyPointer.createPrototype(
+                    enemy.level,
+                    enemy.hp,
+                    enemy.damage,
+                    enemy.exp,
+                    enemy.scale,
+                    enemy.speed,
+                    animDataStanding,
+                    animDataWalking,
+                    animDataAttacking,
+                    enemy.space);
+                this.enemyPrototypes.addEnemy(enemyPointer);
             });
-
-            enemyPointer.createPrototype(1,1,1,1,1,3,animDataStanding,animDataWalking,animDataAttacking);
-            this.enemyPrototypes.addEnemy(enemyPointer);
         });
 
         // Loading User Interface
@@ -208,6 +327,34 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillListAvaliable.addSkillPrototype(new SkillThrowable(skill));
         });
 
+        // Loading Skills Arrow
+        await Assets.load(graphicPath.skills.arrow).then((graphic) => {   
+            const skill = new SkillThrowable();
+            skill.anchorX = 0.5;
+            skill.anchorY = 0.5;
+            skill.damage = 1;
+            skill.cooldown = 3500;
+            skill.skillName = "Arrow";
+            skill.scale = 1;
+            skill.damageRadius = 10;
+            skill.castTime = 0;
+            skill.damagingEnemies = true;
+            skill.damagingPlayer = false;
+            skill.explodeable = true;
+            skill.speed = 15;
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(1,1,0,0,100,76,73,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            skill.setAnimation(animData);
+
+            this.skillPrototypes.addSkillPrototype(skill);
+            this.skillListAvaliable.addSkillPrototype(new SkillThrowable(skill));
+        });
+
         // Loading Skills Sword vortex
         await Assets.load(graphicPath.skills.swordVortex).then((graphic) => {   
             const skill = new SkillNotMoving();
@@ -238,6 +385,8 @@ export class GameManagerStore implements IGameManagerStore{
             // TODO: Remove next line.
             this.skillListAvaliable.addSkillPrototype(new SkillNotMoving(skill));
         });
+
+        
 
 
     };
