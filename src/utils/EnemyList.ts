@@ -54,6 +54,11 @@ export default class EnemyList{
         if(this.lastWaveTime + waveDuration < currentTime) return true;
         else return false;
     }
+    public isBossReady(mapLevel: number): boolean
+    {
+        if(this.currentWave == mapLevel * 20) return true;
+        return false;
+    }
     public moveTowardsPlayer(playerHandle: Player, delta: number)
     {
         this.enemies.forEach(enemy => enemy.moveUnitTowardsPlayer(playerHandle, this, delta));

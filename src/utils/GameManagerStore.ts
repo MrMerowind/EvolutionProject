@@ -29,6 +29,7 @@ export interface IGameManagerStore{
     loadData: LoadDataFn;
     loadLoadingScreen: LoadDataFn;
     enemyPrototypes: EnemyList;
+    bossPrototypes: EnemyList;
     enemyList: EnemyList;
     userInterfaceData: UserInterfaceData;
     skillPrototypes: SkillList;
@@ -44,6 +45,7 @@ export class GameManagerStore implements IGameManagerStore{
     public areGraphicsLoaded: boolean;
     public loadingScreen: LoadingScreen; 
     public enemyPrototypes: EnemyList;
+    public bossPrototypes: EnemyList;
     public enemyList: EnemyList;
     public userInterfaceData: UserInterfaceData;
     public statistics: StatisticsData;
@@ -62,6 +64,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.loadingScreen = gameData.loadingScreen;
             this.areGraphicsLoaded = gameData.areGraphicsLoaded;
             this.enemyPrototypes = gameData.enemyPrototypes;
+            this.bossPrototypes = gameData.bossPrototypes;
             this.enemyList = gameData.enemyList;
             this.userInterfaceData = gameData.userInterfaceData;
             this.statistics = gameData.statistics;
@@ -84,6 +87,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.player = new Player();
             this.map = new GameMap();
             this.enemyPrototypes = new EnemyList();
+            this.bossPrototypes = new EnemyList();
             this.enemyList = new EnemyList();
             this.userInterfaceData = new UserInterfaceData();
             this.statistics = new StatisticsData();
@@ -133,6 +137,7 @@ export class GameManagerStore implements IGameManagerStore{
         enemiesData.forEach(async(enemy) => {
             await Assets.load(enemy.graphics.attack.path).then((graphic) => {
                 const enemyPointer = new Enemy();
+                const bossPointer = new Enemy();
                 const animDataAttacking = new CreatureAnimation();
                 const animDataStanding = new CreatureAnimation();
                 const animDataWalking = new CreatureAnimation();
@@ -273,6 +278,25 @@ export class GameManagerStore implements IGameManagerStore{
                     animDataAttacking,
                     enemy.space);
                 this.enemyPrototypes.addEnemy(enemyPointer);
+
+                const bossHp = enemy.hp * 10;
+                const bossScale = enemy.scale * 3;
+                const bossSpace = enemy.space * 3;
+                const bossDamage = enemy.damage * 10;
+                const bossExp = enemy.exp * 20;
+
+                bossPointer.createPrototype(
+                    enemy.level,
+                    bossHp,
+                    bossDamage,
+                    bossExp,
+                    bossScale,
+                    enemy.speed,
+                    animDataStanding,
+                    animDataWalking,
+                    animDataAttacking,
+                    bossSpace);
+                this.bossPrototypes.addEnemy(bossPointer);
             });
         });
 

@@ -15,6 +15,42 @@ export default function EnemyComponent(props: EnemyComponentProps) {
     const ctx = useGameManagerStore();
 
     useEffect(() => {
+
+        if(ctx.enemyList.isBossReady(ctx.map.level))
+        {
+            ctx.enemyList.nextWave(props.miliseconds);
+            ctx.bossPrototypes.getList().forEach(enemy => {
+                if(enemy.getLevel() === ctx.map.level)
+                {
+                    const objClone = enemy.clone();
+                    const randomBorder = Math.floor(Math.random() * 4);
+    
+                    const maxScreenAxisLength = Math.max(...ctx.screen.getSize());
+                    let spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % 2 === 0 ? -1 : 1) * (randomBorder < 2 ? 1 : Math.random());
+                    let spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < 2 ? -1 : 1) * (randomBorder >= 2 ? 1 : Math.random());
+    
+                    // Preventing spawning on another
+                    const loop = true;
+                    while(loop)
+                    {
+                        const nearestEnemy = ctx.enemyList.getNearest(spawnPositionX, spawnPositionY);
+                        if(nearestEnemy === null) break;
+                        const enemiesDistance = Math.hypot(nearestEnemy.getPositionX() - spawnPositionX, nearestEnemy.getPositionY() - spawnPositionY);
+                        const minDistance = Math.max(objClone.getSpaceRadius(), nearestEnemy.getSpaceRadius());
+                        if(enemiesDistance > minDistance) break;
+                            
+                        spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % 2 === 0 ? -1 : 1) * (randomBorder < 2 ? 1 : Math.random());
+                        spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < 2 ? -1 : 1) * (randomBorder >= 2 ? 1 : Math.random());
+                    }
+    
+                    objClone.setPositionX(spawnPositionX);
+                    objClone.setPositionY(spawnPositionY);
+    
+                    ctx.enemyList.addEnemy(objClone);
+                }
+            });
+        }
+
         if(!ctx.enemyList.isNextWaveReady(props.miliseconds,ctx.map.level))
         {
             // Moving enemies towards player
