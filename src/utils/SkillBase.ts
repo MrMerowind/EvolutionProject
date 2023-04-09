@@ -135,7 +135,7 @@ export class SkillBase{
                 && !this.hasExploded())
             {
                 this.addDamageEnemy(enemy.getId(), miliseconds);
-                enemy.addHp(- this.getDamage());
+                enemy.addHp(- this.getDamage() * (playerHandle.getStrength() + 1));
                 if(this.explodeable) this.explode();
             }
         }

@@ -176,6 +176,9 @@ export class GameManagerStore implements IGameManagerStore{
         await Assets.load(graphicPath.statistics.exp).then((graphic) => {   
             this.statistics.setExpBar(graphic);
         });
+        await Assets.load(graphicPath.statistics.button).then((graphic) => {   
+            this.statistics.setButton(graphic);
+        });
 
         // Loading Skills Magic orb
         await Assets.load(graphicPath.skills.magicOrb).then((graphic) => {   

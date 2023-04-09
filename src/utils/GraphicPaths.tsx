@@ -31,7 +31,9 @@ export const graphicPath =
         hp:
             serverPath.toString() + "img/HealthBar/statisticsHealth.png",
         exp:
-            serverPath.toString() + "img/HealthBar/statisticsExp.png"
+            serverPath.toString() + "img/HealthBar/statisticsExp.png",
+        button:
+            serverPath.toString() + "img/HealthBar/button_increase.png"
     },
     skills:
     {

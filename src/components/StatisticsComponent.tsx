@@ -13,22 +13,26 @@ export default function StatisticsComponent() {
     const imageRefHealthOverlay = ctx.statistics.getHealthOverlay();
     const imageRefHpBar = ctx.statistics.getHealthBar();
     const imageRefExpBar = ctx.statistics.getExpBar();
-
+    const imageRefButton = ctx.statistics.getButton();
+    
     if(imageRefCorner === null) return null;
     if(imageRefHealthOverlay === null) return null;
     if(imageRefHpBar === null) return null;
     if(imageRefExpBar === null) return null;
+    if(imageRefButton === null) return null;
     
     const cutRegionCorner = new Rectangle(0, 0, imageRefCorner.width, imageRefCorner.height);
     const cutRegionOverlay = new Rectangle(0, 0, imageRefHealthOverlay.width, imageRefHealthOverlay.height);
     const cutRegionHpBar = new Rectangle(0, 0, imageRefHpBar.width, imageRefHpBar.height);
     const cutRegionExpBar = new Rectangle(0, 0, imageRefExpBar.width, imageRefExpBar.height);
+    const cutRegionButton = new Rectangle(0, 0, imageRefButton.width, imageRefButton.height);
     
     
     const cutTextureCorner = new Texture(imageRefCorner, cutRegionCorner);
     const cutTextureOverlay = new Texture(imageRefHealthOverlay, cutRegionOverlay);
     const cutTextureHpBar = new Texture(imageRefHpBar, cutRegionHpBar);
     const cutTextureExpBar = new Texture(imageRefExpBar, cutRegionExpBar);
+    const cutTextureButton = new Texture(imageRefButton, cutRegionButton);
 
 
     const hpBarHeight = imageRefHpBar.height * ctx.player.getCurrentHp() / ctx.player.getMaxHp();
@@ -45,6 +49,9 @@ export default function StatisticsComponent() {
         ctx.screen.getHeight() - 60,
         ctx.screen.getHeight() - 30];
 
+    const buttonSize = 20;
+    const buttonX = textValueX + 5;
+
     return (
         <>
             {/* Corners*/}
@@ -57,7 +64,7 @@ export default function StatisticsComponent() {
 
             {/* Health and exp*/}
             <Sprite texture={cutTextureHpBar} width={imageRefHpBar.width} height={hpBarHeight}
-                x={ctx.screen.getWidth() - 325} y={ctx.screen.getHeight()} rotation={0} anchor={[1,1]}/> 
+                x={ctx.screen.getWidth() - 325} y={ctx.screen.getHeight() - 20} rotation={0} anchor={[1,1]}/> 
             <Sprite texture={cutTextureExpBar} width={imageRefExpBar.width} height={expBarHeiht}
                 x={ctx.screen.getWidth() - 200} y={ctx.screen.getHeight()} rotation={0} anchor={[1,1]}/> 
 
@@ -74,6 +81,28 @@ export default function StatisticsComponent() {
             <Text text={ctx.player.getStrength().toString()} anchor={[1,0]} x={textValueX} y={textY[1]} style={statsFont} />
             <Text text={ctx.player.getVitality().toString()} anchor={[1,0]} x={textValueX} y={textY[2]} style={statsFont} />
             <Text text={ctx.player.getAgility().toString()} anchor={[1,0]} x={textValueX} y={textY[3]} style={statsFont} />
+
+            {/*Buttons for increasing stats*/}
+            {
+                ctx.player.getPoints() > 0 &&
+                (<>
+                    <Sprite texture={cutTextureButton} width={buttonSize} height={buttonSize}
+                        x={buttonX} y={textY[1]} rotation={0} anchor={[0,0]} interactive={true}
+                        pointerdown={() => {
+                            ctx.player.addStrength(1);
+                        }}/>  
+                    <Sprite texture={cutTextureButton} width={buttonSize} height={buttonSize}
+                        x={buttonX} y={textY[2]} rotation={0} anchor={[0,0]} interactive={true}
+                        pointerdown={() => {
+                            ctx.player.addVitality(1);
+                        }}/>  
+                    <Sprite texture={cutTextureButton} width={buttonSize} height={buttonSize}
+                        x={buttonX} y={textY[3]} rotation={0} anchor={[0,0]} interactive={true}
+                        pointerdown={() => {
+                            ctx.player.addAgility(1);
+                        }}/>
+                </>)
+            }
         </>
     );
 }

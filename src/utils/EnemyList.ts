@@ -47,10 +47,10 @@ export default class EnemyList{
         this.lastWaveTime = currentTime;
         this.currentWave++;
     }
-    public isNextWaveReady(currentTime: number, level: number): boolean
+    public isNextWaveReady(currentTime: number, mapLevel: number): boolean
     {
-        if(this.currentWave >= level * 10) return false;
-        const waveDuration = Math.max(5000 - level * 100, 1000);
+        if(this.currentWave >= mapLevel * 20) return false;
+        const waveDuration = Math.max(5000 - mapLevel * 100, 1000);
         if(this.lastWaveTime + waveDuration < currentTime) return true;
         else return false;
     }

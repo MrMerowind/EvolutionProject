@@ -5,6 +5,7 @@ export class StatisticsData {
     private cornerOverlay: BaseTexture | null;
     private healthBar: BaseTexture | null;
     private experienceBar: BaseTexture | null;
+    private button: BaseTexture | null;
 
     constructor()
     {
@@ -12,21 +13,27 @@ export class StatisticsData {
         this.cornerOverlay = null;
         this.healthBar = null;
         this.experienceBar = null;
+        this.button = null;
     }
 
-    getHealthOverlay()
+    public getHealthOverlay()
     {
         return this.healthOverlay;
     }
 
-    getHealthBar()
+    public getHealthBar()
     {
         return this.healthBar;
     }
 
-    getExpBar()
+    public getExpBar()
     {
         return this.experienceBar;
+    }
+
+    public getButton()
+    {
+        return this.button;
     }
 
 
@@ -50,5 +57,9 @@ export class StatisticsData {
     public setExpBar(texture: BaseTexture)
     {
         this.experienceBar = texture;
+    }
+    public setButton(texture: BaseTexture)
+    {
+        this.button = texture;
     }
 }

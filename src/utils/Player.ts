@@ -30,7 +30,7 @@ export default class Player{
         this.vitality = 0;
         this.agility = 0;
         this.currentHp = this.getMaxHp();
-        this.points = 0;
+        this.points = 1;
         this.positionX = 0;
         this.positionY = 0;
         this.animationDataWalking = new CreatureAnimation();
@@ -105,7 +105,8 @@ export default class Player{
     }
     public getSpeed(): number
     {
-        return this.speed;
+        const agilityMultipier = 0.1;
+        return this.speed + this.speed * agilityMultipier * this.getAgility();
     }
     public move(x:number, y: number)
     {
@@ -168,22 +169,29 @@ export default class Player{
         {
             this.currentExp -= this.getNeededExp();
             this.addLevel(1);
+            this.addPoints(1);
         }
     }
     public addStrength(value: number): void
     {
         if(value < 0) return;
+        if(this.points < value) return;
         this.strength += value;
+        this.points -= value;
     }
     public addVitality(value: number): void
     {
         if(value < 0) return;
+        if(this.points < value) return;
         this.vitality += value;
+        this.points -= value;
     }
     public addAgility(value: number): void
     {
         if(value < 0) return;
+        if(this.points < value) return;
         this.agility += value;
+        this.points -= value;
     }
     public addLevel(value: number): void
     {
