@@ -20,6 +20,8 @@ export const graphicPath =
         serverPath.toString() + "img/MainScreen/Background/1.png",
     enemies:
         serverPath.toString() + "img/Enemies/",
+    death:
+        serverPath.toString() + "img/Enemies/death.png",
     hpAboveHeadEnemy:
         serverPath.toString() + "img/HealthBar/hpAboveHeadEnemy.png",
     statistics:

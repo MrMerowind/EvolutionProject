@@ -1,18 +1,57 @@
 import Player from "./Player";
 import Enemy from "./Enemy";
+import { SkillAnimation } from "./AnimationData";
 
 export default class EnemyList{
     private enemies: Enemy[];
     private currentWave: number;
     private lastWaveTime: number;
+    private animationDataDeath: SkillAnimation;
+
+    private deathSpots: Array<[x: number, y: number, k: string, time: number]>;
+    
 
     constructor()
     {
         this.enemies = [];
         this.currentWave = 0;
         this.lastWaveTime = 0;
+        this.animationDataDeath = new SkillAnimation();
+        this.deathSpots = new Array<[x: number, y: number, k: string, time: number]>();
     }
+    public getDeathAnimationData()
+    {
+        return this.animationDataDeath;
+    }
+    public addDeathSpot(x: number, y: number)
+    {
+        const id = Math.floor(Math.random() * 1e20).toString();
+        this.deathSpots.push([x,y,id,0]);
+    }
+    public progressDeathSpotsTime(time: number)
+    {
+        for(let i = 0; i < this.deathSpots.length; i++)
+        {
+            this.deathSpots[i][3] += time;
+        }
+    }
+    public getDeathSpots()
+    {
+        for(let i = 0; i < this.deathSpots.length; i++)
+        {
+            const expired = this.deathSpots[i][3] >= this.animationDataDeath.getAnimation().animationFrameTime
+                * (this.animationDataDeath.getAnimation().animationFrameIndexEnd - this.animationDataDeath.getAnimation().animationFrameIndexStart);
+            if(!expired) continue;
+            this.deathSpots.splice(i,1);
+            i--;
+        }
 
+        return this.deathSpots;
+    }
+    public setDeathAnimationData(data: SkillAnimation)
+    {
+        return this.animationDataDeath = data;
+    }
     public getList(): Enemy[]
     {
         return this.enemies;

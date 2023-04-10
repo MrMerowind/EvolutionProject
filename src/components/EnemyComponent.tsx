@@ -4,6 +4,7 @@ import { AnimationState } from "../utils/Types";
 import AboveHeadHealthComponent from "./AboveHeadHealthComponent";
 import PlayerComponent from "./PlayerComponent";
 import { AnimationComponent } from "./AnimationComponent";
+import DeathComponent from "./DeathComponent";
 
 interface EnemyComponentProps{
     miliseconds: number;
@@ -15,6 +16,9 @@ export default function EnemyComponent(props: EnemyComponentProps) {
     const ctx = useGameManagerStore();
 
     useEffect(() => {
+
+        ctx.enemyList.progressDeathSpotsTime(props.delta * 1000 / 60);
+
         let bossSpawned = false;
         if(ctx.enemyList.isBossReady(ctx.map.level))
         {
@@ -110,8 +114,10 @@ export default function EnemyComponent(props: EnemyComponentProps) {
     for(let i = 0; i < ctx.enemyList.getList().length; i++)
     {
         const enemyHp = ctx.enemyList.getList()[i].getCurrentHp();
+        const enemyPosition = ctx.enemyList.getList()[i].getPosition();
         if(enemyHp <= 0)
         {
+            ctx.enemyList.addDeathSpot(...enemyPosition);
             const addedExp = ctx.enemyList.getList()[i].getExpReward();
             ctx.player.addExp(addedExp);
             ctx.enemyList.getList().splice(i,1);
@@ -122,6 +128,15 @@ export default function EnemyComponent(props: EnemyComponentProps) {
 
     return (
         <>
+            {ctx.enemyList.getDeathSpots().map(deathSpot => {
+
+                const spotOnScreenPositionX = deathSpot[0] - ctx.camera.getOffsetX();
+                const spotOnScreenPositionY = deathSpot[1] - ctx.camera.getOffsetY();
+
+                return (
+                    <DeathComponent positionX={spotOnScreenPositionX} positionY={spotOnScreenPositionY} time={deathSpot[3]} key={deathSpot[2]}/>
+                );
+            })}
             {ctx.enemyList.getList().map(enemy => {
 
                 const enemyOnScreenPositionX = enemy.getPositionX() - ctx.camera.getOffsetX();

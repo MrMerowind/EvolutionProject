@@ -323,6 +323,18 @@ export class GameManagerStore implements IGameManagerStore{
             this.statistics.setButton(graphic);
         });
 
+        // Loading death animation
+        await Assets.load(graphicPath.death).then((graphic) => {   
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(6,6,0,30,30,600,600,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            this.enemyList.setDeathAnimationData(animData);
+        });
+
         // Loading Skills Magic orb
         await Assets.load(graphicPath.skills.magicOrb).then((graphic) => {   
             const skill = new SkillBase();

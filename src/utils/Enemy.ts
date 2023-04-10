@@ -1,4 +1,4 @@
-import { CreatureAnimation } from "./AnimationData";
+import { CreatureAnimation, SkillAnimation } from "./AnimationData";
 import { AnimationState, Direction, DirectionHorizontal } from "./Types";
 import Player from "./Player";
 import EnemyList from "./EnemyList";
@@ -22,6 +22,8 @@ export default class Enemy{
     private animationDataWalking: CreatureAnimation;
     private animationDataAttacking: CreatureAnimation;
     private animationDataStanding: CreatureAnimation;
+
+    
 
     constructor()
     {
