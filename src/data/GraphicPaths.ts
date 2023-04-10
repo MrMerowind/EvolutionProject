@@ -42,6 +42,10 @@ export const graphicPath =
         swordVortex:
             serverPath.toString() + "img/Skills/2.png",
         arrow:
-            serverPath.toString() + "img/Skills/5.png"
+            serverPath.toString() + "img/Skills/5.png",
+        bird:
+            serverPath.toString() + "img/Skills/6.png",
+        dragon:
+            serverPath.toString() + "img/Skills/7.png"
     }
 };

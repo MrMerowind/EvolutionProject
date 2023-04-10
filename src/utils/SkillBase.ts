@@ -1,4 +1,5 @@
 import { SkillAnimation } from "./AnimationData";
+import Enemy from "./Enemy";
 import EnemyList from "./EnemyList";
 import Player from "./Player";
 
@@ -18,8 +19,9 @@ export class SkillBase{
     public skillName = "Empty";
     public speaning = false;
     public destroyAfter = 5000;
+    public enemyTargetHandle: Enemy | null = null;
     
-    private id: string = Math.floor(Math.random() * 1000000).toString();
+    private id: string = Math.floor(Math.random() * 1e20).toString();
     private normalizedVectorX = 0;
     private normalizedVectorY = 0;
     
@@ -36,7 +38,7 @@ export class SkillBase{
     constructor(reference: SkillBase | null = null)
     {
         if(reference === null) return;
-        this.id = (Math.floor(Math.random() * 1000000).toString());
+        this.id = (Math.floor(Math.random() * 1e20).toString());
         this.anchorX = reference.anchorX;
         this.anchorY = reference.anchorY;
         this.explodeable = reference.explodeable;
@@ -161,10 +163,11 @@ export class SkillBase{
         const relativeLengthX = this.destinationX - this.positionX;
         const relativeLengthY = this.destinationY - this.positionY;
         const distance = Math.hypot(relativeLengthX, relativeLengthY);
-        if(distance > 0)
+        if(distance > 5)
         {
             this.normalizedVectorX = relativeLengthX / distance;
             this.normalizedVectorY = relativeLengthY / distance;
+            this.rotation = Math.atan2(this.normalizedVectorY, this.normalizedVectorX);
         }
         else
         {
@@ -172,7 +175,6 @@ export class SkillBase{
             this.normalizedVectorY = 0;
         }
 
-        this.rotation = Math.atan2(this.normalizedVectorY, this.normalizedVectorX);
 
     }
     public setAnimation(value: SkillAnimation)
@@ -185,10 +187,28 @@ export class SkillBase{
         this.positionY = y;
         if(!this.speaning) this.recalculateNormalizedVector();
     }
-    public setDestination(x: number, y: number)
+    public setDestination(x: number, y: number, enemy: Enemy | null = null)
     {
-        this.destinationX = x;
-        this.destinationY = y;
+        const isDestinationReached = this.enemyTargetHandle !== null
+            && (Math.hypot(this.enemyTargetHandle.getPosition()[0]-this.positionX, this.enemyTargetHandle.getPosition()[1]-this.positionY) < 10);
+        if(enemy !== null && this.enemyTargetHandle === null)
+        {
+            this.enemyTargetHandle = enemy;
+        }
+        else if(isDestinationReached)
+        {
+            this.enemyTargetHandle = enemy;
+        }
+        if(this.enemyTargetHandle === null)
+        {
+            this.destinationX = x;
+            this.destinationY = y;
+        }
+        else
+        {
+            this.destinationX = this.enemyTargetHandle.getPositionX();
+            this.destinationY = this.enemyTargetHandle.getPositionY();
+        }
         if(!this.speaning) this.recalculateNormalizedVector();
     }
     public getPosition()

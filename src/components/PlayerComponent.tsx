@@ -94,7 +94,9 @@ export default function PlayerComponent(props: PlayerComponentProps) {
                     const skillCopy = new SkillBase(skill);
                     skillCopy.castTime = props.miliseconds;
                     skillCopy.setPosition(playerPosition[0], playerPosition[1]);
-                    skillCopy.setDestination(...nearestEnemyToSkill.getPosition());
+                    if(skillCopy.getName() === "Magic orb") skillCopy.setDestination(...nearestEnemyToSkill.getPosition());
+                    const randomEnemyInRange = ctx.enemyList.getRandomClose(...ctx.player.getPosition());
+                    if(randomEnemyInRange !== null && (skillCopy.getName() == "Arrow" || skillCopy.getName() == "Bird")) skillCopy.setDestination(...randomEnemyInRange.getPosition(),randomEnemyInRange);
                     ctx.skillListOnScreen.castSkill(skillCopy);
                 }
             }

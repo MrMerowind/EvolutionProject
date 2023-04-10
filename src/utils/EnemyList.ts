@@ -42,6 +42,22 @@ export default class EnemyList{
 
         return this.enemies[idFound];
     }
+    public getRandomClose(fromX: number, fromY: number): Enemy | null
+    {
+        if(this.enemies.length <= 0) return null;
+        const maxDistance = 1000;
+        const idFound: number[] = [];
+        for(let i = 0; i < this.enemies.length; i++)
+        {
+            const nextDistance = Math.hypot(this.enemies[i].getPositionX() - fromX, this.enemies[i].getPositionY() - fromY);
+            if(maxDistance >= nextDistance)
+            {
+                idFound.push(i);
+            }
+        }
+        if(idFound.length <= 0) return null;
+        return this.enemies[idFound[Math.floor(Math.random() *  idFound.length)]];
+    }
     public nextWave(currentTime: number): void
     {
         this.lastWaveTime = currentTime;
@@ -49,14 +65,14 @@ export default class EnemyList{
     }
     public isNextWaveReady(currentTime: number, mapLevel: number): boolean
     {
-        if(this.currentWave >= mapLevel * 20) return false;
-        const waveDuration = Math.max(5000 - mapLevel * 100, 1000);
-        if(this.lastWaveTime + waveDuration < currentTime) return true;
+        if(this.currentWave >= mapLevel * 50) return false;
+        const waveDuration = Math.max(5000 - (mapLevel - 1) * 500, 3000);
+        if(this.lastWaveTime + waveDuration <= currentTime) return true;
         else return false;
     }
     public isBossReady(mapLevel: number): boolean
     {
-        if(this.currentWave == mapLevel * 20) return true;
+        if(this.currentWave == mapLevel * 50) return true;
         return false;
     }
     public moveTowardsPlayer(playerHandle: Player, delta: number)

@@ -13,8 +13,8 @@ import { AnimationSubData, CreatureAnimation, SkillAnimation } from "./Animation
 import UserInterfaceData from "./UserInterfaceData";
 import { StatisticsData } from "./StatisticsData";
 import SkillList from "./SkillList";
-import { SkillNotMoving, SkillThrowable } from "./Skills";
 import { enemiesData } from "../data/EnemiesData";
+import { SkillBase } from "./SkillBase";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -279,11 +279,11 @@ export class GameManagerStore implements IGameManagerStore{
                     enemy.space);
                 this.enemyPrototypes.addEnemy(enemyPointer);
 
-                const bossHp = enemy.hp * 10;
+                const bossHp = enemy.hp * 100;
                 const bossScale = enemy.scale * 3;
                 const bossSpace = enemy.space * 3;
                 const bossDamage = enemy.damage * 10;
-                const bossExp = enemy.exp * 20;
+                const bossExp = enemy.exp * 50;
 
                 bossPointer.createPrototype(
                     enemy.level,
@@ -325,7 +325,7 @@ export class GameManagerStore implements IGameManagerStore{
 
         // Loading Skills Magic orb
         await Assets.load(graphicPath.skills.magicOrb).then((graphic) => {   
-            const skill = new SkillThrowable();
+            const skill = new SkillBase();
             skill.anchorX = 0.5;
             skill.anchorY = 0.5;
             skill.damage = 1;
@@ -348,16 +348,16 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            this.skillListAvaliable.addSkillPrototype(new SkillThrowable(skill));
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Arrow
         await Assets.load(graphicPath.skills.arrow).then((graphic) => {   
-            const skill = new SkillThrowable();
+            const skill = new SkillBase();
             skill.anchorX = 0.5;
             skill.anchorY = 0.5;
             skill.damage = 1;
-            skill.cooldown = 3500;
+            skill.cooldown = 20;
             skill.skillName = "Arrow";
             skill.scale = 1;
             skill.damageRadius = 10;
@@ -376,12 +376,69 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            this.skillListAvaliable.addSkillPrototype(new SkillThrowable(skill));
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+        });
+
+        // Loading Skills bird
+        await Assets.load(graphicPath.skills.bird).then((graphic) => {   
+            const skill = new SkillBase();
+            skill.anchorX = 0.5;
+            skill.anchorY = 0.5;
+            skill.damage = 1;
+            skill.cooldown = 100;
+            skill.skillName = "Bird";
+            skill.scale = 0.5;
+            skill.damageRadius = 10;
+            skill.castTime = 0;
+            skill.damagingEnemies = true;
+            skill.damagingPlayer = false;
+            skill.explodeable = false;
+            skill.speed = 5;
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(1,1,0,0,100,76,73,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            skill.setAnimation(animData);
+
+            this.skillPrototypes.addSkillPrototype(skill);
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+        });
+
+        // Loading Skills dragon
+        await Assets.load(graphicPath.skills.dragon).then((graphic) => {   
+            const skill = new SkillBase();
+            skill.anchorX = 0.5;
+            skill.anchorY = 0.5;
+            skill.damage = 1;
+            skill.cooldown = 20000;
+            skill.skillName = "Dragon";
+            skill.scale = 0.4;
+            skill.damageRadius = 10;
+            skill.castTime = 0;
+            skill.damagingEnemies = true;
+            skill.damagingPlayer = false;
+            skill.explodeable = false;
+            skill.speed = 2;
+            skill.destroyAfter = 20000;
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(1,1,0,0,100,76,73,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            skill.setAnimation(animData);
+
+            this.skillPrototypes.addSkillPrototype(skill);
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Sword vortex
         await Assets.load(graphicPath.skills.swordVortex).then((graphic) => {   
-            const skill = new SkillNotMoving();
+            const skill = new SkillBase();
             skill.anchorX = 0.5;
             skill.anchorY = 1.1;
             skill.damage = 1;
@@ -407,7 +464,7 @@ export class GameManagerStore implements IGameManagerStore{
 
             this.skillPrototypes.addSkillPrototype(skill);
             // TODO: Remove next line.
-            this.skillListAvaliable.addSkillPrototype(new SkillNotMoving(skill));
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         

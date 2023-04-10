@@ -15,12 +15,12 @@ export default function EnemyComponent(props: EnemyComponentProps) {
     const ctx = useGameManagerStore();
 
     useEffect(() => {
-
+        let bossSpawned = false;
         if(ctx.enemyList.isBossReady(ctx.map.level))
         {
             ctx.enemyList.nextWave(props.miliseconds);
             ctx.bossPrototypes.getList().forEach(enemy => {
-                if(enemy.getLevel() === ctx.map.level)
+                if(enemy.getLevel() === ctx.map.level && !bossSpawned)
                 {
                     const objClone = enemy.clone();
                     const randomBorder = Math.floor(Math.random() * 4);
@@ -47,6 +47,7 @@ export default function EnemyComponent(props: EnemyComponentProps) {
                     objClone.setPositionY(spawnPositionY);
     
                     ctx.enemyList.addEnemy(objClone);
+                    bossSpawned = true;
                 }
             });
         }
@@ -60,9 +61,10 @@ export default function EnemyComponent(props: EnemyComponentProps) {
         
         ctx.enemyList.nextWave(props.miliseconds);
         ctx.enemyPrototypes.getList().forEach(enemy => {
-            if(enemy.getLevel() === ctx.map.level)
+            if(enemy.getLevel() <= ctx.map.level && enemy.getLevel() >= ctx.map.level - 3)
             {
-                for(let i = 0; i < ctx.map.level * 5; i++)
+                const enemiesSpawnForWave = Math.min(ctx.map.level, 7);
+                for(let i = 0; i < enemiesSpawnForWave; i++)
                 {
                     const objClone = enemy.clone();
                     const randomBorder = Math.floor(Math.random() * 4);

@@ -23,7 +23,7 @@ export default class Player{
 
     constructor()
     {
-        this.id = Math.floor(Math.random() * 1000000).toString();
+        this.id = Math.floor(Math.random() * 1e20).toString();
         this.level = 1;
         this.currentExp = 0;
         this.strength = 0;
@@ -77,7 +77,7 @@ export default class Player{
     }
     public getNeededExp(): number
     {
-        return (this.level * 10);
+        return (this.level * 200);
     }
     public getCurrentExp(): number
     {

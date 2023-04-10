@@ -25,7 +25,7 @@ export default class Enemy{
 
     constructor()
     {
-        this.id = Math.floor(Math.random() * 1000000).toString();
+        this.id = Math.floor(Math.random() * 1e20).toString();
         this.level = 0;
         this.maxHp = 1;
         this.currentHp = 1;
@@ -47,7 +47,7 @@ export default class Enemy{
     clone(): Enemy
     {
         const result = new Enemy();
-        result.id = Math.floor(Math.random() * 1000000).toString();
+        result.id = Math.floor(Math.random() * 1e20).toString();
         result.level = this.level;
         result.maxHp = this.maxHp;
         result.currentHp = this.maxHp;
