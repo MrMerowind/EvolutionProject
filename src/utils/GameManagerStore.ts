@@ -335,14 +335,14 @@ export class GameManagerStore implements IGameManagerStore{
             this.enemyList.setDeathAnimationData(animData);
         });
 
-        // Loading Skills Magic orb
+        // Loading Skills Orb
         await Assets.load(graphicPath.skills.magicOrb).then((graphic) => {   
             const skill = new SkillBase();
             skill.anchorX = 0.5;
             skill.anchorY = 0.5;
             skill.damage = 1;
             skill.cooldown = 2000;
-            skill.skillName = "Magic orb";
+            skill.skillName = "Orb";
             skill.scale = 0.5;
             skill.damageRadius = 20;
             skill.castTime = 0;

@@ -16,6 +16,8 @@ export default class Player{
     private readonly spaceRadius: number = 40;
     public readonly scale = 1;
     public readonly speed = 5;
+    public readonly agilityMultipier = 0.01;
+    private speedThroughEnemies = 1;
 
     private animationDataWalking: CreatureAnimation;
     private animationDataAttacking: CreatureAnimation;
@@ -105,8 +107,11 @@ export default class Player{
     }
     public getSpeed(): number
     {
-        const agilityMultipier = 0.1;
-        return this.speed + this.speed * agilityMultipier * this.getAgility();
+        return this.speed + this.speed * this.agilityMultipier * this.getAgility();
+    }
+    public getSpeedThorughEnemies(): number
+    {
+        return this.speedThroughEnemies + this.speedThroughEnemies * this.agilityMultipier * this.getAgility();
     }
     public move(x:number, y: number)
     {
@@ -123,30 +128,41 @@ export default class Player{
 
         if(x !== 0)
         {
-            newPositionX = this.positionX + x / distance * this.speed * delta;
+            newPositionX = this.positionX + x / distance * this.getSpeed() * delta;
         }
         if(y !== 0)
         {
-            newPositionY = this.positionY + y / distance * this.speed * delta;
+            newPositionY = this.positionY + y / distance * this.getSpeed() * delta;
         }
 
 
         // Prevent moving through enemy
-        let changePosition = true;
+        let freeWalk = true;
         enemyListHandle.getList().forEach(enemy => {
             const distanceToAnother = Math.hypot(newPositionX - enemy.getPositionX(), newPositionY - enemy.getPositionY());
             const minimumSpaceBetween = Math.max(enemy.getSpaceRadius(), this.spaceRadius);
             if(distanceToAnother <= minimumSpaceBetween)
             {
-                changePosition = false;
+                freeWalk = false;
                 return;
             }
         });
-        if(changePosition)
+        if(!freeWalk)
         {
+            if(x !== 0)
+            {
+                newPositionX = this.positionX + x / distance * this.getSpeedThorughEnemies() * delta;
+            }
+            if(y !== 0)
+            {
+                newPositionY = this.positionY + y / distance * this.getSpeedThorughEnemies() * delta;
+            }
             this.positionX = newPositionX;
             this.positionY = newPositionY;
         }
+
+        this.positionX = newPositionX;
+        this.positionY = newPositionY;
         
     }
     public addHp(value: number): void

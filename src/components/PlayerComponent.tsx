@@ -27,6 +27,10 @@ export default function PlayerComponent(props: PlayerComponentProps) {
         if (e.code === "KeyS") { setButtonDownPressed(true); setFacedDirection(Direction.down);}
         if (e.code === "KeyA") { setButtonLeftPressed(true); setFacedDirection(Direction.left); setFacedSecondaryDirection(DirectionHorizontal.left);}
         if (e.code === "KeyD") { setButtonRightPressed(true); setFacedDirection(Direction.right); setFacedSecondaryDirection(DirectionHorizontal.right);}
+        // TODO: Remove for production
+        if (e.code === "KeyI") {ctx.map.previousLevel();}
+        if (e.code === "KeyO") {ctx.map.nextLevel();}
+        if (e.code === "KeyP") {ctx.player.addLevel(1);ctx.player.addPoints(1);}
     };
 
     const handleUserKeyPressUp = (e: KeyboardEvent) => {
@@ -94,9 +98,9 @@ export default function PlayerComponent(props: PlayerComponentProps) {
                     const skillCopy = new SkillBase(skill);
                     skillCopy.castTime = props.miliseconds;
                     skillCopy.setPosition(playerPosition[0], playerPosition[1]);
-                    if(skillCopy.getName() === "Magic orb") skillCopy.setDestination(...nearestEnemyToSkill.getPosition());
+                    if(skillCopy.getName() === "Orb") skillCopy.setDestination(...nearestEnemyToSkill.getPosition());
                     const randomEnemyInRange = ctx.enemyList.getRandomClose(...ctx.player.getPosition());
-                    if(randomEnemyInRange !== null && (skillCopy.getName() == "Arrow" || skillCopy.getName() == "Bird")) skillCopy.setDestination(...randomEnemyInRange.getPosition(),randomEnemyInRange);
+                    if(randomEnemyInRange !== null && (skillCopy.getName() === "Arrow" || skillCopy.getName() === "Bird")) skillCopy.setDestination(...randomEnemyInRange.getPosition(),randomEnemyInRange);
                     ctx.skillListOnScreen.castSkill(skillCopy);
                 }
             }

@@ -16,7 +16,12 @@ export function MainGameComponent(){
     const [miliseconds, setMiliseconds] = useState(0);
     const deltaTime = useRef(0);
     const frameTime = 1000 / 60;
+    
 
+    // On map change reset timer.
+    useEffect(() => {
+        setMiliseconds(0);
+    }, [ctx.map.level]);
 
     useEffect(() => {
         ctx.camera.centerOnPlayer();

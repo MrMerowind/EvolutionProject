@@ -10,7 +10,16 @@ export default class GameMap{
     constructor()
     {
         // TODO: Change this to 1
-        this.level = 8;
+        this.level = 1;
         this.textures = new Map<number, BaseTexture>();
+    }
+    public previousLevel()
+    {
+        if(this.level > 1) this.level--;
+    }
+    public nextLevel()
+    {
+        if(this.level < this.levelCount) this.level++;
+
     }
 }

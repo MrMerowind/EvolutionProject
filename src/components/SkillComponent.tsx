@@ -21,7 +21,8 @@ export default function SkillComponent(props: SkillComponentProps) {
     const nearestEnemy = ctx.enemyList.getNearest(skillPositionX, skillPositionY);
 
     // Skill following enemy
-    if(nearestEnemy !== null)
+    // TODO: Test second part of if
+    if(nearestEnemy !== null && props.skillData.skillName !== "Arrow")
     {
         props.skillData.setDestination(...nearestEnemy.getPosition());
     }

@@ -104,7 +104,7 @@ export default class EnemyList{
     }
     public isNextWaveReady(currentTime: number, mapLevel: number): boolean
     {
-        if(this.currentWave >= mapLevel * 50) return false;
+        if(this.currentWave >= mapLevel * 20) return false;
         const waveDuration = Math.max(5000 - (mapLevel - 1) * 500, 3000);
         if(this.lastWaveTime + waveDuration <= currentTime) return true;
         else return false;
