@@ -26,4 +26,8 @@ export default class SkillList{
     {
         return this.skills.get(name);
     }
+    public resetCooldowns()
+    {
+        this.skills.forEach(skill => skill.resetCooldown());
+    }
 }

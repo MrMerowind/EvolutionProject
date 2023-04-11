@@ -224,4 +224,8 @@ export class SkillBase{
         if(this.castTime + this.destroyAfter <= miliseconds) return false;
         return true;
     }
+    public resetCooldown()
+    {
+        this.castTime = 0;
+    }
 }

@@ -118,4 +118,8 @@ export default class EnemyList{
     {
         this.enemies.forEach(enemy => enemy.moveUnitTowardsPlayer(playerHandle, this, delta));
     }
+    public resetLastWaveTime()
+    {
+        this.lastWaveTime = 0;
+    }
 }

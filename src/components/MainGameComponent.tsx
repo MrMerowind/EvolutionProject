@@ -21,6 +21,8 @@ export function MainGameComponent(){
     // On map change reset timer.
     useEffect(() => {
         setMiliseconds(0);
+        ctx.enemyList.resetLastWaveTime();
+        ctx.skillListAvaliable.resetCooldowns();
     }, [ctx.map.level]);
 
     useEffect(() => {
