@@ -378,7 +378,7 @@ export class GameManagerStore implements IGameManagerStore{
             skill.anchorX = 0.5;
             skill.anchorY = 0.5;
             skill.damage = 1;
-            skill.cooldown = 20;
+            skill.cooldown = 1000;
             skill.skillName = "Arrow";
             skill.scale = 1;
             skill.damageRadius = 10;
@@ -398,7 +398,7 @@ export class GameManagerStore implements IGameManagerStore{
 
             this.skillPrototypes.addSkillPrototype(skill);
             // TODO: Remove next line for production.
-            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills bird
@@ -407,7 +407,7 @@ export class GameManagerStore implements IGameManagerStore{
             skill.anchorX = 0.5;
             skill.anchorY = 0.5;
             skill.damage = 1;
-            skill.cooldown = 100;
+            skill.cooldown = 2000;
             skill.skillName = "Bird";
             skill.scale = 0.5;
             skill.damageRadius = 10;
@@ -428,7 +428,7 @@ export class GameManagerStore implements IGameManagerStore{
 
             this.skillPrototypes.addSkillPrototype(skill);
             // TODO: Remove next line for production.
-            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills dragon
@@ -458,7 +458,7 @@ export class GameManagerStore implements IGameManagerStore{
 
             this.skillPrototypes.addSkillPrototype(skill);
             // TODO: Remove next line for production.
-            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Sword vortex
@@ -467,7 +467,7 @@ export class GameManagerStore implements IGameManagerStore{
             skill.anchorX = 0.5;
             skill.anchorY = 1.1;
             skill.damage = 1;
-            skill.cooldown = 5000;
+            skill.cooldown = 1000;
             skill.skillName = "Sword vortex";
             skill.scale = 0.2;
             skill.damageRadius = 100;
@@ -489,7 +489,7 @@ export class GameManagerStore implements IGameManagerStore{
 
             this.skillPrototypes.addSkillPrototype(skill);
             // TODO: Remove next line for production.
-            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Fire
@@ -518,7 +518,7 @@ export class GameManagerStore implements IGameManagerStore{
 
             this.skillPrototypes.addSkillPrototype(skill);
             // TODO: Remove next line for production.
-            // this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Sunburn
@@ -536,7 +536,7 @@ export class GameManagerStore implements IGameManagerStore{
             skill.damagingEnemies = true;
             skill.damagingPlayer = false;
             skill.explodeable = false;
-            skill.speed = 0;
+            skill.speed = 1;
             skill.speaning = false;
 
             const animSubData = new AnimationSubData();
@@ -548,8 +548,8 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            // TODO: Remove next line for production.
-            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            // Do not add this line or it will not work.
+            // this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Ice
