@@ -536,7 +536,7 @@ export class GameManagerStore implements IGameManagerStore{
             skill.damagingEnemies = true;
             skill.damagingPlayer = false;
             skill.explodeable = false;
-            skill.speed = 9;
+            skill.speed = 0;
             skill.speaning = false;
 
             const animSubData = new AnimationSubData();
@@ -550,6 +550,37 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillPrototypes.addSkillPrototype(skill);
             // TODO: Remove next line for production.
             //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+        });
+
+        // Loading Skills Ice
+        await Assets.load(graphicPath.skills.ice).then((graphic) => {   
+            const skill = new SkillBase();
+            skill.anchorX = 0.5;
+            skill.anchorY = 0.5;
+            skill.damage = 1;
+            skill.cooldown = 2000;
+            skill.skillName = "Ice";
+            skill.scale = 1;
+            skill.damageRadius = 10;
+            skill.castTime = 0;
+            skill.destroyAfter = 750;
+            skill.damagingEnemies = true;
+            skill.damagingPlayer = false;
+            skill.explodeable = false;
+            skill.speed = 1;
+            skill.speaning = false;
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(8,8,0,60,100,800,800,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            skill.setAnimation(animData);
+
+            this.skillPrototypes.addSkillPrototype(skill);
+            // TODO: Remove next line for production.
+            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         

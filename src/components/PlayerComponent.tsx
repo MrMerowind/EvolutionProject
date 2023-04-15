@@ -79,8 +79,6 @@ export default function PlayerComponent(props: PlayerComponentProps) {
     useEffect(() => {
         ctx.skillListAvaliable.getMap().forEach((skill) => {
 
-
-            // TODO: Maybe agility lowers cooldown
             const skillAvailableAt = skill.castTime + skill.cooldown;
             const nearestEnemyToSkill = ctx.enemyList.getNearest(skill.getPosition()[0], skill.getPosition()[1]);
 
@@ -101,6 +99,11 @@ export default function PlayerComponent(props: PlayerComponentProps) {
                     if(skillCopy.getName() === "Orb") skillCopy.setDestination(...nearestEnemyToSkill.getPosition());
                     const randomEnemyInRange = ctx.enemyList.getRandomClose(...ctx.player.getPosition());
                     if(randomEnemyInRange !== null && (skillCopy.getName() === "Arrow" || skillCopy.getName() === "Bird")) skillCopy.setDestination(...randomEnemyInRange.getPosition(),randomEnemyInRange);
+                    if(randomEnemyInRange !== null && skillCopy.getName() === "Ice")
+                    {
+                        skillCopy.setPosition(...randomEnemyInRange.getPosition());
+                        skillCopy.setDestination(...randomEnemyInRange.getPosition());
+                    }
                     ctx.skillListOnScreen.castSkill(skillCopy);
                 }
             }

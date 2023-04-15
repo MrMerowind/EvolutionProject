@@ -52,6 +52,8 @@ export const graphicPath =
         fire:
             serverPath.toString() + "img/Skills/8.png",
         sunBurn:
-            serverPath.toString() + "img/Skills/9.png"
+            serverPath.toString() + "img/Skills/9.png",
+        ice:
+            serverPath.toString() + "img/Skills/10.png"
     }
 };

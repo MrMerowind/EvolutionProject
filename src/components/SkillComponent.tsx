@@ -23,7 +23,7 @@ export default function SkillComponent(props: SkillComponentProps) {
 
     // Skill following enemy
     // TODO: Test second part of if
-    if(nearestEnemy !== null && props.skillData.skillName !== "Arrow" && props.skillData.skillName !== "Sunburn")
+    if(nearestEnemy !== null && props.skillData.skillName !== "Arrow" && props.skillData.skillName !== "Sunburn" && props.skillData.skillName !== "Ice")
     {
         props.skillData.setDestination(...nearestEnemy.getPosition());
     }
