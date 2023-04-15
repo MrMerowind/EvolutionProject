@@ -58,6 +58,8 @@ export class SkillBase{
     }
     public getRotation()
     {
+        // TODO: Fix this later
+        if(this.skillName === "Fire") return this.rotation - Math.PI / 2;
         return this.rotation;
     }
     public getDamageRadius()
@@ -145,6 +147,7 @@ export class SkillBase{
     {
         // For overriding. 
         this.exploded = true;
+
     }
     public hasExploded()
     {
@@ -211,7 +214,7 @@ export class SkillBase{
         }
         if(!this.speaning) this.recalculateNormalizedVector();
     }
-    public getPosition()
+    public getPosition(): [x: number, y: number]
     {
         return [this.positionX, this.positionY];
     }

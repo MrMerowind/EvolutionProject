@@ -48,6 +48,10 @@ export const graphicPath =
         bird:
             serverPath.toString() + "img/Skills/6.png",
         dragon:
-            serverPath.toString() + "img/Skills/7.png"
+            serverPath.toString() + "img/Skills/7.png",
+        fire:
+            serverPath.toString() + "img/Skills/8.png",
+        sunBurn:
+            serverPath.toString() + "img/Skills/9.png"
     }
 };

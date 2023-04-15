@@ -100,6 +100,15 @@ export class GameManagerStore implements IGameManagerStore{
                 this.camera.setPlayerHandle(this.player);
                 this.camera.centerOnPlayer();   
                 this.areGraphicsLoaded = true;
+            }).then(() => {
+                const skillFire = this.skillPrototypes.getSkill("Fire");
+                if(skillFire !== undefined)
+                    skillFire.onExplodeSkillCast = this.skillPrototypes.getSkill("Sunburn") as SkillBase;
+                else console.log("Cant find skill");
+                // TODO: Remove later.
+                const skillFire2 = this.skillListAvaliable.getSkill("Fire");
+                if(skillFire2 !== undefined)
+                    skillFire2.onExplodeSkillCast = this.skillPrototypes.getSkill("Sunburn") as SkillBase;
             });
             
             
@@ -327,7 +336,7 @@ export class GameManagerStore implements IGameManagerStore{
         await Assets.load(graphicPath.death).then((graphic) => {   
 
             const animSubData = new AnimationSubData();
-            animSubData.setData(6,6,0,30,30,600,600,graphic);
+            animSubData.setData(7,7,0,48,30,700,700,graphic);
 
             const animData = new SkillAnimation();
             animData.setAnimation(animSubData);
@@ -380,7 +389,7 @@ export class GameManagerStore implements IGameManagerStore{
             skill.speed = 15;
 
             const animSubData = new AnimationSubData();
-            animSubData.setData(1,1,0,0,100,76,73,graphic);
+            animSubData.setData(1,1,0,0,100,45,5,graphic);
 
             const animData = new SkillAnimation();
             animData.setAnimation(animSubData);
@@ -388,7 +397,8 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            // TODO: Remove next line for production.
+            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills bird
@@ -406,9 +416,10 @@ export class GameManagerStore implements IGameManagerStore{
             skill.damagingPlayer = false;
             skill.explodeable = false;
             skill.speed = 5;
+            skill.destroyAfter = 5000;
 
             const animSubData = new AnimationSubData();
-            animSubData.setData(1,1,0,0,100,76,73,graphic);
+            animSubData.setData(1,1,0,0,100,47,91,graphic);
 
             const animData = new SkillAnimation();
             animData.setAnimation(animSubData);
@@ -416,7 +427,8 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            // TODO: Remove next line for production.
+            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills dragon
@@ -437,7 +449,7 @@ export class GameManagerStore implements IGameManagerStore{
             skill.destroyAfter = 20000;
 
             const animSubData = new AnimationSubData();
-            animSubData.setData(1,1,0,0,100,76,73,graphic);
+            animSubData.setData(1,1,0,0,100,500,500,graphic);
 
             const animData = new SkillAnimation();
             animData.setAnimation(animSubData);
@@ -445,7 +457,8 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            // TODO: Remove next line for production.
+            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Sword vortex
@@ -475,8 +488,68 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            // TODO: Remove next line.
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+            // TODO: Remove next line for production.
+            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+        });
+
+        // Loading Skills Fire
+        await Assets.load(graphicPath.skills.fire).then((graphic) => {   
+            const skill = new SkillBase();
+            skill.anchorX = 0.5;
+            skill.anchorY = 0.5;
+            skill.damage = 1;
+            skill.cooldown = 2000;
+            skill.skillName = "Fire";
+            skill.scale = 1;
+            skill.damageRadius = 10;
+            skill.castTime = 0;
+            skill.damagingEnemies = true;
+            skill.damagingPlayer = false;
+            skill.explodeable = true;
+            skill.speed = 15;
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(8,8,0,63,100,800,800,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            skill.setAnimation(animData);
+
+            this.skillPrototypes.addSkillPrototype(skill);
+            // TODO: Remove next line for production.
+            // this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+        });
+
+        // Loading Skills Sunburn
+        await Assets.load(graphicPath.skills.sunBurn).then((graphic) => {   
+            const skill = new SkillBase();
+            skill.anchorX = 0.5;
+            skill.anchorY = 0.5;
+            skill.damage = 1;
+            skill.cooldown = 0;
+            skill.skillName = "Sunburn";
+            skill.scale = 1;
+            skill.damageRadius = 50;
+            skill.castTime = 0;
+            skill.destroyAfter = 1000;
+            skill.damagingEnemies = true;
+            skill.damagingPlayer = false;
+            skill.explodeable = false;
+            skill.speed = 9;
+            skill.speaning = false;
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(8,8,0,63,100,800,800,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            skill.setAnimation(animData);
+
+            this.skillPrototypes.addSkillPrototype(skill);
+            // TODO: Remove next line for production.
+            //this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         

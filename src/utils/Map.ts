@@ -1,4 +1,4 @@
-import { BaseTexture} from "pixi.js";
+import { BaseTexture } from "pixi.js";
 
 
 export default class GameMap{

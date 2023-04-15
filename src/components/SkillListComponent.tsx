@@ -1,6 +1,7 @@
 import React from "react";
 import SkillComponent from "./SkillComponent";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
+import { SkillBase } from "../utils/SkillBase";
 
 interface SkillListComponentProps{
     miliseconds: number;
@@ -22,6 +23,14 @@ export default function SkillListComponent(props: SkillListComponentProps) {
         }
         else
         {
+            if(skill.onExplodeSkillCast !== null)
+            {
+                const followedSkill = new SkillBase(skill.onExplodeSkillCast);
+                followedSkill.setPosition(...skill.getPosition());  
+                followedSkill.castTime = props.miliseconds;
+                followedSkill.setDestination(...skill.getPosition());             
+                ctx.skillListOnScreen.castSkill(followedSkill);
+            }
             ctx.skillListOnScreen.getMap().delete(skillKey);
         }
     });
