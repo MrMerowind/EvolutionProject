@@ -48,6 +48,11 @@ export const graphicPath =
         button:
             serverPath.toString() + "img/SkillSelect/button.png"
     },
+    mapSelect:
+    {
+        background:
+            serverPath.toString() + "img/MapSelect/background.png"
+    },
     skills:
     {
         magicOrb:

@@ -7,6 +7,7 @@ import EnemyComponent from "./EnemyComponent";
 import StatisticsComponent from "./StatisticsComponent";
 import SkillListComponent from "./SkillListComponent";
 import SkillSelectComponent from "./SkillSelectComponent";
+import MapSelectComponent from "./MapSelectComponent";
 
 
 
@@ -60,21 +61,24 @@ export function MainGameComponent(){
     return (
         <AppProvider value={app}>
             {/*Render map*/}
-            <MapComponent />
-           
+            {ctx.map.level > 0 ? <MapComponent /> : null}
+
             {/*Skills.*/}
-            <SkillListComponent miliseconds={miliseconds} delta={deltaTime.current}/>
+            {ctx.map.level > 0 ? <SkillListComponent miliseconds={miliseconds} delta={deltaTime.current}/> : null}
     
             {/*Render enemies*/}
             {/*Player is rendered in Enemy Component so its z index is correct.*/}
-            <EnemyComponent miliseconds={miliseconds} delta={deltaTime.current}/>
+            
+            {ctx.map.level > 0 ? <EnemyComponent miliseconds={miliseconds} delta={deltaTime.current}/> : null}
 
+            {/*Render map select*/}
+            {ctx.map.level <= 0 ? <><LoadingScreenComponent /><MapSelectComponent /></> : null}
 
             {/*Render UI*/}
             <StatisticsComponent />
 
             {/*Render skill select*/}
-            <SkillSelectComponent />
+            {ctx.map.level > 0 ? <SkillSelectComponent /> : null}
 
         </AppProvider>
     );

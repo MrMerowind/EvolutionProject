@@ -16,6 +16,7 @@ import SkillList from "./SkillList";
 import { enemiesData } from "../data/EnemiesData";
 import { SkillBase } from "./SkillBase";
 import SkillSelect from "./SkillSelect";
+import MapSelect from "./MapSelect";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -37,6 +38,7 @@ export interface IGameManagerStore{
     skillListAvaliable: SkillList;
     skillListOnScreen: SkillList;
     skillSelect: SkillSelect;
+    mapSelect: MapSelect;
 }
 
 export class GameManagerStore implements IGameManagerStore{
@@ -55,6 +57,7 @@ export class GameManagerStore implements IGameManagerStore{
     public skillListAvaliable: SkillList;
     public skillListOnScreen: SkillList;
     public skillSelect: SkillSelect;
+    public mapSelect: MapSelect;
 
     constructor(gameData: GameManagerStore | null = null)
     {
@@ -75,6 +78,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillListOnScreen = gameData.skillListOnScreen;
             this.skillPrototypes = gameData.skillPrototypes;
             this.skillSelect = gameData.skillSelect;
+            this.mapSelect = gameData.mapSelect;
         }
         else
         {
@@ -99,6 +103,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillListOnScreen = new SkillList();
             this.skillPrototypes = new SkillList();
             this.skillSelect = new SkillSelect();
+            this.mapSelect = new MapSelect();
 
             this.loadData().then(() => {
                 this.camera.setGameScreenHandle(this.screen);
@@ -159,6 +164,11 @@ export class GameManagerStore implements IGameManagerStore{
         });
         await Assets.load(graphicPath.skillSelect.button).then((graphic) => {
             this.skillSelect.setButton(graphic);
+        });
+
+        // Loading map select
+        await Assets.load(graphicPath.mapSelect.background).then((graphic) => {
+            this.mapSelect.setBackground(graphic);
         });
 
         // Loading enemies
