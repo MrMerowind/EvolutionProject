@@ -30,6 +30,7 @@ export default function PlayerComponent(props: PlayerComponentProps) {
         // TODO: Remove for production
         if (e.code === "KeyI") {ctx.map.previousLevel();}
         if (e.code === "KeyO") {ctx.map.nextLevel();}
+        if (e.code === "KeyP") {ctx.player.resetStats();} 
     };
 
     const handleUserKeyPressUp = (e: KeyboardEvent) => {

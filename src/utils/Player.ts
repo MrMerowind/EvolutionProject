@@ -65,6 +65,17 @@ export default class Player{
         localStorage.setItem("Player_exp", this.currentExp.toString());
         localStorage.setItem("Player_points", this.points.toString());
     }
+    public resetStats()
+    {
+        this.level = 1;
+        this.agility = 0;
+        this.vitality = 0;
+        this.strength = 0;
+        this.currentExp = 0;
+        this.points = 1;
+        this.saveToLocalStorage();
+        this.currentHp = this.getMaxHp();
+    }
     public getSpaceRadius(): number
     {
         return this.spaceRadius;
