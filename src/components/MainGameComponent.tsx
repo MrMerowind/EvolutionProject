@@ -39,6 +39,10 @@ export function MainGameComponent(){
         ctx.camera.centerOnPlayer();
     }, []);
 
+    useEffect(() => {
+        if(ctx.player.getCurrentHp() <= 0) ctx.map.level = 0;
+    }, [ctx.player.getCurrentHp()]);
+
     useTick((delta) => {
         deltaTime.current = delta;
         setMiliseconds(previousTime => previousTime + delta * frameTime);
