@@ -28,10 +28,7 @@ export default function PlayerComponent(props: PlayerComponentProps) {
         if (e.code === "KeyA") { setButtonLeftPressed(true); setFacedDirection(Direction.left); setFacedSecondaryDirection(DirectionHorizontal.left);}
         if (e.code === "KeyD") { setButtonRightPressed(true); setFacedDirection(Direction.right); setFacedSecondaryDirection(DirectionHorizontal.right);}
         if (e.code === "Escape") {ctx.map.level = 0;} 
-        // TODO: Remove for production
-        if (e.code === "KeyI") {ctx.map.previousLevel();}
-        if (e.code === "KeyO") {ctx.map.nextLevel();}
-        if (e.code === "KeyP") {ctx.player.resetStats();}
+        if (e.code === "End") {ctx.player.resetStats();}
     };
 
     const handleUserKeyPressUp = (e: KeyboardEvent) => {

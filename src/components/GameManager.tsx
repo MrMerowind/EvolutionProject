@@ -2,8 +2,6 @@ import { Stage } from "@pixi/react";
 import React from "react";
 import { GameManagerStoreProvider, useGameManagerStore } from "../hooks/useGameManagerStore";
 import { MainGameComponent } from "./MainGameComponent";
-import MapSelectComponent from "./MapSelectComponent";
-import { LoadingScreenComponent } from "./LoadingScreenComponent";
 
 
 
