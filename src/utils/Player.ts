@@ -38,10 +38,44 @@ export default class Player{
         this.animationDataWalking = new CreatureAnimation();
         this.animationDataAttacking = new CreatureAnimation();
         this.animationDataStanding = new CreatureAnimation();
+
+        const savedLevel = localStorage.getItem("Player_level");
+        const savedAgility = localStorage.getItem("Player_agility");
+        const savedVitality = localStorage.getItem("Player_vitality");
+        const savedStrength = localStorage.getItem("Player_strength");
+        const savedExp = localStorage.getItem("Player_exp");
+        const savedPoints = localStorage.getItem("Player_points");
+
+        if(savedLevel) this.level = parseInt(savedLevel);
+        if(savedAgility) this.agility = parseInt(savedAgility);
+        if(savedVitality) this.vitality = parseInt(savedVitality);
+        if(savedStrength) this.strength = parseInt(savedStrength);
+        if(savedExp) this.currentExp = parseInt(savedExp);
+        if(savedPoints) this.points = parseInt(savedPoints);
+
+        this.currentHp = this.getMaxHp();
+
+    }
+    public saveToLocalStorage()
+    {
+        localStorage.setItem("Player_level", this.level.toString());
+        localStorage.setItem("Player_agility", this.agility.toString());
+        localStorage.setItem("Player_vitality", this.vitality.toString());
+        localStorage.setItem("Player_strength", this.strength.toString());
+        localStorage.setItem("Player_exp", this.currentExp.toString());
+        localStorage.setItem("Player_points", this.points.toString());
     }
     public getSpaceRadius(): number
     {
         return this.spaceRadius;
+    }
+    public addSpeedThroughEnemies(points: number)
+    {
+        this.speedThroughEnemies += 0.5 * points;
+    }
+    public resetSpeedThroughEnemies()
+    {
+        this.speedThroughEnemies = 1;
     }
     public getAnimationData(animationState: AnimationState): CreatureAnimation
     {
@@ -187,6 +221,7 @@ export default class Player{
             this.addLevel(1);
             this.addPoints(1);
         }
+        this.saveToLocalStorage();
     }
     public addStrength(value: number): void
     {
@@ -194,6 +229,7 @@ export default class Player{
         if(this.points < value) return;
         this.strength += value;
         this.points -= value;
+        this.saveToLocalStorage();
     }
     public addVitality(value: number): void
     {
@@ -201,6 +237,7 @@ export default class Player{
         if(this.points < value) return;
         this.vitality += value;
         this.points -= value;
+        this.saveToLocalStorage();
     }
     public addAgility(value: number): void
     {
@@ -208,11 +245,13 @@ export default class Player{
         if(this.points < value) return;
         this.agility += value;
         this.points -= value;
+        this.saveToLocalStorage();
     }
     public addLevel(value: number): void
     {
         if(value < 0) return;
         this.level += value;
+        this.saveToLocalStorage();
     }
     public addPoints(value: number): void
     {
@@ -221,5 +260,6 @@ export default class Player{
         {
             throw new Error("Player points are below zero");
         }
+        this.saveToLocalStorage();
     }
 }

@@ -130,5 +130,6 @@ export default class EnemyList{
     public resetLastWaveTime()
     {
         this.lastWaveTime = 0;
+        this.currentWave = 0;
     }
 }

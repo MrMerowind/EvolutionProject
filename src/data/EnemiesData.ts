@@ -26,7 +26,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 2, level: 1, hp: 2, damage: 1, exp: 2, scale: 1.5, speed: 3, space: 30,
+        id: 2, level: 1, hp: 2, damage: 1, exp: 2, scale: 1.5, speed: 3.5, space: 30,
         graphics:
         {
             attack:
@@ -50,7 +50,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 3, level: 2, hp: 2, damage: 1, exp: 2, scale: 2, speed: 3, space: 30,
+        id: 3, level: 2, hp: 5, damage: 5, exp: 2, scale: 2, speed: 2, space: 30,
         graphics:
         {
             attack:
@@ -68,7 +68,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 4, level: 2, hp: 2, damage: 1, exp: 2, scale: 1, speed: 3, space: 30,
+        id: 4, level: 2, hp: 10, damage: 10, exp: 2, scale: 1, speed: 2.5, space: 30,
         graphics:
         {
             attack:
@@ -86,7 +86,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 5, level: 3, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 30,
+        id: 5, level: 3, hp: 15, damage: 15, exp: 3, scale: 2, speed: 3, space: 30,
         graphics:
         {
             attack:
@@ -104,7 +104,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 6, level: 3, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 30,
+        id: 6, level: 3, hp: 20, damage: 20, exp: 3, scale: 2, speed: 1, space: 40,
         graphics:
         {
             attack:
@@ -122,7 +122,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 7, level: 4, hp: 1, damage: 1, exp: 1, scale: 1, speed: 3, space: 60,
+        id: 7, level: 4, hp: 25, damage: 25, exp: 4, scale: 1, speed: 3, space: 100,
         graphics:
         {
             attack:
@@ -140,7 +140,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 8, level: 4, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 8, level: 4, hp: 30, damage: 30, exp: 4, scale: 2, speed: 2, space: 40,
         graphics:
         {
             attack:
@@ -158,7 +158,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 9, level: 5, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 9, level: 5, hp: 35, damage: 35, exp: 5, scale: 2, speed: 3, space: 40,
         graphics:
         {
             attack:
@@ -176,7 +176,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 10, level: 5, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 10, level: 5, hp: 40, damage: 40, exp: 5, scale: 2, speed: 2, space: 40,
         graphics:
         {
             attack:
@@ -194,7 +194,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 11, level: 6, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 11, level: 6, hp: 45, damage: 45, exp: 6, scale: 2, speed: 3, space: 40,
         graphics:
         {
             attack:
@@ -212,7 +212,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 12, level: 6, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 12, level: 6, hp: 50, damage: 50, exp: 6, scale: 2, speed: 4, space: 80,
         graphics:
         {
             attack:
@@ -230,7 +230,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 13, level: 7, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 13, level: 7, hp: 55, damage: 55, exp: 7, scale: 2, speed: 5, space: 80,
         graphics:
         {
             attack:
@@ -248,7 +248,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 14, level: 7, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 14, level: 7, hp: 60, damage: 60, exp: 7, scale: 2, speed: 2, space: 80,
         graphics:
         {
             attack:
@@ -266,7 +266,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 15, level: 8, hp: 1, damage: 1, exp: 1, scale: 1, speed: 3, space: 20,
+        id: 15, level: 8, hp: 65, damage: 65, exp: 8, scale: 1, speed: 3, space: 80,
         graphics:
         {
             attack:
@@ -284,7 +284,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 16, level: 8, hp: 1, damage: 1, exp: 1, scale: 1, speed: 3, space: 20,
+        id: 16, level: 8, hp: 70, damage: 70, exp: 8, scale: 1, speed: 4, space: 80,
         graphics:
         {
             attack:
@@ -302,7 +302,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 17, level: 9, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 17, level: 9, hp: 75, damage: 75, exp: 9, scale: 2, speed: 5, space: 80,
         graphics:
         {
             attack:
@@ -320,7 +320,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 18, level: 9, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 18, level: 9, hp: 80, damage: 80, exp: 9, scale: 2, speed: 6, space: 80,
         graphics:
         {
             attack:
@@ -338,7 +338,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 19, level: 10, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 19, level: 10, hp: 85, damage: 85, exp: 10, scale: 2, speed: 4, space: 80,
         graphics:
         {
             attack:
@@ -356,7 +356,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 20, level: 10, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 20, level: 10, hp: 90, damage: 90, exp: 10, scale: 2, speed: 5, space: 80,
         graphics:
         {
             attack:
@@ -374,7 +374,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 21, level: 11, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 21, level: 11, hp: 95, damage: 95, exp: 11, scale: 2, speed: 6, space: 80,
         graphics:
         {
             attack:
@@ -392,7 +392,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 22, level: 11, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 22, level: 11, hp: 100, damage: 100, exp: 11, scale: 2, speed: 7, space: 80,
         graphics:
         {
             attack:
@@ -410,7 +410,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 26, level: 12, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 26, level: 12, hp: 100, damage: 100, exp: 12, scale: 2, speed: 7, space: 80,
         graphics:
         {
             attack:
@@ -428,7 +428,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 27, level: 12, hp: 1, damage: 1, exp: 1, scale: 2, speed: 3, space: 20,
+        id: 27, level: 12, hp: 20, damage: 300, exp: 12, scale: 2, speed: 9, space: 80,
         graphics:
         {
             attack:

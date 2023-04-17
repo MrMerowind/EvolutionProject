@@ -17,6 +17,10 @@ export default class SkillList{
         const name = skill.getName();
         this.skills.set(name, skill);
     }
+    public reset()
+    {
+        this.skills.clear();
+    }
     public castSkill(skill: SkillBase)
     {
         const id = skill.getId();

@@ -18,6 +18,12 @@ export default class SkillSelect{
     {
         this.randomizeUpgrades();
     }
+    public reset()
+    {
+        this.skillLevels = [1,0,0,0,0,0,0,0,0,0,0];
+        this.possibleUpgrade = [];
+        this.points = 0;
+    }
     public getPoints()
     {
         return this.points;

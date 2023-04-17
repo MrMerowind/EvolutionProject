@@ -30,7 +30,6 @@ export default function PlayerComponent(props: PlayerComponentProps) {
         // TODO: Remove for production
         if (e.code === "KeyI") {ctx.map.previousLevel();}
         if (e.code === "KeyO") {ctx.map.nextLevel();}
-        if (e.code === "KeyP") {ctx.player.addLevel(1);ctx.player.addPoints(1);}
     };
 
     const handleUserKeyPressUp = (e: KeyboardEvent) => {
@@ -53,6 +52,7 @@ export default function PlayerComponent(props: PlayerComponentProps) {
     }, []);
 
     useTick((delta) => {
+        if(ctx.skillSelect.getPoints() > 0) return;
         const x = (buttonLeftPressed ? -1 : 0) + (buttonRightPressed ? 1 : 0);
         const y = (buttonUpPressed ? -1 : 0) + (buttonDownPressed ? 1 : 0);
         ctx.player.moveUnits(x, y, ctx.enemyList, delta);
@@ -76,6 +76,7 @@ export default function PlayerComponent(props: PlayerComponentProps) {
 
 
     useEffect(() => {
+        if(ctx.skillSelect.getPoints() > 0) return;
         ctx.skillListAvaliable.getMap().forEach((skill) => {
 
             const skillAvailableAt = skill.castTime + skill.cooldown;
@@ -89,7 +90,7 @@ export default function PlayerComponent(props: PlayerComponentProps) {
             
             if(nearestEnemyToSkill !== null && enemyDistanceToPlayer < visibleDistanceOnScreen)
             {  
-                if(skillAvailableAt <= props.miliseconds /*&& ctx.skillSelect.getPoints() <= 0*/)
+                if(skillAvailableAt <= props.miliseconds)
                 {
                     skill.castTime = props.miliseconds;
                     const skillCopy = new SkillBase(skill);

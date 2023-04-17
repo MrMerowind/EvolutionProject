@@ -19,6 +19,8 @@ export default function EnemyComponent(props: EnemyComponentProps) {
 
         ctx.enemyList.progressDeathSpotsTime(props.delta * 1000 / 60);
 
+        if(ctx.skillSelect.getPoints() > 0) return;
+
         let bossSpawned = false;
         if(ctx.enemyList.isBossReady(ctx.map.level))
         {
@@ -156,10 +158,12 @@ export default function EnemyComponent(props: EnemyComponentProps) {
             
                 const enemyOnScreenPositionX = enemy.getPositionX() - ctx.camera.getOffsetX();
                 const enemyOnScreenPositionY = enemy.getPositionY() - ctx.camera.getOffsetY();
+                const heightOffset = 30;
+                const hpPercentage = enemy.getCurrentHp() * 100 / enemy.getMaxHp();
 
                 return (
                     <AboveHeadHealthComponent positionX={enemyOnScreenPositionX} positionY={enemyOnScreenPositionY} 
-                        percentage={enemy.getCurrentHp() * 100 / enemy.getMaxHp()} heightOffset={/* TODO: Put here height of image */ 30} player={false} key={enemy.getId() + "enemyhp"}/>
+                        percentage={hpPercentage} heightOffset={heightOffset} player={false} key={enemy.getId() + "enemyhp"}/>
                 );
             })}
             <AboveHeadHealthComponent positionX={playerOnScreenPositionX} positionY={playerOnScreenPositionY} 

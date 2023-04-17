@@ -24,30 +24,24 @@ export default function SkillSelectComponent() {
     function upgradeSkill(index: number, level: number)
     {
         const skillName = SkillNames[index];
-        if(ctx.skillListAvaliable.getSkill(skillName) !== undefined)
+        if(skillName === "Heart")
         {
-            // Heart
-            if(index === 9)
+            ctx.player.addHp(ctx.player.getMaxHp());
+        }
+        else if(skillName === "Mobility")
+        {
+            ctx.player.addSpeedThroughEnemies(1);
+        }
+        else if(ctx.skillListAvaliable.getSkill(skillName) !== undefined)
+        {
+            const skillBaseCooldown = ctx.skillPrototypes.getSkill(skillName)?.cooldown;
+            if(skillBaseCooldown)
             {
-                // TODO: Add 10% bonus hp to the player
+                const skillNewCooldown = skillBaseCooldown - skillBaseCooldown / ctx.skillSelect.maxSkillLevel * level;
+                const skill = ctx.skillListAvaliable.getSkill(skillName);
+                if(skill !== undefined)
+                    skill.cooldown = skillNewCooldown;
             }
-            // Mobility
-            else if(index === 8)
-            {
-                // TODO: Add 10% mobility through mobs to the player
-            }
-            else
-            {
-                const skillBaseCooldown = ctx.skillPrototypes.getSkill(skillName)?.cooldown;
-                if(skillBaseCooldown)
-                {
-                    const skillNewCooldown = skillBaseCooldown - skillBaseCooldown / ctx.skillSelect.maxSkillLevel * level;
-                    const skill = ctx.skillListAvaliable.getSkill(skillName);
-                    if(skill !== undefined)
-                        skill.cooldown = skillNewCooldown;
-                }
-            }
-            
         }   
         else
         {

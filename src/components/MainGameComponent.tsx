@@ -24,6 +24,14 @@ export function MainGameComponent(){
         setMiliseconds(0);
         ctx.enemyList.resetLastWaveTime();
         ctx.skillListAvaliable.resetCooldowns();
+        ctx.player.resetSpeedThroughEnemies();
+        ctx.skillSelect.reset();
+        ctx.skillListOnScreen.reset();
+        ctx.skillListAvaliable.reset();
+        const skillOrb = ctx.skillPrototypes.getSkill("Orb");
+        if(skillOrb) ctx.skillListAvaliable.addSkillPrototype(skillOrb);
+        ctx.player.addHp(ctx.player.getMaxHp());
+        ctx.enemyList.getList().splice(0);
     }, [ctx.map.level]);
 
     useEffect(() => {
