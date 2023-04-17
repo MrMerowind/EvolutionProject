@@ -1,8 +1,9 @@
-/* eslint-disable react/jsx-key */
+/* eslint-disable react/jsx-no-undef */
 import React from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { Rectangle, Texture } from "pixi.js";
-import { Sprite } from "@pixi/react";
+import { Sprite, Text } from "@pixi/react";
+import { mapLevel } from "../utils/Fonts";
 
 export default function MapSelectComponent() {
 
@@ -58,12 +59,15 @@ export default function MapSelectComponent() {
                 finalHeight = imageRef.height * secondScale;
 
                 return (
-                    <Sprite texture={cutTexture} width={finalWidth} height={finalHeight}
-                        x={finalPositionX} y={finalPositionY} rotation={0} anchor={[0.5,0.5]} key={id}
-                        interactive={true}
-                        pointerdown={() => {
-                            selectMap(id);
-                        }} mouseover={() => {markSelect(id);} }/>);
+                    <>
+                        <Sprite texture={cutTexture} width={finalWidth} height={finalHeight}
+                            x={finalPositionX} y={finalPositionY} rotation={0} anchor={[0.5,0.5]} key={id.toString()}
+                            interactive={true}
+                            pointerdown={() => {
+                                selectMap(id);
+                            }} mouseover={() => {markSelect(id);} }/>
+                        <Text text={id.toString()} anchor={0.5} x={finalPositionX} y={finalPositionY} style={mapLevel} key={id.toString() + "text"}/>
+                    </>);
             })}
         </>
     );

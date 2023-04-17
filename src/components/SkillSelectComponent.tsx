@@ -91,7 +91,7 @@ export default function SkillSelectComponent() {
     return (
         <>
             <Sprite texture={cutTextureBackground} width={imageRefBackground.width} height={imageRefBackground.height}
-                x={ctx.screen.getCenterHorizontal()} y={ctx.screen.getCenterVertical()} rotation={0} anchor={[0.5,0.5]} />
+                x={ctx.screen.getCenterHorizontal()} y={ctx.screen.getCenterVertical()} rotation={0} anchor={[0.5,0.5]} key={"bgskillselect"}/>
 
             {
                 barPositions.map((barPos, index) => {
@@ -127,7 +127,7 @@ export default function SkillSelectComponent() {
             }
 
             <Sprite texture={cutTextureOverlay} width={imageRefOverlay.width} height={imageRefOverlay.height}
-                x={ctx.screen.getCenterHorizontal()} y={ctx.screen.getCenterVertical()} rotation={0} anchor={[0.5,0.5]} />
+                x={ctx.screen.getCenterHorizontal()} y={ctx.screen.getCenterVertical()} rotation={0} anchor={[0.5,0.5]} key={"overlayskillselect"}/>
         </>
     );
 }

@@ -33,7 +33,7 @@ export default function MapComponent() {
 
     return (
         <>{arrayOfPositionAndKey.map(([x,y,keyValue]) =>
-            <Sprite key={keyValue} texture={cutTexture} width={ctx.map.textureWidth} height={ctx.map.textureHeight} scale={1}
+            <Sprite key={keyValue.toString()} texture={cutTexture} width={ctx.map.textureWidth} height={ctx.map.textureHeight} scale={1}
                 x={x} y={y} rotation={0} anchor={0}/>
         )}</>
     );

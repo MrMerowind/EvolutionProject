@@ -14,6 +14,20 @@ export const levelFont = new TextStyle({
     wordWrapWidth: 440,
 });
 
+export const mapLevel = new TextStyle({
+    align: "center",
+    fontFamily: "\"Source Sans Pro\", Helvetica, sans-serif",
+    fontSize: 30,
+    fontWeight: "300",
+    fill: "#ffffff",
+    stroke: "#000000",
+    strokeThickness: 3,
+    letterSpacing: 10,
+    dropShadow: false,
+    wordWrap: true,
+    wordWrapWidth: 440,
+});
+
 export const statsFont = new TextStyle({
     align: "center",
     fontFamily: "\"Source Sans Pro\", Helvetica, sans-serif",

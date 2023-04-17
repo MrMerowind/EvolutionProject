@@ -136,7 +136,7 @@ export default function EnemyComponent(props: EnemyComponentProps) {
                 const spotOnScreenPositionY = deathSpot[1] - ctx.camera.getOffsetY();
 
                 return (
-                    <DeathComponent positionX={spotOnScreenPositionX} positionY={spotOnScreenPositionY} time={deathSpot[3]} key={deathSpot[2]}/>
+                    <DeathComponent positionX={spotOnScreenPositionX} positionY={spotOnScreenPositionY} time={deathSpot[3]} key={deathSpot[2].toString()}/>
                 );
             })}
             {ctx.enemyList.getList().map(enemy => {
