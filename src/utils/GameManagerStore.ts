@@ -4,7 +4,7 @@ import Player from "./Player";
 import { GameCamera } from "./GameCamera";
 import { GameScreen } from "./GameScreen";
 import { graphicPath } from "../data/GraphicPaths";
-import { AnimationState, Direction } from "./Types";
+import { AnimationState, Direction } from "../data/Types";
 import GameMap from "./Map";
 import LoadingScreen from "./LoadingScreen";
 import EnemyList from "./EnemyList";
@@ -15,6 +15,7 @@ import { StatisticsData } from "./StatisticsData";
 import SkillList from "./SkillList";
 import { enemiesData } from "../data/EnemiesData";
 import { SkillBase } from "./SkillBase";
+import SkillSelect from "./SkillSelect";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -35,6 +36,7 @@ export interface IGameManagerStore{
     skillPrototypes: SkillList;
     skillListAvaliable: SkillList;
     skillListOnScreen: SkillList;
+    skillSelect: SkillSelect;
 }
 
 export class GameManagerStore implements IGameManagerStore{
@@ -52,6 +54,7 @@ export class GameManagerStore implements IGameManagerStore{
     public skillPrototypes: SkillList;
     public skillListAvaliable: SkillList;
     public skillListOnScreen: SkillList;
+    public skillSelect: SkillSelect;
 
     constructor(gameData: GameManagerStore | null = null)
     {
@@ -71,6 +74,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillListAvaliable = gameData.skillListAvaliable;
             this.skillListOnScreen = gameData.skillListOnScreen;
             this.skillPrototypes = gameData.skillPrototypes;
+            this.skillSelect = gameData.skillSelect;
         }
         else
         {
@@ -94,6 +98,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillListAvaliable = new SkillList();
             this.skillListOnScreen = new SkillList();
             this.skillPrototypes = new SkillList();
+            this.skillSelect = new SkillSelect();
 
             this.loadData().then(() => {
                 this.camera.setGameScreenHandle(this.screen);
@@ -141,6 +146,20 @@ export class GameManagerStore implements IGameManagerStore{
                 this.map.textures.set(i, graphic);
             });
         }
+
+        // Loading skill select
+        await Assets.load(graphicPath.skillSelect.background).then((graphic) => {
+            this.skillSelect.setBackground(graphic);
+        });
+        await Assets.load(graphicPath.skillSelect.overlay).then((graphic) => {
+            this.skillSelect.setOverlay(graphic);
+        });
+        await Assets.load(graphicPath.skillSelect.bar).then((graphic) => {
+            this.skillSelect.setBar(graphic);
+        });
+        await Assets.load(graphicPath.skillSelect.button).then((graphic) => {
+            this.skillSelect.setButton(graphic);
+        });
 
         // Loading enemies
         enemiesData.forEach(async(enemy) => {
@@ -397,8 +416,6 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            // TODO: Remove next line for production.
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills bird
@@ -427,8 +444,6 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            // TODO: Remove next line for production.
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills dragon
@@ -457,8 +472,6 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            // TODO: Remove next line for production.
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Sword vortex
@@ -488,8 +501,6 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            // TODO: Remove next line for production.
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Fire
@@ -517,8 +528,6 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            // TODO: Remove next line for production.
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Sunburn
@@ -548,8 +557,6 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            // Do not add this line or it will not work.
-            // this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
         });
 
         // Loading Skills Ice
@@ -579,8 +586,35 @@ export class GameManagerStore implements IGameManagerStore{
             skill.setAnimation(animData);
 
             this.skillPrototypes.addSkillPrototype(skill);
-            // TODO: Remove next line for production.
-            this.skillListAvaliable.addSkillPrototype(new SkillBase(skill));
+        });
+
+        // Loading Skills Poison
+        await Assets.load(graphicPath.skills.poison).then((graphic) => {   
+            const skill = new SkillBase();
+            skill.anchorX = 0.5;
+            skill.anchorY = 0.5;
+            skill.damage = 1;
+            skill.cooldown = 5000;
+            skill.skillName = "Poison";
+            skill.scale = 3;
+            skill.damageRadius = 100;
+            skill.castTime = 0;
+            skill.destroyAfter = 4000;
+            skill.damagingEnemies = true;
+            skill.damagingPlayer = false;
+            skill.explodeable = false;
+            skill.speed = 1;
+            skill.speaning = false;
+
+            const animSubData = new AnimationSubData();
+            animSubData.setData(10,10,0,90,100,1000,1000,graphic);
+
+            const animData = new SkillAnimation();
+            animData.setAnimation(animSubData);
+
+            skill.setAnimation(animData);
+
+            this.skillPrototypes.addSkillPrototype(skill);
         });
 
         

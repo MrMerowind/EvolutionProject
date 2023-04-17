@@ -1,6 +1,6 @@
 import { CreatureAnimation } from "./AnimationData";
 import EnemyList from "./EnemyList";
-import { AnimationState } from "./Types";
+import { AnimationState } from "../data/Types";
 
 export default class Player{
     private id: string;

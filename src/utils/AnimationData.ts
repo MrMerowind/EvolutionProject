@@ -1,5 +1,5 @@
 import { BaseTexture} from "pixi.js";
-import { Direction, DirectionHorizontal } from "./Types";
+import { Direction, DirectionHorizontal } from "../data/Types";
 
 
 export class AnimationSubData{

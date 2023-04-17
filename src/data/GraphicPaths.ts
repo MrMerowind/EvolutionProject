@@ -37,6 +37,17 @@ export const graphicPath =
         button:
             serverPath.toString() + "img/HealthBar/button_increase.png"
     },
+    skillSelect:
+    {
+        background:
+            serverPath.toString() + "img/SkillSelect/bg.png",
+        overlay:
+            serverPath.toString() + "img/SkillSelect/overlay.png",
+        bar:
+            serverPath.toString() + "img/SkillSelect/bar.png",
+        button:
+            serverPath.toString() + "img/SkillSelect/button.png"
+    },
     skills:
     {
         magicOrb:
@@ -54,6 +65,8 @@ export const graphicPath =
         sunBurn:
             serverPath.toString() + "img/Skills/9.png",
         ice:
-            serverPath.toString() + "img/Skills/10.png"
+            serverPath.toString() + "img/Skills/10.png",
+        poison:
+            serverPath.toString() + "img/Skills/11.png"
     }
 };

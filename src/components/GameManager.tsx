@@ -1,8 +1,8 @@
 import { Stage/*, Text*/ } from "@pixi/react";
-import React from "react";
+import React, { useEffect } from "react";
 /*import { mainPixiFont } from "../globalData/Fonts";*/
 import { GameManagerStoreProvider, useGameManagerStore } from "../hooks/useGameManagerStore";
-import { MainGameComponent } from "../components/MainGameComponent";
+import { MainGameComponent } from "./MainGameComponent";
 
 
 

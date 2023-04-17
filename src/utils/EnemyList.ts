@@ -102,16 +102,25 @@ export default class EnemyList{
         this.lastWaveTime = currentTime;
         this.currentWave++;
     }
+    private getWaveDuration(mapLevel: number)
+    {
+        const temporaryWaveDuration = 5000;
+        return temporaryWaveDuration;
+        return Math.max(5000 - (mapLevel - 1) * 500, 1000); 
+    }
+    private getWaveCount(mapLevel: number)
+    {
+        return Math.floor(600 / (this.getWaveDuration(mapLevel) / 1000));
+    }
     public isNextWaveReady(currentTime: number, mapLevel: number): boolean
     {
-        if(this.currentWave >= mapLevel * 20) return false;
-        const waveDuration = Math.max(5000 - (mapLevel - 1) * 500, 3000);
-        if(this.lastWaveTime + waveDuration <= currentTime) return true;
+        if(this.currentWave >= this.getWaveCount(mapLevel)) return false;
+        if(this.lastWaveTime + this.getWaveDuration(mapLevel) <= currentTime) return true;
         else return false;
     }
     public isBossReady(mapLevel: number): boolean
     {
-        if(this.currentWave == mapLevel * 50) return true;
+        if(this.currentWave == this.getWaveCount(mapLevel)) return true;
         return false;
     }
     public moveTowardsPlayer(playerHandle: Player, delta: number)

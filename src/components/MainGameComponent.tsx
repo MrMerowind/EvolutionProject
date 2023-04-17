@@ -6,6 +6,7 @@ import { LoadingScreenComponent } from "./LoadingScreenComponent";
 import EnemyComponent from "./EnemyComponent";
 import StatisticsComponent from "./StatisticsComponent";
 import SkillListComponent from "./SkillListComponent";
+import SkillSelectComponent from "./SkillSelectComponent";
 
 
 
@@ -63,6 +64,9 @@ export function MainGameComponent(){
 
             {/*Render UI*/}
             <StatisticsComponent />
+
+            {/*Render skill select*/}
+            <SkillSelectComponent />
 
         </AppProvider>
     );

@@ -1,5 +1,5 @@
 import { CreatureAnimation, SkillAnimation } from "./AnimationData";
-import { AnimationState, Direction, DirectionHorizontal } from "./Types";
+import { AnimationState, Direction, DirectionHorizontal } from "../data/Types";
 import Player from "./Player";
 import EnemyList from "./EnemyList";
 

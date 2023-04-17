@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
-import { AnimationState } from "../utils/Types";
+import { AnimationState } from "../data/Types";
 import AboveHeadHealthComponent from "./AboveHeadHealthComponent";
 import PlayerComponent from "./PlayerComponent";
 import { AnimationComponent } from "./AnimationComponent";
@@ -67,7 +67,7 @@ export default function EnemyComponent(props: EnemyComponentProps) {
         ctx.enemyPrototypes.getList().forEach(enemy => {
             if(enemy.getLevel() <= ctx.map.level && enemy.getLevel() >= ctx.map.level - 3)
             {
-                const enemiesSpawnForWave = Math.min(ctx.map.level, 7);
+                const enemiesSpawnForWave = Math.min(Math.ceil(ctx.enemyList.getCurrentWave() / 4), 12);
                 for(let i = 0; i < enemiesSpawnForWave; i++)
                 {
                     const objClone = enemy.clone();

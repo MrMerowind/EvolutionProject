@@ -26,7 +26,7 @@ export const enemiesData = [
         },
     },
     {
-        id: 2, level: 1, hp: 2, damage: 1, exp: 2, scale: 1, speed: 3, space: 30,
+        id: 2, level: 1, hp: 2, damage: 1, exp: 2, scale: 1.5, speed: 3, space: 30,
         graphics:
         {
             attack:

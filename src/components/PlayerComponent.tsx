@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
-import { AnimationState, Direction, DirectionHorizontal } from "../utils/Types";
+import { AnimationState, Direction, DirectionHorizontal } from "../data/Types";
 import { AnimationComponent } from "./AnimationComponent";
 import { useTick } from "@pixi/react";
 import { SkillBase } from "../utils/SkillBase";
@@ -55,7 +55,6 @@ export default function PlayerComponent(props: PlayerComponentProps) {
     useTick((delta) => {
         const x = (buttonLeftPressed ? -1 : 0) + (buttonRightPressed ? 1 : 0);
         const y = (buttonUpPressed ? -1 : 0) + (buttonDownPressed ? 1 : 0);
-
         ctx.player.moveUnits(x, y, ctx.enemyList, delta);
     });
 
@@ -90,13 +89,20 @@ export default function PlayerComponent(props: PlayerComponentProps) {
             
             if(nearestEnemyToSkill !== null && enemyDistanceToPlayer < visibleDistanceOnScreen)
             {  
-                if(skillAvailableAt <= props.miliseconds)
+                if(skillAvailableAt <= props.miliseconds /*&& ctx.skillSelect.getPoints() <= 0*/)
                 {
                     skill.castTime = props.miliseconds;
                     const skillCopy = new SkillBase(skill);
                     skillCopy.castTime = props.miliseconds;
                     skillCopy.setPosition(playerPosition[0], playerPosition[1]);
                     if(skillCopy.getName() === "Orb") skillCopy.setDestination(...nearestEnemyToSkill.getPosition());
+                    if(skillCopy.getName() === "Poison")
+                    {
+                        const randomPositionX = ctx.player.getPositionX() + Math.random() * ctx.screen.getWidth() - ctx.screen.getCenterHorizontal();
+                        const randomPositionY = ctx.player.getPositionY() + Math.random() * ctx.screen.getHeight() - ctx.screen.getCenterVertical();
+                        skillCopy.setPosition(randomPositionX, randomPositionY);
+                        skillCopy.setDestination(randomPositionX, randomPositionY);
+                    }
                     const randomEnemyInRange = ctx.enemyList.getRandomClose(...ctx.player.getPosition());
                     if(randomEnemyInRange !== null && (skillCopy.getName() === "Arrow" || skillCopy.getName() === "Bird")) skillCopy.setDestination(...randomEnemyInRange.getPosition(),randomEnemyInRange);
                     if(randomEnemyInRange !== null && skillCopy.getName() === "Ice")
