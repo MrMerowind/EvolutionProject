@@ -150,6 +150,7 @@ export default class Enemy{
         const moveY = playerHandle.getPositionX() - this.positionX;
 
         const distance = Math.hypot(moveX, moveY);
+        const maximumDistance = 4000;
 
         let finalPositionX = this.positionX;
         let finalPositionY = this.positionY;
@@ -160,7 +161,7 @@ export default class Enemy{
             finalPositionY = this.positionY + moveY / distance * this.getSpeed() * delta;
         }
 
-        if(distance > 4000)
+        if(distance > maximumDistance)
         {
             finalPositionX = this.positionX + moveX / distance * playerHandle.getSpeed();
             finalPositionY = this.positionY + moveY / distance * playerHandle.getSpeed();
