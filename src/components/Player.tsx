@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { AnimationState, Direction, DirectionHorizontal } from "../data/Types";
-import { AnimationComponent } from "./AnimationComponent";
+import { AnimationComponent } from "./Animation";
 import { useTick } from "@pixi/react";
 import { SkillBase } from "../utils/SkillBase";
-
 
 interface PlayerComponentProps{
   miliseconds: number;
@@ -38,8 +37,6 @@ export default function PlayerComponent(props: PlayerComponentProps) {
         if (e.code === "KeyS") { setButtonDownPressed(false); }
     };
 
-
-
     useEffect(() => {
         window.addEventListener("keydown", handleUserKeyPressDown);
         window.addEventListener("keyup", handleUserKeyPressUp);
@@ -51,9 +48,13 @@ export default function PlayerComponent(props: PlayerComponentProps) {
     }, []);
 
     useTick((delta) => {
-        if(ctx.skillSelect.getPoints() > 0) return;
-        const x = (buttonLeftPressed ? -1 : 0) + (buttonRightPressed ? 1 : 0);
-        const y = (buttonUpPressed ? -1 : 0) + (buttonDownPressed ? 1 : 0);
+
+        const aboveThisPointsCountPlayerIsNotMoving = 0;
+        const noMove = 0;
+        const oneUnitOfPlayerMovement = 1;
+        if(ctx.skillSelect.getPoints() > aboveThisPointsCountPlayerIsNotMoving) return;
+        const x = (buttonLeftPressed ? -oneUnitOfPlayerMovement : noMove) + (buttonRightPressed ? oneUnitOfPlayerMovement : noMove);
+        const y = (buttonUpPressed ? -oneUnitOfPlayerMovement : noMove) + (buttonDownPressed ? oneUnitOfPlayerMovement : noMove);
         ctx.player.moveUnits(x, y, ctx.enemyList, delta);
     });
 
@@ -69,19 +70,23 @@ export default function PlayerComponent(props: PlayerComponentProps) {
         else setAnimationState(AnimationState.standing);
     }, [buttonDownPressed, buttonLeftPressed, buttonRightPressed, buttonUpPressed]);
 
-
-    const playerOnScreenPositionX = playerPosition[0] - ctx.camera.getOffsetX();
-    const playerOnScreenPositionY = playerPosition[1] - ctx.camera.getOffsetY();
-
+    const indexOfPlayerPositionX = 0;
+    const indexOfPlayerPositionY = 1;
+    const playerOnScreenPositionX = playerPosition[indexOfPlayerPositionX] - ctx.camera.getOffsetX();
+    const playerOnScreenPositionY = playerPosition[indexOfPlayerPositionY] - ctx.camera.getOffsetY();
 
     useEffect(() => {
-        if(ctx.skillSelect.getPoints() > 0) return;
+        const aboveThisPointsCountPlayerIsNotCastingSpells = 0;
+        if(ctx.skillSelect.getPoints() > aboveThisPointsCountPlayerIsNotCastingSpells) return;
         ctx.skillListAvaliable.getMap().forEach((skill) => {
 
-            const skillAvailableAt = skill.castTime + skill.cooldown;
-            const nearestEnemyToSkill = ctx.enemyList.getNearest(skill.getPosition()[0], skill.getPosition()[1]);
+            const indexOfPositionX = 0;
+            const indexOfPositionY = 1;
 
-            const nearestEnemyToPlayer = ctx.enemyList.getNearest(ctx.player.getPosition()[0], ctx.player.getPosition()[1]);
+            const skillAvailableAt = skill.castTime + skill.cooldown;
+            const nearestEnemyToSkill = ctx.enemyList.getNearest(skill.getPosition()[indexOfPositionX], skill.getPosition()[indexOfPositionY]);
+
+            const nearestEnemyToPlayer = ctx.enemyList.getNearest(ctx.player.getPosition()[indexOfPositionX], ctx.player.getPosition()[indexOfPositionY]);
             if(nearestEnemyToPlayer === null) return;
             const enemyDistanceToPlayer = Math.hypot(nearestEnemyToPlayer.getPositionX() - ctx.player.getPositionX(),
                 nearestEnemyToPlayer.getPositionY() - ctx.player.getPositionY());
@@ -94,7 +99,7 @@ export default function PlayerComponent(props: PlayerComponentProps) {
                     skill.castTime = props.miliseconds;
                     const skillCopy = new SkillBase(skill);
                     skillCopy.castTime = props.miliseconds;
-                    skillCopy.setPosition(playerPosition[0], playerPosition[1]);
+                    skillCopy.setPosition(playerPosition[indexOfPositionX], playerPosition[indexOfPositionY]);
                     if(skillCopy.getName() === "Orb") skillCopy.setDestination(...nearestEnemyToSkill.getPosition());
                     if(skillCopy.getName() === "Poison")
                     {

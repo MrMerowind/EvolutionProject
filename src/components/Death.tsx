@@ -18,7 +18,6 @@ export default function DeathComponent(props: DeathComponentProps) {
 
     if(anim.imageRef === null) return null;
     
-    
     const graphicWidth = anim.graphicWidth / anim.horizontalFrames;
     const graphicHeight = anim.graphicHeight / anim.verticalFrames;
     
@@ -27,7 +26,8 @@ export default function DeathComponent(props: DeathComponentProps) {
     const aFIE = anim.animationFrameIndexEnd;
     const aFT = anim.animationFrameTime;
 
-    const frameNumber = Math.floor(props.time / aFT) % Math.floor(aFIE - aFIS + 1) + aFIS;
+    const one = 1;
+    const frameNumber = Math.floor(props.time / aFT) % Math.floor(aFIE - aFIS + one) + aFIS;
 
     const graphicPositionX = (frameNumber % anim.horizontalFrames) * graphicWidth;
     
@@ -35,7 +35,6 @@ export default function DeathComponent(props: DeathComponentProps) {
     / anim.horizontalFrames) * graphicHeight;
 
     const imageRef = anim.imageRef;
-
 
     // Cutting region here because scale affects also scale of cutting area :c
     // So it only works with scale 1

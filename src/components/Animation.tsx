@@ -1,6 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Texture, Rectangle} from "pixi.js";
-import { Sprite } from "@pixi/react";
+import { Sprite, TilingSprite } from "@pixi/react";
 import { AnimationState, Direction, DirectionHorizontal } from "../data/Types";
 import { CreatureAnimation, AnimationSubData } from "../utils/AnimationData";
 
@@ -53,7 +53,6 @@ export function AnimationComponent(props: AnimationComponentProps) {
     // Did not find any graphic
     if(animationDataStateAndDirection.imageRef === null) return null;
     
-    
     const graphicWidth = animationDataStateAndDirection.graphicWidth / animationDataStateAndDirection.horizontalFrames;
     const graphicHeight = animationDataStateAndDirection.graphicHeight / animationDataStateAndDirection.verticalFrames;
     
@@ -62,7 +61,8 @@ export function AnimationComponent(props: AnimationComponentProps) {
     const aFIE = animationDataStateAndDirection.animationFrameIndexEnd;
     const aFT = animationDataStateAndDirection.animationFrameTime;
 
-    const frameNumber = Math.floor(props.time / aFT) % Math.floor(aFIE - aFIS + 1) + aFIS;
+    const one = 1;
+    const frameNumber = Math.floor(props.time / aFT) % Math.floor(aFIE - aFIS + one) + aFIS;
 
     const graphicPositionX = (frameNumber % animationDataStateAndDirection.horizontalFrames) * graphicWidth;
     
@@ -71,24 +71,27 @@ export function AnimationComponent(props: AnimationComponentProps) {
 
     const imageRef = animationDataStateAndDirection.imageRef;
 
-
     // Cutting region here because scale affects also scale of cutting area :c
     // So it only works with scale 1
     const cutRegion = new Rectangle(graphicPositionX, graphicPositionY, graphicWidth, graphicHeight);
     const cutTexture = new Texture(imageRef, cutRegion);
 
+    const multiplier = 1;
+
     let reversedMultiplier: number;
-    if(reversed) reversedMultiplier = -1;
-    else reversedMultiplier = 1;
+    if(reversed) reversedMultiplier = -multiplier;
+    else reversedMultiplier = multiplier;
 
     const graphicWidthOnScreen = (graphicWidth * props.scale * reversedMultiplier);
     const graphicHeightOnScreen = (graphicHeight * props.scale);
 
+    const anchorX = 0.5;
+    const anchorY = 0.6;
 
     return (
         <>
             <Sprite texture={cutTexture} width={graphicWidthOnScreen} height={graphicHeightOnScreen} scale={props.scale}
-                x={props.positionX} y={props.positionY} rotation={props.rotation} anchor={[0.5,0.6]}/>
+                x={props.positionX} y={props.positionY} rotation={props.rotation} anchor={[anchorX, anchorY]}/>
         </>
     );
 }

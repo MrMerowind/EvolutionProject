@@ -3,20 +3,23 @@ import { Sprite } from "@pixi/react";
 import React from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 
-
 export default function MapComponent() {
   
     const ctx = useGameManagerStore();
   
     const imageRef = ctx.map.textures.get(ctx.map.level);
     if(imageRef === undefined) return null;
-    const cutRegion = new Rectangle(0, 0, ctx.map.textureWidth, ctx.map.textureHeight);
+    const cutRegionStartX = 0;
+    const cutRegionStartY = 0;
+    const cutRegion = new Rectangle(cutRegionStartX, cutRegionStartY, ctx.map.textureWidth, ctx.map.textureHeight);
     const cutTexture = new Texture(imageRef, cutRegion);
 
     const [screenWidth, screenHeight] = ctx.screen.getSize();
 
-    const repeatHorizontaly = Math.floor(screenWidth / ctx.map.textureWidth) + 3;
-    const repeatVerticaly = Math.floor(screenHeight / ctx.map.textureHeight) + 3;
+    const aboveOnScreenTilesQuantity = 3;
+
+    const repeatHorizontaly = Math.floor(screenWidth / ctx.map.textureWidth) + aboveOnScreenTilesQuantity;
+    const repeatVerticaly = Math.floor(screenHeight / ctx.map.textureHeight) + aboveOnScreenTilesQuantity;
 
     const arrayOfPositionAndKey: Array<[x:number, y: number, k: number]> = new Array(repeatHorizontaly * repeatVerticaly);
 
@@ -24,9 +27,10 @@ export default function MapComponent() {
     {
         for(let j = -1; j < repeatVerticaly; j++)
         {
-            const mapChunkPositionX = i * ctx.map.textureWidth - 0 - ctx.camera.getOffsetX() % ctx.map.textureWidth;
-            const mapChunkPositionY = j * ctx.map.textureHeight - 0 - ctx.camera.getOffsetY() % ctx.map.textureHeight;
-            const keyValue = (i + 1) * repeatHorizontaly + (j + 1);
+            const mapChunkPositionX = i * ctx.map.textureWidth - ctx.camera.getOffsetX() % ctx.map.textureWidth;
+            const mapChunkPositionY = j * ctx.map.textureHeight - ctx.camera.getOffsetY() % ctx.map.textureHeight;
+            const indexOffset = 1;
+            const keyValue = (i + indexOffset) * repeatHorizontaly + (j + indexOffset);
             arrayOfPositionAndKey.push([mapChunkPositionX, mapChunkPositionY, keyValue]);
         }
     }

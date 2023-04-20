@@ -26,24 +26,34 @@ export default function AboveHeadHealthComponent(props: AboveHeadComponentProps)
         imageRef = ctx.userInterfaceData.getHpTexture();
     }
 
-
     let percentageCopy = props.percentage;
 
     if(imageRef === null) return null;
-    if(percentageCopy <= 0) percentageCopy = 0;
-    if(percentageCopy >= 100) return null;
+    const minimumPercentage = 0;
+    const maximumPercentage = 100;
+    if(percentageCopy <= minimumPercentage) percentageCopy = minimumPercentage;
+    if(percentageCopy >= maximumPercentage) return null;
 
-    const cutRegion = new Rectangle(0, 0, imageRef.width, imageRef.height);
+    const startRegionX = 0;
+    const startRegionY = 0;
+
+    const cutRegion = new Rectangle(startRegionX, startRegionY, imageRef.width, imageRef.height);
     const cutTexture = new Texture(imageRef, cutRegion);
 
     const barOnScreenPositionX = props.positionX;
     const barOnScreenPositionY = props.positionY - props.heightOffset;
 
+    const healthBarWidth = imageRef.width * percentageCopy / maximumPercentage * ctx.userInterfaceData.getAboveHeadHpScale();
+    const healthBarHeight = imageRef.height * ctx.userInterfaceData.getAboveHeadHpScale();
+
+    const anchorX = 0.5;
+    const anchorY = 1;
+
     return (
         <>
-            <Sprite texture={cutTexture} width={imageRef.width * percentageCopy / 100.0 * ctx.userInterfaceData.getAboveHeadHpScale()}
-                height={imageRef.height * ctx.userInterfaceData.getAboveHeadHpScale()}
-                x={barOnScreenPositionX} y={barOnScreenPositionY} rotation={0} anchor={[0.5,1]} />
+            <Sprite texture={cutTexture} width={healthBarWidth}
+                height={healthBarHeight}
+                x={barOnScreenPositionX} y={barOnScreenPositionY} rotation={0} anchor={[anchorX, anchorY]} />
         </>
     );
 }

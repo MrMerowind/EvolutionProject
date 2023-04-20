@@ -1,5 +1,5 @@
 import React from "react";
-import SkillComponent from "./SkillComponent";
+import SkillComponent from "./Skill";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { SkillBase } from "../utils/SkillBase";
 

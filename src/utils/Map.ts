@@ -9,7 +9,6 @@ export default class GameMap{
     readonly levelCount = 12;
     constructor()
     {
-        // TODO: If game crashes change this to 1.
         this.level = 0;
         this.textures = new Map<number, BaseTexture>();
     }

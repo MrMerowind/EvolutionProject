@@ -3,8 +3,6 @@ import { SkillBase } from "../utils/SkillBase";
 import { Rectangle, Texture } from "pixi.js";
 import { Sprite } from "@pixi/react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
-import { AnimationComponent } from "./AnimationComponent";
-
 
 interface SkillComponentProps{
     skillData: SkillBase;
@@ -16,8 +14,10 @@ export default function SkillComponent(props: SkillComponentProps) {
     const ctx = useGameManagerStore();
 
     // Getting nearest enemy
-    const skillPositionX = props.skillData.getPosition()[0];
-    const skillPositionY = props.skillData.getPosition()[1];
+    const indexOfPositionX = 0;
+    const indexOfPositionY = 1;
+    const skillPositionX = props.skillData.getPosition()[indexOfPositionX];
+    const skillPositionY = props.skillData.getPosition()[indexOfPositionY];
 
     const nearestEnemy = ctx.enemyList.getNearest(skillPositionX, skillPositionY);
 
@@ -31,7 +31,6 @@ export default function SkillComponent(props: SkillComponentProps) {
     const imageRef = props.skillData.getSkillAnimation().getAnimation().imageRef;
 
     if(imageRef === null) return null;
-
     
     const graphicWidth = props.skillData.getSkillAnimation().getAnimation().graphicWidth / props.skillData.getSkillAnimation().getAnimation().horizontalFrames;
     const graphicHeight = props.skillData.getSkillAnimation().getAnimation().graphicHeight / props.skillData.getSkillAnimation().getAnimation().verticalFrames;
@@ -41,13 +40,13 @@ export default function SkillComponent(props: SkillComponentProps) {
     const aFIE = props.skillData.getSkillAnimation().getAnimation().animationFrameIndexEnd;
     const aFT = props.skillData.getSkillAnimation().getAnimation().animationFrameTime;
 
-    const frameNumber = Math.floor(props.miliseconds / aFT) % Math.floor(aFIE - aFIS + 1) + aFIS;
+    const one = 1;
+    const frameNumber = Math.floor(props.miliseconds / aFT) % Math.floor(aFIE - aFIS + one) + aFIS;
 
     const graphicPositionX = (frameNumber % props.skillData.getSkillAnimation().getAnimation().horizontalFrames) * graphicWidth;
     
     const graphicPositionY = Math.floor((frameNumber - Math.floor(frameNumber % props.skillData.getSkillAnimation().getAnimation().horizontalFrames))
     / props.skillData.getSkillAnimation().getAnimation().horizontalFrames) * graphicHeight;
-
 
     // Cutting region here because scale affects also scale of cutting area :c
     // So it only works with scale 1
