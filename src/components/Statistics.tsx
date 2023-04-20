@@ -3,7 +3,7 @@ import React from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { Sprite, Text } from "@pixi/react";
 import { Rectangle, Texture } from "pixi.js";
-import { levelFont, statsFont } from "../utils/Fonts";
+import { levelFont, statsFont } from "../utils/fonts";
 
 export default function StatisticsComponent() {
 

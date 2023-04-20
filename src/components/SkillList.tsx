@@ -1,7 +1,7 @@
 import React from "react";
 import SkillComponent from "./Skill";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
-import { SkillBase } from "../utils/SkillBase";
+import { SkillBase } from "../utils/skillBase";
 
 interface SkillListComponentProps{
     miliseconds: number;

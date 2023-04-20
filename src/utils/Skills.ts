@@ -1,4 +1,4 @@
-import { SkillBase } from "./SkillBase";
+import { SkillBase } from "./skillBase";
 
 export class SkillThrowable extends SkillBase{
     constructor(reference: SkillBase | null = null)

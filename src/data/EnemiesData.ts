@@ -1,5 +1,5 @@
-import "./GraphicPaths";
-import { graphicPath } from "./GraphicPaths";
+import "./graphicPaths";
+import { graphicPath } from "./graphicPaths";
 export const enemiesData = [
     {
         id: 1, level: 1, hp: 1, damage: 1, exp: 1, scale: 1, speed: 3, space: 30,

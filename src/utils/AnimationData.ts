@@ -1,5 +1,5 @@
 import { BaseTexture} from "pixi.js";
-import { Direction, DirectionHorizontal } from "../data/Types";
+import { Direction, DirectionHorizontal } from "../data/types";
 
 export class AnimationSubData{
     horizontalFrames: number;

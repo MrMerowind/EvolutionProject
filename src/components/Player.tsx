@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
-import { AnimationState, Direction, DirectionHorizontal } from "../data/Types";
+import { AnimationState, Direction, DirectionHorizontal } from "../data/types";
 import { AnimationComponent } from "./Animation";
 import { useTick } from "@pixi/react";
-import { SkillBase } from "../utils/SkillBase";
+import { SkillBase } from "../utils/skillBase";
 
 interface PlayerComponentProps{
   miliseconds: number;

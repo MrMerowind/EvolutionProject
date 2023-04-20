@@ -1,6 +1,6 @@
-import { CreatureAnimation } from "./AnimationData";
-import EnemyList from "./EnemyList";
-import { AnimationState } from "../data/Types";
+import { CreatureAnimation } from "./animationData";
+import EnemyList from "./enemyList";
+import { AnimationState } from "../data/types";
 import { idLimit } from "../data/globalData";
 
 export default class Player{

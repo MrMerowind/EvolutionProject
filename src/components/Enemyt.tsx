@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
-import { AnimationState } from "../data/Types";
+import { AnimationState } from "../data/types";
 import AboveHeadHealthComponent from "./AboveHeadHealth";
 import PlayerComponent from "./Player";
 import { AnimationComponent } from "./Animation";

@@ -1,5 +1,5 @@
-import Player from "./Player";
-import { GameScreen } from "./GameScreen";
+import Player from "./player";
+import { GameScreen } from "./gameScreen";
 
 export class GameCamera{
     private offsetX;

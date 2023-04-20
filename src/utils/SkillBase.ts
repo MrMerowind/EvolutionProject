@@ -1,8 +1,8 @@
 import { idLimit } from "../data/globalData";
-import { SkillAnimation } from "./AnimationData";
-import Enemy from "./Enemy";
-import EnemyList from "./EnemyList";
-import Player from "./Player";
+import { SkillAnimation } from "./animationData";
+import Enemy from "./enemy";
+import EnemyList from "./enemyList";
+import Player from "./player";
 
 export class SkillBase{
     public anchorX: number;

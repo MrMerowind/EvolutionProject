@@ -1,4 +1,4 @@
-import { SkillBase } from "./SkillBase";
+import { SkillBase } from "./skillBase";
 
 export default class SkillList{
     private skills: Map<string, SkillBase>;

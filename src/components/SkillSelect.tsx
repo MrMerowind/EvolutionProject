@@ -3,9 +3,8 @@ import React, { useEffect } from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { Rectangle, Texture } from "pixi.js";
 import { Sprite } from "@pixi/react";
-import { SkillNames } from "../data/Types";
-import { SkillBase } from "../utils/SkillBase";
-
+import { SkillNames } from "../data/types";
+import { SkillBase } from "../utils/skillBase";
 
 export default function SkillSelectComponent() {
 
@@ -17,7 +16,6 @@ export default function SkillSelectComponent() {
             ctx.skillSelect.addPoints(1);
         }
     }, [ctx.enemyList.getCurrentWave()]);
-    
 
     if(ctx.skillSelect.getPoints() <= 0) return null;
 
@@ -85,8 +83,6 @@ export default function SkillSelectComponent() {
         [369,233],
         [369,291],
     ];
-
-
 
     return (
         <>

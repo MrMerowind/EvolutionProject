@@ -1,6 +1,6 @@
-import Player from "./Player";
-import Enemy from "./Enemy";
-import { SkillAnimation } from "./AnimationData";
+import Player from "./player";
+import Enemy from "./enemy";
+import { SkillAnimation } from "./animationData";
 import { idLimit } from "../data/globalData";
 
 export default class EnemyList{

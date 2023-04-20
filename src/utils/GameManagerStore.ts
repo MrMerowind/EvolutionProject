@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Assets } from "pixi.js";
 import { makeAutoObservable } from "mobx";
-import Player from "./Player";
-import { GameCamera } from "./GameCamera";
-import { GameScreen } from "./GameScreen";
-import { graphicPath } from "../data/GraphicPaths";
-import { AnimationState, Direction } from "../data/Types";
-import GameMap from "./Map";
-import LoadingScreen from "./LoadingScreen";
-import EnemyList from "./EnemyList";
-import Enemy from "./Enemy";
-import { AnimationSubData, CreatureAnimation, SkillAnimation } from "./AnimationData";
-import UserInterfaceData from "./UserInterfaceData";
-import { StatisticsData } from "./StatisticsData";
-import SkillList from "./SkillList";
-import { enemiesData } from "../data/EnemiesData";
-import { SkillBase } from "./SkillBase";
-import SkillSelect from "./SkillSelect";
-import MapSelect from "./MapSelect";
+import Player from "./player";
+import { GameCamera } from "./gameCamera";
+import { GameScreen } from "./gameScreen";
+import { graphicPath } from "../data/graphicPaths";
+import { AnimationState, Direction } from "../data/types";
+import GameMap from "./map";
+import LoadingScreen from "./loadingScreen";
+import EnemyList from "./enemyList";
+import Enemy from "./enemy";
+import { AnimationSubData, CreatureAnimation, SkillAnimation } from "./animationData";
+import UserInterfaceData from "./userInterfaceData";
+import { StatisticsData } from "./statisticsData";
+import SkillList from "./skillList";
+import { enemiesData } from "../data/enemiesData";
+import { SkillBase } from "./skillBase";
+import SkillSelect from "./skillSelect";
+import MapSelect from "./mapSelect";
 
 type LoadDataFn = () => Promise<void>;
 

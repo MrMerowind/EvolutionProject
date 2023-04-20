@@ -3,7 +3,7 @@ import React from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { Rectangle, Texture } from "pixi.js";
 import { Sprite, Text } from "@pixi/react";
-import { mapLevel } from "../utils/Fonts";
+import { mapLevel } from "../utils/fonts";
 
 export default function MapSelectComponent() {
 

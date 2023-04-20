@@ -1,8 +1,8 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Texture, Rectangle} from "pixi.js";
 import { Sprite, TilingSprite } from "@pixi/react";
-import { AnimationState, Direction, DirectionHorizontal } from "../data/Types";
-import { CreatureAnimation, AnimationSubData } from "../utils/AnimationData";
+import { AnimationState, Direction, DirectionHorizontal } from "../data/types";
+import { CreatureAnimation, AnimationSubData } from "../utils/animationData";
 
 interface AnimationComponentProps{
     animationDataWalking: CreatureAnimation;

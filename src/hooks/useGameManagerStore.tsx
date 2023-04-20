@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, MutableRefObject, useContext, useRef } from "react";
-import { GameManagerStore, IGameManagerStore } from "../utils/GameManagerStore";
+import { GameManagerStore, IGameManagerStore } from "../utils/gameManagerStore";
 
 const GameManagerStoreContext = createContext<GameManagerStore>(
     new GameManagerStore()
