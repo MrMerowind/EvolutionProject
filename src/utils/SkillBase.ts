@@ -1,44 +1,67 @@
+import { idLimit } from "../data/globalData";
 import { SkillAnimation } from "./AnimationData";
 import Enemy from "./Enemy";
 import EnemyList from "./EnemyList";
 import Player from "./Player";
 
 export class SkillBase{
-    public anchorX = 0.5;
-    public anchorY = 0.5;
-    public explodeable = true;
+    public anchorX: number;
+    public anchorY: number;
+    public explodeable: boolean;
     public onExplodeSkillCast: SkillBase | null = null;
-    public damageRadius = 50;
-    public damage = 1;
-    public castTime = 0;
-    public cooldown = 1000;
-    public speed = 1;
-    public scale = 1;
-    public damagingPlayer = false;
-    public damagingEnemies = true;
-    public skillName = "Empty";
-    public speaning = false;
-    public destroyAfter = 5000;
+    public damageRadius: number;
+    public damage: number;
+    public castTime: number;
+    public cooldown: number;
+    public speed: number;
+    public scale: number;
+    public damagingPlayer: boolean;
+    public damagingEnemies: boolean;
+    public skillName: string;
+    public speaning: boolean;
+    public destroyAfter: number;
     public enemyTargetHandle: Enemy | null = null;
     
-    private id: string = Math.floor(Math.random() * 1e20).toString();
-    private normalizedVectorX = 0;
-    private normalizedVectorY = 0;
+    private id: string = Math.floor(Math.random() * idLimit).toString();
+    private normalizedVectorX: number;
+    private normalizedVectorY: number;
     
-    protected positionX = 0;
-    protected positionY = 0;
-    protected destinationX = 0;
-    protected destinationY = 0;
-    protected rotation = 0;
-    protected exploded = false;
+    protected positionX: number;
+    protected positionY: number;
+    protected destinationX: number;
+    protected destinationY: number;
+    protected rotation: number;
+    protected exploded: boolean;
     protected animation: SkillAnimation = new SkillAnimation();
     protected damagedEnemyTimeById: Map<string, number> = new Map<string, number>();
 
-
     constructor(reference: SkillBase | null = null)
     {
+        this.anchorX = 0.5;
+        this.anchorY = 0.5;
+        this.explodeable = true;
+        this.damageRadius = 50;
+        this.damage = 1;
+        this.castTime = 0;
+        this.cooldown = 1000;
+        this.speed = 1;
+        this.scale = 1;
+        this.damagingPlayer = false;
+        this.damagingEnemies = true;
+        this.skillName = "Empty";
+        this.speaning = false;
+        this.destroyAfter = 5000;
+        this.normalizedVectorX = 0;
+        this.normalizedVectorY = 0;
+        this.positionX = 0;
+        this.positionY = 0;
+        this.destinationX = 0;
+        this.destinationY = 0;
+        this.rotation = 0;
+        this.exploded = false;
+
         if(reference === null) return;
-        this.id = (Math.floor(Math.random() * 1e20).toString());
+        this.id = (Math.floor(Math.random() * idLimit).toString());
         this.anchorX = reference.anchorX;
         this.anchorY = reference.anchorY;
         this.explodeable = reference.explodeable;
@@ -59,7 +82,8 @@ export class SkillBase{
     public getRotation()
     {
         // TODO: Fix this later
-        if(this.skillName === "Fire") return this.rotation - Math.PI / 2;
+        const half = 2;
+        if(this.skillName === "Fire") return this.rotation - Math.PI / half;
         return this.rotation;
     }
     public getDamageRadius()
@@ -118,12 +142,14 @@ export class SkillBase{
         if(this.speaning)
         {
             this.setPosition(...playerHandle.getPosition());
-            this.rotation -= Math.PI / 180 * delta * this.speed;
+            const halfCircle = 180;
+            this.rotation -= Math.PI / halfCircle * delta * this.speed;
         }
         else
         {
-            if(this.normalizedVectorX !== 0) this.positionX += this.normalizedVectorX * delta * this.speed;
-            if(this.normalizedVectorY !== 0) this.positionY += this.normalizedVectorY * delta * this.speed;
+            const zeroDistance = 0;
+            if(this.normalizedVectorX !== zeroDistance) this.positionX += this.normalizedVectorX * delta * this.speed;
+            if(this.normalizedVectorY !== zeroDistance) this.positionY += this.normalizedVectorY * delta * this.speed;
         }
         // Skill damage
         for(let i = 0; i < currentEnemiesHandle.getList().length; i++)
@@ -137,7 +163,8 @@ export class SkillBase{
                 && !this.hasExploded())
             {
                 this.addDamageEnemy(enemy.getId(), miliseconds);
-                enemy.addHp(- this.getDamage() * (playerHandle.getStrength() + 1));
+                const strengthAddition = 1;
+                enemy.addHp(- this.getDamage() * (playerHandle.getStrength() + strengthAddition));
                 if(this.explodeable) this.explode();
             }
         }
@@ -166,7 +193,8 @@ export class SkillBase{
         const relativeLengthX = this.destinationX - this.positionX;
         const relativeLengthY = this.destinationY - this.positionY;
         const distance = Math.hypot(relativeLengthX, relativeLengthY);
-        if(distance > 5)
+        const minimumDistance = 5;
+        if(distance > minimumDistance)
         {
             this.normalizedVectorX = relativeLengthX / distance;
             this.normalizedVectorY = relativeLengthY / distance;
@@ -177,7 +205,6 @@ export class SkillBase{
             this.normalizedVectorX = 0;
             this.normalizedVectorY = 0;
         }
-
 
     }
     public setAnimation(value: SkillAnimation)
@@ -192,8 +219,11 @@ export class SkillBase{
     }
     public setDestination(x: number, y: number, enemy: Enemy | null = null)
     {
+        const positionXIndex = 0;
+        const positionYIndex = 1;
+        const minimumDistance = 10;
         const isDestinationReached = this.enemyTargetHandle !== null
-            && (Math.hypot(this.enemyTargetHandle.getPosition()[0]-this.positionX, this.enemyTargetHandle.getPosition()[1]-this.positionY) < 10);
+            && (Math.hypot(this.enemyTargetHandle.getPosition()[positionXIndex] - this.positionX, this.enemyTargetHandle.getPosition()[positionYIndex]-this.positionY) < minimumDistance);
         if(enemy !== null && this.enemyTargetHandle === null)
         {
             this.enemyTargetHandle = enemy;

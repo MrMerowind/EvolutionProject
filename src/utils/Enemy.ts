@@ -2,6 +2,7 @@ import { CreatureAnimation, SkillAnimation } from "./AnimationData";
 import { AnimationState, Direction, DirectionHorizontal } from "../data/Types";
 import Player from "./Player";
 import EnemyList from "./EnemyList";
+import { idLimit } from "../data/globalData";
 
 export default class Enemy{
     private id: string;
@@ -23,11 +24,9 @@ export default class Enemy{
     private animationDataAttacking: CreatureAnimation;
     private animationDataStanding: CreatureAnimation;
 
-    
-
     constructor()
     {
-        this.id = Math.floor(Math.random() * 1e20).toString();
+        this.id = Math.floor(Math.random() * idLimit).toString();
         this.level = 0;
         this.maxHp = 1;
         this.currentHp = 1;
@@ -49,7 +48,7 @@ export default class Enemy{
     clone(): Enemy
     {
         const result = new Enemy();
-        result.id = Math.floor(Math.random() * 1e20).toString();
+        result.id = Math.floor(Math.random() * idLimit).toString();
         result.level = this.level;
         result.maxHp = this.maxHp;
         result.currentHp = this.maxHp;
@@ -155,7 +154,8 @@ export default class Enemy{
         let finalPositionX = this.positionX;
         let finalPositionY = this.positionY;
 
-        if(distance !== 0)
+        const zeroDistance = 0;
+        if(distance !== zeroDistance)
         {
             finalPositionX = this.positionX + moveX / distance * this.getSpeed() * delta;
             finalPositionY = this.positionY + moveY / distance * this.getSpeed() * delta;
@@ -199,43 +199,46 @@ export default class Enemy{
         const moveY = playerHandle.getPositionY() - this.positionY;
 
         const distance = Math.hypot(moveX, moveY);
+        const zeroDistance = 0;
 
         if(Math.abs(moveX) >= Math.abs(moveY))
         {
-            if(moveX >= 0) this.facedDirection = Direction.right;
+            const zeroDistance = 0;
+            if(moveX >= zeroDistance) this.facedDirection = Direction.right;
             else this.facedDirection = Direction.left;
         }
         else
         {
-            if(moveY >= 0) this.facedDirection = Direction.down;
+            if(moveY >= zeroDistance) this.facedDirection = Direction.down;
             else this.facedDirection = Direction.up;
         }
         
-        if(moveX >= 0) this.secondaryFacedDirection = DirectionHorizontal.right;
+        if(moveX >= zeroDistance) this.secondaryFacedDirection = DirectionHorizontal.right;
         else this.secondaryFacedDirection = DirectionHorizontal.left;
-
 
         let finalPositionX = this.positionX;
         let finalPositionY = this.positionY;
 
-        if(distance !== 0)
+        if(distance !== zeroDistance)
         {
             finalPositionX = this.positionX + moveX / distance * this.getSpeed() * delta;
             finalPositionY = this.positionY + moveY / distance * this.getSpeed() * delta;
         }
 
-        if(distance > 4000)
+        const maximumDistance = 4000;
+        if(distance > maximumDistance)
         {
             finalPositionX = this.positionX + moveX / distance * playerHandle.getSpeed() * delta;
             finalPositionY = this.positionY + moveY / distance * playerHandle.getSpeed() * delta;
         }
-
         
         // Attacking
         const distanceToPlayer = Math.hypot(finalPositionX - playerHandle.getPositionX(), finalPositionY - playerHandle.getPositionY());
         if(distanceToPlayer <= playerHandle.getSpaceRadius())
         {
-            playerHandle.subtractHp(this.damage * delta / 1000 * 60);
+            const milisecondsInSecond = 1000;
+            const framesPerSecond = 60;
+            playerHandle.subtractHp(this.damage * delta / milisecondsInSecond * framesPerSecond);
             this.animationState = AnimationState.attacking;
             return;
         }
@@ -270,17 +273,20 @@ export default class Enemy{
     public addHp(value: number): void
     {
         this.currentHp += value;
-        if(this.currentHp < 0) this.currentHp = 0;
+        const minimumHealth = 0;
+        if(this.currentHp < minimumHealth) this.currentHp = minimumHealth;
         if(this.currentHp > this.getMaxHp()) this.currentHp = this.getMaxHp();
     }
     public setSpeed(value: number)
     {
-        if(value < 0) this.speed = 0;
+        const minimumSpeed = 0;
+        if(value < minimumSpeed) this.speed = minimumSpeed;
         else this.speed = value;
     }
     public setScale(value: number)
     {
-        if(value <= 0) this.scale = 1;
+        const minimumScale = 0;
+        if(value <= minimumScale) this.scale = 1;
         else this.scale = value;
     }
     public setPositionX(value: number)
@@ -294,6 +300,7 @@ export default class Enemy{
     public createPrototype(level: number, maxHp: number, damage: number,
         expReward: number, scale: number, speed: number,
         animationDataStanding: CreatureAnimation, animationDataWalking: CreatureAnimation,
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
         animationDataAttacking: CreatureAnimation, spaceRadius = 30): void
     {
         this.level = level;

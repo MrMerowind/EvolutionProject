@@ -3,7 +3,11 @@ import { BaseTexture } from "pixi.js";
 export default class MapSelect
 {
     private background: BaseTexture | null = null;
-    public markedMap = 0;
+    public markedMap;
+    constructor()
+    {
+        this.markedMap = 0;
+    }
     public getBackground()
     {
         return this.background;

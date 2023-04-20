@@ -3,10 +3,12 @@ import { BaseTexture } from "pixi.js";
 export default class UserInterfaceData{
     private hpTexture: BaseTexture | null;
     private hpPlayerTexture: BaseTexture | null;
-    private aboveHeadHpScale = 0.2;
+    private aboveHeadHpScale;
     
     constructor()
     {
+        this.aboveHeadHpScale = 0.2;
+
         this.hpTexture = null;
         this.hpPlayerTexture = null;
     }

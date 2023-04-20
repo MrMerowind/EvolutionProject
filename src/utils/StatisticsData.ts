@@ -36,7 +36,6 @@ export class StatisticsData {
         return this.button;
     }
 
-
     getCornerOverlay()
     {
         return this.cornerOverlay;

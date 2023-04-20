@@ -1,6 +1,7 @@
 import { CreatureAnimation } from "./AnimationData";
 import EnemyList from "./EnemyList";
 import { AnimationState } from "../data/Types";
+import { idLimit } from "../data/globalData";
 
 export default class Player{
     private id: string;
@@ -13,11 +14,11 @@ export default class Player{
     private points: number;
     private positionX: number;
     private positionY: number;
-    private readonly spaceRadius: number = 40;
-    public readonly scale = 1;
-    public readonly speed = 5;
-    public readonly agilityMultipier = 0.01;
-    private speedThroughEnemies = 1;
+    private readonly spaceRadius: number;
+    public readonly scale;
+    public readonly speed;
+    public readonly agilityMultipier;
+    private speedThroughEnemies;
 
     private animationDataWalking: CreatureAnimation;
     private animationDataAttacking: CreatureAnimation;
@@ -25,7 +26,13 @@ export default class Player{
 
     constructor()
     {
-        this.id = Math.floor(Math.random() * 1e20).toString();
+        this.spaceRadius = 40;
+        this.scale = 1;
+        this.speed = 5;
+        this.agilityMultipier = 0.01;
+        this.speedThroughEnemies = 1;
+
+        this.id = Math.floor(Math.random() * idLimit).toString();
         this.level = 1;
         this.currentExp = 0;
         this.strength = 0;
@@ -82,7 +89,8 @@ export default class Player{
     }
     public addSpeedThroughEnemies(points: number)
     {
-        this.speedThroughEnemies += 0.5 * points;
+        const multiplier = 0.5;
+        this.speedThroughEnemies += multiplier * points;
     }
     public resetSpeedThroughEnemies()
     {
@@ -116,7 +124,9 @@ export default class Player{
     }
     public getMaxHp(): number
     {
-        return 1000 * (this.vitality + 1);
+        const baseHp = 1000;
+        const vitalityIncreaser = 1;
+        return baseHp * (this.vitality + vitalityIncreaser);
     }
     public getCurrentHp(): number
     {
@@ -124,7 +134,8 @@ export default class Player{
     }
     public getNeededExp(): number
     {
-        return (this.level * 200);
+        const baseExpNeed = 200;
+        return (this.level * baseExpNeed);
     }
     public getCurrentExp(): number
     {
@@ -171,15 +182,16 @@ export default class Player{
         let newPositionX = this.positionX;
         let newPositionY = this.positionY;
 
-        if(x !== 0)
+        const zeroUnits = 0;
+
+        if(x !== zeroUnits)
         {
             newPositionX = this.positionX + x / distance * this.getSpeed() * delta;
         }
-        if(y !== 0)
+        if(y !== zeroUnits)
         {
             newPositionY = this.positionY + y / distance * this.getSpeed() * delta;
         }
-
 
         // Prevent moving through enemy
         let freeWalk = true;
@@ -194,11 +206,11 @@ export default class Player{
         });
         if(!freeWalk)
         {
-            if(x !== 0)
+            if(x !== zeroUnits)
             {
                 newPositionX = this.positionX + x / distance * this.getSpeedThorughEnemies() * delta;
             }
-            if(y !== 0)
+            if(y !== zeroUnits)
             {
                 newPositionY = this.positionY + y / distance * this.getSpeedThorughEnemies() * delta;
             }
@@ -213,30 +225,36 @@ export default class Player{
     public addHp(value: number): void
     {
         this.currentHp += value;
-        if(this.currentHp < 0) this.currentHp = 0;
+        const minimumHp = 0;
+        if(this.currentHp < minimumHp) this.currentHp = minimumHp;
         if(this.currentHp > this.getMaxHp()) this.currentHp = this.getMaxHp();
     }
     public subtractHp(value: number): void
     {
         this.currentHp -= value;
-        if(this.currentHp < 0) this.currentHp = 0;
+        const minimumHp = 0;
+        if(this.currentHp < minimumHp) this.currentHp = minimumHp;
         if(this.currentHp > this.getMaxHp()) this.currentHp = this.getMaxHp();
     }
     public addExp(value: number): void
     {
         this.currentExp += value;
-        if(this.currentExp < 0) this.currentExp = 0;
+        const miminumExp = 0;
+        const levelStep = 1;
+        const pointsStep = 1;
+        if(this.currentExp < miminumExp) this.currentExp = miminumExp;
         while(this.currentExp >= this.getNeededExp())
         {
             this.currentExp -= this.getNeededExp();
-            this.addLevel(1);
-            this.addPoints(1);
+            this.addLevel(levelStep);
+            this.addPoints(pointsStep);
         }
         this.saveToLocalStorage();
     }
     public addStrength(value: number): void
     {
-        if(value < 0) return;
+        const minimumAddedValue = 0;
+        if(value < minimumAddedValue) return;
         if(this.points < value) return;
         this.strength += value;
         this.points -= value;
@@ -244,7 +262,8 @@ export default class Player{
     }
     public addVitality(value: number): void
     {
-        if(value < 0) return;
+        const minimumAddedValue = 0;
+        if(value < minimumAddedValue) return;
         if(this.points < value) return;
         this.vitality += value;
         this.points -= value;
@@ -252,7 +271,8 @@ export default class Player{
     }
     public addAgility(value: number): void
     {
-        if(value < 0) return;
+        const minimumAddedValue = 0;
+        if(value < minimumAddedValue) return;
         if(this.points < value) return;
         this.agility += value;
         this.points -= value;
@@ -260,14 +280,16 @@ export default class Player{
     }
     public addLevel(value: number): void
     {
-        if(value < 0) return;
+        const minimumAddedValue = 0;
+        if(value < minimumAddedValue) return;
         this.level += value;
         this.saveToLocalStorage();
     }
     public addPoints(value: number): void
     {
         this.points += value;
-        if(this.points < 0)
+        const minimumAddedValue = 0;
+        if(this.points < minimumAddedValue)
         {
             throw new Error("Player points are below zero");
         }

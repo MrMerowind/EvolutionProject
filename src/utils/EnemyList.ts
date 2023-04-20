@@ -1,6 +1,7 @@
 import Player from "./Player";
 import Enemy from "./Enemy";
 import { SkillAnimation } from "./AnimationData";
+import { idLimit } from "../data/globalData";
 
 export default class EnemyList{
     private enemies: Enemy[];
@@ -9,7 +10,6 @@ export default class EnemyList{
     private animationDataDeath: SkillAnimation;
 
     private deathSpots: Array<[x: number, y: number, k: string, time: number]>;
-    
 
     constructor()
     {
@@ -25,24 +25,28 @@ export default class EnemyList{
     }
     public addDeathSpot(x: number, y: number)
     {
-        const id = Math.floor(Math.random() * 1e20).toString();
-        this.deathSpots.push([x,y,id,0]);
+        const id = Math.floor(Math.random() * idLimit).toString();
+        const time = 0;
+        this.deathSpots.push([x, y, id, time]);
     }
     public progressDeathSpotsTime(time: number)
     {
         for(let i = 0; i < this.deathSpots.length; i++)
         {
-            this.deathSpots[i][3] += time;
+            const indexOfTime = 3;
+            this.deathSpots[i][indexOfTime] += time;
         }
     }
     public getDeathSpots()
     {
         for(let i = 0; i < this.deathSpots.length; i++)
         {
-            const expired = this.deathSpots[i][3] >= this.animationDataDeath.getAnimation().animationFrameTime
+            const indexOfTime = 3;
+            const expired = this.deathSpots[i][indexOfTime] >= this.animationDataDeath.getAnimation().animationFrameTime
                 * (this.animationDataDeath.getAnimation().animationFrameIndexEnd - this.animationDataDeath.getAnimation().animationFrameIndexStart);
             if(!expired) continue;
-            this.deathSpots.splice(i,1);
+            const removeCount = 1;
+            this.deathSpots.splice(i, removeCount);
             i--;
         }
 
@@ -66,8 +70,10 @@ export default class EnemyList{
     }
     public getNearest(fromX: number, fromY: number): Enemy | null
     {
-        if(this.enemies.length <= 0) return null;
-        let distanceLowest = Math.hypot(this.enemies[0].getPositionX() - fromX, this.enemies[0].getPositionY() - fromY);
+        const minimumEnemiesCount = 0;
+        if(this.enemies.length <= minimumEnemiesCount) return null;
+        const firstEnemyIndex = 0;
+        let distanceLowest = Math.hypot(this.enemies[firstEnemyIndex].getPositionX() - fromX, this.enemies[firstEnemyIndex].getPositionY() - fromY);
         let idFound = 0;
         for(let i = 1; i < this.enemies.length; i++)
         {
@@ -83,7 +89,8 @@ export default class EnemyList{
     }
     public getRandomClose(fromX: number, fromY: number): Enemy | null
     {
-        if(this.enemies.length <= 0) return null;
+        const minimumEnemiesCount = 0;
+        if(this.enemies.length <= minimumEnemiesCount) return null;
         const maxDistance = 1000;
         const idFound: number[] = [];
         for(let i = 0; i < this.enemies.length; i++)
@@ -94,7 +101,8 @@ export default class EnemyList{
                 idFound.push(i);
             }
         }
-        if(idFound.length <= 0) return null;
+        const minimumIdSFound = 0;
+        if(idFound.length <= minimumIdSFound) return null;
         return this.enemies[idFound[Math.floor(Math.random() *  idFound.length)]];
     }
     public nextWave(currentTime: number): void
@@ -104,13 +112,14 @@ export default class EnemyList{
     }
     private getWaveDuration(mapLevel: number)
     {
-        const temporaryWaveDuration = 5000;
-        return temporaryWaveDuration;
-        return Math.max(5000 - (mapLevel - 1) * 500, 1000); 
+        const waveDuration = 5000;
+        return waveDuration; 
     }
     private getWaveCount(mapLevel: number)
     {
-        return Math.floor(600 / (this.getWaveDuration(mapLevel) / 1000));
+        const waveDuration = 600;
+        const milisecondsInSecond = 1000;
+        return Math.floor(waveDuration / (this.getWaveDuration(mapLevel) / milisecondsInSecond));
     }
     public isNextWaveReady(currentTime: number, mapLevel: number): boolean
     {

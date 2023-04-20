@@ -1,25 +1,29 @@
 import { BaseTexture } from "pixi.js";
-import { resourceUsage } from "process";
 
 export default class SkillSelect{
-    private skillLevels: number[] = [1,0,0,0,0,0,0,0,0,0,0];
+    private skillLevels: number[];
     private background: BaseTexture | null = null;
     private overlay: BaseTexture | null = null;
     private bar: BaseTexture | null = null;
     private button: BaseTexture | null = null;
     private possibleUpgrade: number[] = [];
-    public readonly maxSkillLevel = 10;
-    private readonly upgradeChoiceCount = 3;
+    public readonly maxSkillLevel: number;
+    private readonly upgradeChoiceCount: number;
 
-    private points = 0;
-
+    private points: number;
 
     public constructor()
     {
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+        this.skillLevels = [1,0,0,0,0,0,0,0,0,0,0];
+        this.maxSkillLevel = 10;
+        this.upgradeChoiceCount = 3;
+        this.points = 0;
         this.randomizeUpgrades();
     }
     public reset()
     {
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
         this.skillLevels = [1,0,0,0,0,0,0,0,0,0,0];
         this.possibleUpgrade = [];
         this.points = 0;
@@ -30,13 +34,15 @@ export default class SkillSelect{
     }
     public addPoints(value: number)
     {
-        if(value <= 0) return;
+        const minimumValue = 0;
+        if(value <= minimumValue) return;
         this.points += value;
         this.randomizeUpgrades();
     }
     public removePoints(value: number)
     {
-        if(value <= 0) return;
+        const minimumValue = 0;
+        if(value <= minimumValue) return;
         this.points -= value;
     }
     public getSkillLevel(index: number)
@@ -69,6 +75,8 @@ export default class SkillSelect{
     }
     public randomizeUpgrades()
     {
+        const one = 1;
+        const minimumValue = 0;
         this.possibleUpgrade = [];
         const arrayOfPossibleUpgradeIndexes: number[] = [];
         for(let i = 0; i < this.skillLevels.length; i++)
@@ -77,9 +85,9 @@ export default class SkillSelect{
             
             arrayOfPossibleUpgradeIndexes.push(i);
         }
-        for (let i = arrayOfPossibleUpgradeIndexes.length - 1; i > 0; i--)
+        for (let i = arrayOfPossibleUpgradeIndexes.length - one; i > minimumValue; i--)
         {
-            const j = Math.floor(Math.random() * (i + 1));
+            const j = Math.floor(Math.random() * (i + one));
             const temp = arrayOfPossibleUpgradeIndexes[i];
             arrayOfPossibleUpgradeIndexes[i] = arrayOfPossibleUpgradeIndexes[j];
             arrayOfPossibleUpgradeIndexes[j] = temp;

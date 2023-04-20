@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Assets } from "pixi.js";
 import { makeAutoObservable } from "mobx";
 import Player from "./Player";
@@ -120,7 +121,6 @@ export class GameManagerStore implements IGameManagerStore{
                 if(skillFire2 !== undefined)
                     skillFire2.onExplodeSkillCast = this.skillPrototypes.getSkill("Sunburn") as SkillBase;
             });
-            
             
         }
         
@@ -626,9 +626,6 @@ export class GameManagerStore implements IGameManagerStore{
 
             this.skillPrototypes.addSkillPrototype(skill);
         });
-
-        
-
 
     };
 }

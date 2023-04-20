@@ -28,21 +28,24 @@ export class GameScreen{
     }
     public getCenterHorizontal(): number
     {
-        return this.width / 2;
+        const half = 2;
+        return this.width / half;
     }
     public getCenterVertical(): number
     {
-        return this.height / 2;
+        const half = 2;
+        return this.height / half;
     }
     public getCenter(): [width: number, height: number]
     {
-        return [this.width / 2, this.height / 2];
+        const half = 2;
+        return [this.width / half, this.height / half];
     }
-
 
     public setSize(width: number, height: number)
     {
-        if(width < 0 || height < 0) throw new Error("GameScreen size invalid");
+        const zeroSize = 0;
+        if(width < zeroSize || height < zeroSize) throw new Error("GameScreen size invalid");
         this.width = width;
         this.height = height;
     }
@@ -55,7 +58,8 @@ export class GameScreen{
         this.width = window.innerWidth;
         this.height = window.innerHeight;
 
-        if(this.width < 0 || this.height < 0) throw new Error("GameScreen auto size invalid");
+        const zeroSize = 0;
+        if(this.width < zeroSize || this.height < zeroSize) throw new Error("GameScreen auto size invalid");
     }
 
 }
