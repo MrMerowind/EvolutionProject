@@ -14,28 +14,33 @@ export default function PlayerComponent(props: PlayerComponentProps) {
 
     const ctx = useGameManagerStore();
 
-    const [buttonLeftPressed, setButtonLeftPressed] = useState(false);
-    const [buttonRightPressed, setButtonRightPressed] = useState(false);
-    const [buttonUpPressed, setButtonUpPressed] = useState(false);
-    const [buttonDownPressed, setButtonDownPressed] = useState(false);
     const [facedDirection, setFacedDirection] = useState<Direction>(Direction.left);
     const [facedSecondaryDirection, setFacedSecondaryDirection] = useState<DirectionHorizontal>(DirectionHorizontal.left);
 
+    const playerMovementHorizontalInitialState = 0;
+    const playerMovementVerticalInitialState = 0;
+    const [playerMovementHorizontal, setPlayerMovementHorizontal] = useState(playerMovementHorizontalInitialState);
+    const [playerMovementVertical, setPlayerMovementVertical] = useState(playerMovementVerticalInitialState);
+
+    const movementUnit = 1;
+    const noMove = 0;
+    
     const handleUserKeyPressDown = (e: KeyboardEvent) => {
-        if (e.code === "KeyW") { setButtonUpPressed(true); setFacedDirection(Direction.up);}
-        if (e.code === "KeyS") { setButtonDownPressed(true); setFacedDirection(Direction.down);}
-        if (e.code === "KeyA") { setButtonLeftPressed(true); setFacedDirection(Direction.left); setFacedSecondaryDirection(DirectionHorizontal.left);}
-        if (e.code === "KeyD") { setButtonRightPressed(true); setFacedDirection(Direction.right); setFacedSecondaryDirection(DirectionHorizontal.right);}
-        if (e.code === "Escape") {ctx.map.level = 0;} 
-        if (e.code === "End") {ctx.player.resetStats();}
+        e.code === "KeyA" || e.code === "KeyD" ? setPlayerMovementHorizontal(() => e.code === "KeyA" ? -movementUnit : (e.code === "KeyD" ? movementUnit : noMove)) : null;
+        e.code === "KeyW" || e.code === "KeyS" ? setPlayerMovementVertical(() => e.code === "KeyW" ? -movementUnit : (e.code === "KeyS" ? movementUnit : noMove)) : null;
     };
 
     const handleUserKeyPressUp = (e: KeyboardEvent) => {
-        if (e.code === "KeyW") { setButtonUpPressed(false); }
-        if (e.code === "KeyA") { setButtonLeftPressed(false); }
-        if (e.code === "KeyD") { setButtonRightPressed(false); }
-        if (e.code === "KeyS") { setButtonDownPressed(false); }
+        setPlayerMovementHorizontal((previousMovementValue) => e.code === "KeyA" || e.code === "KeyD" ? noMove : previousMovementValue);
+        setPlayerMovementVertical((previousMovementValue) => e.code === "KeyW" || e.code === "KeyS" ? noMove : previousMovementValue);
     };
+
+    useEffect(() => {
+        setFacedSecondaryDirection((previousDirection) => playerMovementHorizontal > noMove ? DirectionHorizontal.right : (playerMovementHorizontal < noMove ? DirectionHorizontal.left : previousDirection));
+        setFacedDirection((previousDirection) => playerMovementHorizontal > noMove ? Direction.right : (playerMovementHorizontal < noMove ? Direction.left :
+            (playerMovementVertical > noMove ? Direction.down : (playerMovementVertical < noMove ? Direction.up : previousDirection))));
+        
+    },[playerMovementHorizontal, playerMovementVertical]);
 
     useEffect(() => {
         window.addEventListener("keydown", handleUserKeyPressDown);
@@ -50,11 +55,9 @@ export default function PlayerComponent(props: PlayerComponentProps) {
     useTick((delta) => {
 
         const aboveThisPointsCountPlayerIsNotMoving = 0;
-        const noMove = 0;
-        const oneUnitOfPlayerMovement = 1;
         if(ctx.skillSelect.getPoints() > aboveThisPointsCountPlayerIsNotMoving) return;
-        const x = (buttonLeftPressed ? -oneUnitOfPlayerMovement : noMove) + (buttonRightPressed ? oneUnitOfPlayerMovement : noMove);
-        const y = (buttonUpPressed ? -oneUnitOfPlayerMovement : noMove) + (buttonDownPressed ? oneUnitOfPlayerMovement : noMove);
+        const x = playerMovementHorizontal;
+        const y = playerMovementVertical;
         ctx.player.moveUnits(x, y, ctx.enemyList, delta);
     });
 
@@ -66,9 +69,9 @@ export default function PlayerComponent(props: PlayerComponentProps) {
 
     const [animationState, setAnimationState] = useState(AnimationState.standing);
     useEffect(() => {
-        if(buttonDownPressed || buttonLeftPressed || buttonRightPressed || buttonUpPressed) setAnimationState(AnimationState.walking);
-        else setAnimationState(AnimationState.standing);
-    }, [buttonDownPressed, buttonLeftPressed, buttonRightPressed, buttonUpPressed]);
+        if(playerMovementHorizontal === playerMovementHorizontalInitialState && playerMovementVertical === playerMovementVerticalInitialState) setAnimationState(AnimationState.standing);
+        else setAnimationState(AnimationState.walking);
+    }, [playerMovementHorizontal, playerMovementVertical]);
 
     const indexOfPlayerPositionX = 0;
     const indexOfPlayerPositionY = 1;
