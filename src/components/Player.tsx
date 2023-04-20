@@ -28,6 +28,7 @@ export default function PlayerComponent(props: PlayerComponentProps) {
     const handleUserKeyPressDown = (e: KeyboardEvent) => {
         e.code === "KeyA" || e.code === "KeyD" ? setPlayerMovementHorizontal(() => e.code === "KeyA" ? -movementUnit : (e.code === "KeyD" ? movementUnit : noMove)) : null;
         e.code === "KeyW" || e.code === "KeyS" ? setPlayerMovementVertical(() => e.code === "KeyW" ? -movementUnit : (e.code === "KeyS" ? movementUnit : noMove)) : null;
+        e.code === "Escape" ? ctx.map.level = 0 : null;
     };
 
     const handleUserKeyPressUp = (e: KeyboardEvent) => {
