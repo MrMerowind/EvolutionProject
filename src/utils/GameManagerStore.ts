@@ -18,6 +18,7 @@ import { enemiesData } from "../data/enemiesData";
 import { SkillBase } from "./skillBase";
 import SkillSelect from "./skillSelect";
 import MapSelect from "./mapSelect";
+import Shadow from "./shadow";
 
 type LoadDataFn = () => Promise<void>;
 
@@ -40,6 +41,7 @@ export interface IGameManagerStore{
     skillListOnScreen: SkillList;
     skillSelect: SkillSelect;
     mapSelect: MapSelect;
+    shadowData: Shadow;
 }
 
 export class GameManagerStore implements IGameManagerStore{
@@ -59,6 +61,7 @@ export class GameManagerStore implements IGameManagerStore{
     public skillListOnScreen: SkillList;
     public skillSelect: SkillSelect;
     public mapSelect: MapSelect;
+    public shadowData: Shadow;
 
     constructor(gameData: GameManagerStore | null = null)
     {
@@ -80,6 +83,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillPrototypes = gameData.skillPrototypes;
             this.skillSelect = gameData.skillSelect;
             this.mapSelect = gameData.mapSelect;
+            this.shadowData = gameData.shadowData;
         }
         else
         {
@@ -105,6 +109,7 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillPrototypes = new SkillList();
             this.skillSelect = new SkillSelect();
             this.mapSelect = new MapSelect();
+            this.shadowData = new Shadow();
 
             this.loadData().then(() => {
                 this.camera.setGameScreenHandle(this.screen);
@@ -169,6 +174,11 @@ export class GameManagerStore implements IGameManagerStore{
         // Loading map select
         await Assets.load(graphicPath.mapSelect.background).then((graphic) => {
             this.mapSelect.setBackground(graphic);
+        });
+
+        // Loading shadow
+        await Assets.load(graphicPath.shadow).then((graphic) => {
+            this.shadowData.setGraphic(graphic);
         });
 
         // Loading enemies
@@ -314,6 +324,7 @@ export class GameManagerStore implements IGameManagerStore{
                     animDataStanding,
                     animDataWalking,
                     animDataAttacking,
+                    enemy.shadowAnchorY,
                     enemy.space);
                 this.enemyPrototypes.addEnemy(enemyPointer);
 
@@ -333,6 +344,7 @@ export class GameManagerStore implements IGameManagerStore{
                     animDataStanding,
                     animDataWalking,
                     animDataAttacking,
+                    enemy.shadowAnchorY,
                     bossSpace);
                 this.bossPrototypes.addEnemy(bossPointer);
             });

@@ -19,6 +19,7 @@ export default class Enemy{
     private scale: number;
     private speed: number;
     private spaceRadius: number;
+    private shadowAnchorY: number;
 
     private animationDataWalking: CreatureAnimation;
     private animationDataAttacking: CreatureAnimation;
@@ -40,6 +41,7 @@ export default class Enemy{
         this.secondaryFacedDirection = DirectionHorizontal.right;
         this.animationState = AnimationState.walking;
         this.spaceRadius = 30;
+        this.shadowAnchorY = 0.6;
 
         this.animationDataAttacking = new CreatureAnimation();
         this.animationDataWalking = new CreatureAnimation();
@@ -65,6 +67,7 @@ export default class Enemy{
         result.animationDataStanding = this.animationDataStanding;
         result.animationDataWalking = this.animationDataWalking;
         result.spaceRadius = this.spaceRadius;
+        result.shadowAnchorY = this.shadowAnchorY;
         return result;
     }
     public getAnimationData(animationState: AnimationState): CreatureAnimation
@@ -80,6 +83,10 @@ export default class Enemy{
     public getPositionX(): number
     {
         return this.positionX;
+    }
+    public getShadowAnchorY()
+    {
+        return this.shadowAnchorY;
     }
     public getPositionY(): number
     {
@@ -301,7 +308,7 @@ export default class Enemy{
         expReward: number, scale: number, speed: number,
         animationDataStanding: CreatureAnimation, animationDataWalking: CreatureAnimation,
         // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-        animationDataAttacking: CreatureAnimation, spaceRadius = 30): void
+        animationDataAttacking: CreatureAnimation, shadowAnchorY: number, spaceRadius = 30): void
     {
         this.level = level;
         this.maxHp = maxHp;
@@ -313,5 +320,6 @@ export default class Enemy{
         this.animationDataWalking = animationDataWalking;
         this.animationDataAttacking = animationDataAttacking;
         this.spaceRadius = spaceRadius;
+        this.shadowAnchorY = shadowAnchorY;
     }
 }

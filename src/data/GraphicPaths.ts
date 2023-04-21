@@ -24,6 +24,8 @@ export const graphicPath =
         serverPath.toString() + "img/Enemies/death.png",
     hpAboveHeadEnemy:
         serverPath.toString() + "img/HealthBar/hpAboveHeadEnemy.png",
+    shadow:
+        serverPath.toString() + "img/Shadow/bg.png",
     statistics:
     {
         overlay:

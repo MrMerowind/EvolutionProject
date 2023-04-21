@@ -86,7 +86,7 @@ export function AnimationComponent(props: AnimationComponentProps) {
     const graphicHeightOnScreen = (graphicHeight * props.scale);
 
     const anchorX = 0.5;
-    const anchorY = 0.6;
+    const anchorY = 0.7;
 
     return (
         <>

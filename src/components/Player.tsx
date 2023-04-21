@@ -4,6 +4,7 @@ import { AnimationState, Direction, DirectionHorizontal } from "../data/types";
 import { AnimationComponent } from "./Animation";
 import { useTick } from "@pixi/react";
 import { SkillBase } from "../utils/skillBase";
+import Shadow from "./Shadow";
 
 interface PlayerComponentProps{
   miliseconds: number;
@@ -127,6 +128,7 @@ export default function PlayerComponent(props: PlayerComponentProps) {
 
     return (
         <>
+            <Shadow positionX={playerOnScreenPositionX} positionY={playerOnScreenPositionY} scale={2} anchorY={0.6}/>
             <AnimationComponent animationDataWalking={ctx.player.getAnimationData(AnimationState.walking)}
                 animationDataStanding={ctx.player.getAnimationData(AnimationState.standing)}
                 animationDataAttacking={ctx.player.getAnimationData(AnimationState.attacking)}

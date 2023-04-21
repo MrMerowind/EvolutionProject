@@ -5,6 +5,7 @@ import AboveHeadHealthComponent from "./AboveHeadHealth";
 import PlayerComponent from "./Player";
 import { AnimationComponent } from "./Animation";
 import DeathComponent from "./Death";
+import Shadow from "./Shadow";
 
 interface EnemyComponentProps{
     miliseconds: number;
@@ -180,12 +181,15 @@ export default function EnemyComponent(props: EnemyComponentProps) {
                 const enemyOnScreenPositionY = enemy.getPositionY() - ctx.camera.getOffsetY();
 
                 return (
-                    <AnimationComponent  animationDataAttacking={enemy.getAnimationData(AnimationState.attacking)}
-                        animationDataStanding={enemy.getAnimationData(AnimationState.standing)}
-                        animationDataWalking={enemy.getAnimationData(AnimationState.walking)}
-                        facedDirection={enemy.getFacedDirection()} secondaryFacedDirection={enemy.getSecondaryFacedDirection()}
-                        positionX={enemyOnScreenPositionX} positionY={enemyOnScreenPositionY} scale={enemy.getScale()} rotation={0}
-                        animationState={enemy.getAnimationState()} time={props.miliseconds} key={enemy.getId() + "enemy"}/>
+                    <>
+                        <Shadow positionX={enemyOnScreenPositionX} positionY={enemyOnScreenPositionY} scale={enemy.getScale()} anchorY={enemy.getShadowAnchorY()}/>
+                        <AnimationComponent  animationDataAttacking={enemy.getAnimationData(AnimationState.attacking)}
+                            animationDataStanding={enemy.getAnimationData(AnimationState.standing)}
+                            animationDataWalking={enemy.getAnimationData(AnimationState.walking)}
+                            facedDirection={enemy.getFacedDirection()} secondaryFacedDirection={enemy.getSecondaryFacedDirection()}
+                            positionX={enemyOnScreenPositionX} positionY={enemyOnScreenPositionY} scale={enemy.getScale()} rotation={0}
+                            animationState={enemy.getAnimationState()} time={props.miliseconds} key={enemy.getId() + "enemy"} />
+                    </>
                 );
             })}
             <PlayerComponent miliseconds={props.miliseconds} delta={props.delta}/>
@@ -193,7 +197,8 @@ export default function EnemyComponent(props: EnemyComponentProps) {
             
                 const enemyOnScreenPositionX = enemy.getPositionX() - ctx.camera.getOffsetX();
                 const enemyOnScreenPositionY = enemy.getPositionY() - ctx.camera.getOffsetY();
-                const heightOffset = 30;
+                const offsetPerOneUnitScale = 50;
+                const heightOffset = enemy.getScale() * offsetPerOneUnitScale;
                 const maxHealthPercentage = 100;
                 const hpPercentage = enemy.getCurrentHp() * maxHealthPercentage / enemy.getMaxHp();
 

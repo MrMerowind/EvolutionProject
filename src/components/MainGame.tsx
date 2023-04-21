@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import MapComponent from "./Map";
 import { LoadingScreenComponent } from "./LoadingScreen";
-import EnemyComponent from "./Enemyt";
+import EnemyComponent from "./Enemy";
 import StatisticsComponent from "./Statistics";
 import SkillListComponent from "./SkillList";
 import SkillSelectComponent from "./SkillSelect";
