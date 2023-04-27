@@ -41,11 +41,6 @@ export function MainGameComponent(){
         ctx.camera.centerOnPlayer();
     }, []);
 
-    useEffect(() => {
-        const minimumHealthValue = 0;
-        if(ctx.player.getCurrentHp() <= minimumHealthValue) ctx.map.level = minimumHealthValue;
-    }, [ctx.player.getCurrentHp()]);
-
     useTick((delta) => {
         deltaTime.current = delta;
         setMiliseconds(previousTime => previousTime + delta * frameTime);

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable react/jsx-no-undef */
 import React from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { Sprite, Text } from "@pixi/react";
 import { Rectangle, Texture } from "pixi.js";
-import { levelFont, statsFont } from "../utils/fonts";
+import { levelFont, statsFont } from "../data/fonts";
 
 export default function StatisticsComponent() {
 
@@ -20,20 +21,21 @@ export default function StatisticsComponent() {
     if(imageRefHpBar === null) return null;
     if(imageRefExpBar === null) return null;
     if(imageRefButton === null) return null;
+
+    const cutRegionStartX = 0;
+    const cutRegionStartY = 0;
     
-    const cutRegionCorner = new Rectangle(0, 0, imageRefCorner.width, imageRefCorner.height);
-    const cutRegionOverlay = new Rectangle(0, 0, imageRefHealthOverlay.width, imageRefHealthOverlay.height);
-    const cutRegionHpBar = new Rectangle(0, 0, imageRefHpBar.width, imageRefHpBar.height);
-    const cutRegionExpBar = new Rectangle(0, 0, imageRefExpBar.width, imageRefExpBar.height);
-    const cutRegionButton = new Rectangle(0, 0, imageRefButton.width, imageRefButton.height);
-    
+    const cutRegionCorner = new Rectangle(cutRegionStartX, cutRegionStartY, imageRefCorner.width, imageRefCorner.height);
+    const cutRegionOverlay = new Rectangle(cutRegionStartX, cutRegionStartY, imageRefHealthOverlay.width, imageRefHealthOverlay.height);
+    const cutRegionHpBar = new Rectangle(cutRegionStartX, cutRegionStartY, imageRefHpBar.width, imageRefHpBar.height);
+    const cutRegionExpBar = new Rectangle(cutRegionStartX, cutRegionStartY, imageRefExpBar.width, imageRefExpBar.height);
+    const cutRegionButton = new Rectangle(cutRegionStartX, cutRegionStartY, imageRefButton.width, imageRefButton.height);
     
     const cutTextureCorner = new Texture(imageRefCorner, cutRegionCorner);
     const cutTextureOverlay = new Texture(imageRefHealthOverlay, cutRegionOverlay);
     const cutTextureHpBar = new Texture(imageRefHpBar, cutRegionHpBar);
     const cutTextureExpBar = new Texture(imageRefExpBar, cutRegionExpBar);
     const cutTextureButton = new Texture(imageRefButton, cutRegionButton);
-
 
     const hpBarHeight = imageRefHpBar.height * ctx.player.getCurrentHp() / ctx.player.getMaxHp();
     const expBarHeiht = imageRefExpBar.height * ctx.player.getCurrentExp() / ctx.player.getNeededExp();

@@ -1,4 +1,4 @@
-import { CreatureAnimation, SkillAnimation } from "./animationData";
+import { CreatureAnimation } from "./animationData";
 import { AnimationState, Direction, DirectionHorizontal } from "../data/types";
 import Player from "./player";
 import EnemyList from "./enemyList";
@@ -20,10 +20,16 @@ export default class Enemy{
     private speed: number;
     private spaceRadius: number;
     private shadowAnchorY: number;
+    public isBoss: boolean;
 
     private animationDataWalking: CreatureAnimation;
     private animationDataAttacking: CreatureAnimation;
     private animationDataStanding: CreatureAnimation;
+
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    public static readonly bossScale = 3;
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    public static readonly baseScale = 1;
 
     constructor()
     {
@@ -42,6 +48,7 @@ export default class Enemy{
         this.animationState = AnimationState.walking;
         this.spaceRadius = 30;
         this.shadowAnchorY = 0.6;
+        this.isBoss = false;
 
         this.animationDataAttacking = new CreatureAnimation();
         this.animationDataWalking = new CreatureAnimation();
@@ -68,6 +75,7 @@ export default class Enemy{
         result.animationDataWalking = this.animationDataWalking;
         result.spaceRadius = this.spaceRadius;
         result.shadowAnchorY = this.shadowAnchorY;
+        result.isBoss = this.isBoss;
         return result;
     }
     public getAnimationData(animationState: AnimationState): CreatureAnimation
@@ -308,7 +316,7 @@ export default class Enemy{
         expReward: number, scale: number, speed: number,
         animationDataStanding: CreatureAnimation, animationDataWalking: CreatureAnimation,
         // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-        animationDataAttacking: CreatureAnimation, shadowAnchorY: number, spaceRadius = 30): void
+        animationDataAttacking: CreatureAnimation, shadowAnchorY: number, spaceRadius = 30, boss = false): void
     {
         this.level = level;
         this.maxHp = maxHp;
@@ -321,5 +329,6 @@ export default class Enemy{
         this.animationDataAttacking = animationDataAttacking;
         this.spaceRadius = spaceRadius;
         this.shadowAnchorY = shadowAnchorY;
+        this.isBoss = boss;
     }
 }

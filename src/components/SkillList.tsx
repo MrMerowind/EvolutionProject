@@ -21,18 +21,15 @@ export default function SkillListComponent(props: SkillListComponentProps) {
         if(!skill.hasExploded()) {
             result.push(<SkillComponent miliseconds={props.miliseconds} skillData={skill} key={skill.getId()}/>);
         }
-        else
+        else if(skill.onExplodeSkillCast !== null)
         {
-            if(skill.onExplodeSkillCast !== null)
-            {
-                const followedSkill = new SkillBase(skill.onExplodeSkillCast);
-                followedSkill.setPosition(...skill.getPosition());  
-                followedSkill.castTime = props.miliseconds;
-                followedSkill.setDestination(...skill.getPosition());             
-                ctx.skillListOnScreen.castSkill(followedSkill);
-            }
-            ctx.skillListOnScreen.getMap().delete(skillKey);
+            const followedSkill = new SkillBase(skill.onExplodeSkillCast);
+            followedSkill.setPosition(...skill.getPosition());  
+            followedSkill.castTime = props.miliseconds;
+            followedSkill.setDestination(...skill.getPosition());             
+            ctx.skillListOnScreen.castSkill(followedSkill);
         }
+        if(skill.hasExploded()) ctx.skillListOnScreen.getMap().delete(skillKey);
     });
 
     return (

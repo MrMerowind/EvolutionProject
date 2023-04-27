@@ -3,7 +3,7 @@ import React from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { Rectangle, Texture } from "pixi.js";
 import { Sprite, Text } from "@pixi/react";
-import { mapLevel } from "../utils/fonts";
+import { mapLevel } from "../data/fonts";
 
 export default function MapSelectComponent() {
 
@@ -45,7 +45,7 @@ export default function MapSelectComponent() {
             
             {arrayOfMapId.map(id => {
                 const imageRef = ctx.map.textures.get(id);
-                if(!imageRef) return;
+                if(!imageRef) return null;
                 const region = new Rectangle(cutRegionStartX, cutRegionStartY, imageRef.width, imageRef.height);
                 const cutTexture = new Texture(imageRef, region);
                 const scale = 0.17;

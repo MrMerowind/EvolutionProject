@@ -64,7 +64,7 @@ export class GameManagerStore implements IGameManagerStore{
     public shadowData: Shadow;
 
     constructor(gameData: GameManagerStore | null = null)
-    {
+    {   
         if(gameData !== null)
         {
             this.camera = gameData.camera;
@@ -84,52 +84,51 @@ export class GameManagerStore implements IGameManagerStore{
             this.skillSelect = gameData.skillSelect;
             this.mapSelect = gameData.mapSelect;
             this.shadowData = gameData.shadowData;
+            makeAutoObservable(this);
+            return;
         }
-        else
-        {
-            // Game loading screen
-            this.areGraphicsLoaded = false;
-            this.loadingScreen = new LoadingScreen();
+        // Game loading screen
+        this.areGraphicsLoaded = false;
+        this.loadingScreen = new LoadingScreen();
             
-            this.loadLoadingScreen().then(() => {
-                this.loadingScreen.isLoaded = true;
-            });
+        this.loadLoadingScreen().then(() => {
+            this.loadingScreen.isLoaded = true;
+        });
 
-            this.camera = new GameCamera();
-            this.screen = new GameScreen();
-            this.player = new Player();
-            this.map = new GameMap();
-            this.enemyPrototypes = new EnemyList();
-            this.bossPrototypes = new EnemyList();
-            this.enemyList = new EnemyList();
-            this.userInterfaceData = new UserInterfaceData();
-            this.statistics = new StatisticsData();
-            this.skillListAvaliable = new SkillList();
-            this.skillListOnScreen = new SkillList();
-            this.skillPrototypes = new SkillList();
-            this.skillSelect = new SkillSelect();
-            this.mapSelect = new MapSelect();
-            this.shadowData = new Shadow();
+        this.camera = new GameCamera();
+        this.screen = new GameScreen();
+        this.player = new Player();
+        this.map = new GameMap();
+        this.enemyPrototypes = new EnemyList();
+        this.bossPrototypes = new EnemyList();
+        this.enemyList = new EnemyList();
+        this.userInterfaceData = new UserInterfaceData();
+        this.statistics = new StatisticsData();
+        this.skillListAvaliable = new SkillList();
+        this.skillListOnScreen = new SkillList();
+        this.skillPrototypes = new SkillList();
+        this.skillSelect = new SkillSelect();
+        this.mapSelect = new MapSelect();
+        this.shadowData = new Shadow();
 
-            this.loadData().then(() => {
-                this.camera.setGameScreenHandle(this.screen);
-                this.camera.setPlayerHandle(this.player);
-                this.camera.centerOnPlayer();   
-                this.areGraphicsLoaded = true;
-            }).then(() => {
-                const skillFire = this.skillPrototypes.getSkill("Fire");
-                if(skillFire !== undefined)
-                    skillFire.onExplodeSkillCast = this.skillPrototypes.getSkill("Sunburn") as SkillBase;
-                else console.log("Cant find skill");
-                // TODO: Remove later.
-                const skillFire2 = this.skillListAvaliable.getSkill("Fire");
-                if(skillFire2 !== undefined)
-                    skillFire2.onExplodeSkillCast = this.skillPrototypes.getSkill("Sunburn") as SkillBase;
-            });
-            
-        }
-        
+        this.loadData().then(() => {
+            this.camera.setGameScreenHandle(this.screen);
+            this.camera.setPlayerHandle(this.player);
+            this.camera.centerOnPlayer();   
+            this.areGraphicsLoaded = true;
+        }).then(() => {
+            const skillFire = this.skillPrototypes.getSkill("Fire");
+            if(skillFire !== undefined)
+                skillFire.onExplodeSkillCast = this.skillPrototypes.getSkill("Sunburn") as SkillBase;
+            else console.log("Cant find skill");
+            // TODO: Remove later.
+            const skillFire2 = this.skillListAvaliable.getSkill("Fire");
+            if(skillFire2 !== undefined)
+                skillFire2.onExplodeSkillCast = this.skillPrototypes.getSkill("Sunburn") as SkillBase;
+        });
+
         makeAutoObservable(this);
+            
     }
 
     loadLoadingScreen = async() => {
@@ -329,10 +328,11 @@ export class GameManagerStore implements IGameManagerStore{
                 this.enemyPrototypes.addEnemy(enemyPointer);
 
                 const bossHp = enemy.hp * 100;
-                const bossScale = enemy.scale * 3;
-                const bossSpace = enemy.space * 3;
+                const bossScale = enemy.scale * Enemy.bossScale;
+                const bossSpace = enemy.space * Enemy.bossScale;
                 const bossDamage = enemy.damage * 10;
                 const bossExp = enemy.exp * 50;
+                const bossSpeed = enemy.speed * 0.5;
 
                 bossPointer.createPrototype(
                     enemy.level,
@@ -340,12 +340,12 @@ export class GameManagerStore implements IGameManagerStore{
                     bossDamage,
                     bossExp,
                     bossScale,
-                    enemy.speed,
+                    bossSpeed,
                     animDataStanding,
                     animDataWalking,
                     animDataAttacking,
                     enemy.shadowAnchorY,
-                    bossSpace);
+                    bossSpace, true);
                 this.bossPrototypes.addEnemy(bossPointer);
             });
         });
@@ -589,8 +589,8 @@ export class GameManagerStore implements IGameManagerStore{
             skill.damage = 1;
             skill.cooldown = 2000;
             skill.skillName = "Ice";
-            skill.scale = 1;
-            skill.damageRadius = 10;
+            skill.scale = 3;
+            skill.damageRadius = 50;
             skill.castTime = 0;
             skill.destroyAfter = 750;
             skill.damagingEnemies = true;

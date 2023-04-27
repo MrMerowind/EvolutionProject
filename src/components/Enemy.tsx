@@ -6,6 +6,9 @@ import PlayerComponent from "./Player";
 import { AnimationComponent } from "./Animation";
 import DeathComponent from "./Death";
 import Shadow from "./Shadow";
+import Enemy from "../utils/enemy";
+import Victory from "./Victory";
+import Defeat from "./Defeat";
 
 interface EnemyComponentProps{
     miliseconds: number;
@@ -15,6 +18,20 @@ interface EnemyComponentProps{
 export default function EnemyComponent(props: EnemyComponentProps) {
 
     const ctx = useGameManagerStore();
+
+    if(ctx.enemyList.allDead(ctx.map.level))
+    {
+        return(
+            <Victory />
+        );
+    }
+    const playerHasNoHp = 0;
+    if(ctx.player.getCurrentHp() === playerHasNoHp)
+    {
+        return(
+            <Defeat />
+        );
+    }
 
     useEffect(() => {
 
@@ -83,52 +100,51 @@ export default function EnemyComponent(props: EnemyComponentProps) {
         }
         
         ctx.enemyList.nextWave(props.miliseconds);
-        const enemiesFromLastMapCount = 3;
+        const lastMapsCount = 3;
+
         ctx.enemyPrototypes.getList().forEach(enemy => {
-            if(enemy.getLevel() <= ctx.map.level && enemy.getLevel() >= ctx.map.level - enemiesFromLastMapCount)
+            if(enemy.getLevel() > ctx.map.level || enemy.getLevel() < ctx.map.level - lastMapsCount) return;
+            const enemiesCountDivider = 4;
+            const maximumEnemiesSpawnedForKind = 12;
+            const enemiesSpawnForWave = Math.min(Math.ceil(ctx.enemyList.getCurrentWave() / enemiesCountDivider), maximumEnemiesSpawnedForKind);
+            for(let i = 0; i < enemiesSpawnForWave; i++)
             {
-                const enemiesCountDivider = 4;
-                const maximumEnemiesSpawnedForKind = 12;
-                const enemiesSpawnForWave = Math.min(Math.ceil(ctx.enemyList.getCurrentWave() / enemiesCountDivider), maximumEnemiesSpawnedForKind);
-                for(let i = 0; i < enemiesSpawnForWave; i++)
+                const objClone = enemy.clone();
+
+                const borderCount = 4;
+                const borderSideLeft = -1;
+                const borderSideRight = 1;
+                const borderSideUp = -1;
+                const borderSideDown = 1;
+
+                const two = 2;
+                const zero = 0;
+                const multipier = 1;
+
+                const randomBorder = Math.floor(Math.random() * borderCount);
+
+                const maxScreenAxisLength = Math.max(...ctx.screen.getSize());
+                let spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % two === zero ? borderSideLeft : borderSideRight) * (randomBorder < two ? multipier : Math.random());
+                let spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < two ? borderSideUp : borderSideDown) * (randomBorder >= two ? multipier : Math.random());
+
+                // Preventing spawning on another
+                const loop = true;
+                while(loop)
                 {
-                    const objClone = enemy.clone();
-
-                    const borderCount = 4;
-                    const borderSideLeft = -1;
-                    const borderSideRight = 1;
-                    const borderSideUp = -1;
-                    const borderSideDown = 1;
-
-                    const two = 2;
-                    const zero = 0;
-                    const multipier = 1;
-
-                    const randomBorder = Math.floor(Math.random() * borderCount);
-
-                    const maxScreenAxisLength = Math.max(...ctx.screen.getSize());
-                    let spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % two === zero ? borderSideLeft : borderSideRight) * (randomBorder < two ? multipier : Math.random());
-                    let spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < two ? borderSideUp : borderSideDown) * (randomBorder >= two ? multipier : Math.random());
-
-                    // Preventing spawning on another
-                    const loop = true;
-                    while(loop)
-                    {
-                        const nearestEnemy = ctx.enemyList.getNearest(spawnPositionX, spawnPositionY);
-                        if(nearestEnemy === null) break;
-                        const enemiesDistance = Math.hypot(nearestEnemy.getPositionX() - spawnPositionX, nearestEnemy.getPositionY() - spawnPositionY);
-                        const minDistance = Math.max(objClone.getSpaceRadius(), nearestEnemy.getSpaceRadius());
-                        if(enemiesDistance > minDistance) break;
+                    const nearestEnemy = ctx.enemyList.getNearest(spawnPositionX, spawnPositionY);
+                    if(nearestEnemy === null) break;
+                    const enemiesDistance = Math.hypot(nearestEnemy.getPositionX() - spawnPositionX, nearestEnemy.getPositionY() - spawnPositionY);
+                    const minDistance = Math.max(objClone.getSpaceRadius(), nearestEnemy.getSpaceRadius());
+                    if(enemiesDistance > minDistance) break;
                         
-                        spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % two === zero ? borderSideLeft : borderSideRight) * (randomBorder < two ? multipier : Math.random());
-                        spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < two ? borderSideUp : borderSideDown) * (randomBorder >= two ? multipier : Math.random());
-                    }
-
-                    objClone.setPositionX(spawnPositionX);
-                    objClone.setPositionY(spawnPositionY);
-
-                    ctx.enemyList.addEnemy(objClone);
+                    spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % two === zero ? borderSideLeft : borderSideRight) * (randomBorder < two ? multipier : Math.random());
+                    spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < two ? borderSideUp : borderSideDown) * (randomBorder >= two ? multipier : Math.random());
                 }
+
+                objClone.setPositionX(spawnPositionX);
+                objClone.setPositionY(spawnPositionY);
+
+                ctx.enemyList.addEnemy(objClone);
             }
         });
 
@@ -158,6 +174,8 @@ export default function EnemyComponent(props: EnemyComponentProps) {
             i--;
         }
     }
+
+    const playerAboveHeadHealthOffset = 80;
 
     return (
         <>
@@ -197,8 +215,8 @@ export default function EnemyComponent(props: EnemyComponentProps) {
             
                 const enemyOnScreenPositionX = enemy.getPositionX() - ctx.camera.getOffsetX();
                 const enemyOnScreenPositionY = enemy.getPositionY() - ctx.camera.getOffsetY();
-                const offsetPerOneUnitScale = 50;
-                const heightOffset = enemy.getScale() * offsetPerOneUnitScale;
+                const offsetPerOneUnitScale = 60;
+                const heightOffset = enemy.getScale() * offsetPerOneUnitScale / (enemy.isBoss ? Enemy.bossScale : Enemy.baseScale);
                 const maxHealthPercentage = 100;
                 const hpPercentage = enemy.getCurrentHp() * maxHealthPercentage / enemy.getMaxHp();
 
@@ -209,7 +227,7 @@ export default function EnemyComponent(props: EnemyComponentProps) {
             })}
             <AboveHeadHealthComponent positionX={playerOnScreenPositionX} positionY={playerOnScreenPositionY} 
                 percentage={playerHealthPercentage}
-                heightOffset={60} player={true} />
+                heightOffset={playerAboveHeadHealthOffset} player={true} />
         </>
     );
 }

@@ -78,11 +78,9 @@ export default class EnemyList{
         for(let i = 1; i < this.enemies.length; i++)
         {
             const nextDistance = Math.hypot(this.enemies[i].getPositionX() - fromX, this.enemies[i].getPositionY() - fromY);
-            if(distanceLowest > nextDistance)
-            {
-                distanceLowest = nextDistance;
-                idFound = i;
-            }
+            if(distanceLowest <= nextDistance) continue;
+            distanceLowest = nextDistance;
+            idFound = i;
         }
 
         return this.enemies[idFound];
@@ -96,10 +94,8 @@ export default class EnemyList{
         for(let i = 0; i < this.enemies.length; i++)
         {
             const nextDistance = Math.hypot(this.enemies[i].getPositionX() - fromX, this.enemies[i].getPositionY() - fromY);
-            if(maxDistance >= nextDistance)
-            {
-                idFound.push(i);
-            }
+            if(maxDistance < nextDistance) continue;
+            idFound.push(i);
         }
         const minimumIdSFound = 0;
         if(idFound.length <= minimumIdSFound) return null;
@@ -110,26 +106,37 @@ export default class EnemyList{
         this.lastWaveTime = currentTime;
         this.currentWave++;
     }
-    private getWaveDuration(mapLevel: number)
+    private getWaveDuration()
     {
         const waveDuration = 5000;
         return waveDuration; 
     }
     private getWaveCount(mapLevel: number)
     {
-        const waveDuration = 600;
-        const milisecondsInSecond = 1000;
-        return Math.floor(waveDuration / (this.getWaveDuration(mapLevel) / milisecondsInSecond));
+        const baseWaves = 50;
+        const extraWaves = 10;
+        const extraWavesOnThisLevel = extraWaves * mapLevel;
+        const waveSum = baseWaves + extraWavesOnThisLevel;
+        return waveSum;
     }
     public isNextWaveReady(currentTime: number, mapLevel: number): boolean
     {
         if(this.currentWave >= this.getWaveCount(mapLevel)) return false;
-        if(this.lastWaveTime + this.getWaveDuration(mapLevel) <= currentTime) return true;
+        if(this.lastWaveTime + this.getWaveDuration() <= currentTime) return true;
         else return false;
     }
     public isBossReady(mapLevel: number): boolean
     {
-        if(this.currentWave == this.getWaveCount(mapLevel)) return true;
+        if(this.currentWave === this.getWaveCount(mapLevel)) return true;
+        return false;
+    }
+    public allDead(mapLevel: number): boolean
+    {
+        const noEnemiesLeft = 0;
+        if(this.isBossReady(mapLevel) && this.enemies.length === noEnemiesLeft)
+        {
+            return true;
+        }
         return false;
     }
     public moveTowardsPlayer(playerHandle: Player, delta: number)
