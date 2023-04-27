@@ -6,16 +6,17 @@ export function LoadingScreenComponent() {
 
     const ctx = useGameManagerStore();
 
-
     if(!ctx.loadingScreen.isLoaded) return null;
 
     const imageRef = ctx.loadingScreen.texture;
 
     if(imageRef === null) return null;
 
-    const cutRegion = new Rectangle(0, 0, imageRef.width, imageRef.height);
-    const cutTexture = new Texture(imageRef, cutRegion);
+    const cutRegionStartX = 0;
+    const cutRegionStartY = 0;
 
+    const cutRegion = new Rectangle(cutRegionStartX, cutRegionStartY, imageRef.width, imageRef.height);
+    const cutTexture = new Texture(imageRef, cutRegion);
 
     return (
         // eslint-disable-next-line react/react-in-jsx-scope

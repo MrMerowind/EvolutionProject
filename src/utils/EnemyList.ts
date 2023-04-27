@@ -1,7 +1,7 @@
 import Player from "./player";
-import Enemy from "./enemy";
 import { SkillAnimation } from "./animationData";
 import { idLimit } from "../data/globalData";
+import Enemy from "./enemy";
 
 export default class EnemyList{
     private enemies: Enemy[];
@@ -133,7 +133,7 @@ export default class EnemyList{
     public allDead(mapLevel: number): boolean
     {
         const noEnemiesLeft = 0;
-        if(this.isBossReady(mapLevel) && this.enemies.length === noEnemiesLeft)
+        if(this.currentWave > this.getWaveCount(mapLevel) && this.enemies.length === noEnemiesLeft)
         {
             return true;
         }

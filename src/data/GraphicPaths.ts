@@ -1,4 +1,4 @@
-const serverPath = "http://localhost:3000/";
+const serverPath = "https://survmero.surge.sh/";
 
 export const graphicPath =
 {
