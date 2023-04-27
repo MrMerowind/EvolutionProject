@@ -219,17 +219,17 @@ export default class Enemy{
         if(Math.abs(moveX) >= Math.abs(moveY))
         {
             const zeroDistance = 0;
-            if(moveX >= zeroDistance) this.facedDirection = Direction.right;
-            else this.facedDirection = Direction.left;
+            if(moveX > zeroDistance) this.facedDirection = Direction.right;
+            else if(moveX < zeroDistance)this.facedDirection = Direction.left;
         }
         else
         {
-            if(moveY >= zeroDistance) this.facedDirection = Direction.down;
-            else this.facedDirection = Direction.up;
+            if(moveY > zeroDistance) this.facedDirection = Direction.down;
+            else if(moveY < zeroDistance) this.facedDirection = Direction.up;
         }
         
-        if(moveX >= zeroDistance) this.secondaryFacedDirection = DirectionHorizontal.right;
-        else this.secondaryFacedDirection = DirectionHorizontal.left;
+        if(moveX > zeroDistance) this.secondaryFacedDirection = DirectionHorizontal.right;
+        else if(moveX < zeroDistance) this.secondaryFacedDirection = DirectionHorizontal.left;
 
         let finalPositionX = this.positionX;
         let finalPositionY = this.positionY;
@@ -279,10 +279,6 @@ export default class Enemy{
             this.animationState = AnimationState.walking;
             this.positionX = finalPositionX;
             this.positionY = finalPositionY;
-        }
-        else
-        {
-            // this.animationState = AnimationState.standing;
         }
     }
     public addHp(value: number): void

@@ -560,8 +560,8 @@ export class GameManagerStore implements IGameManagerStore{
             skill.damage = 1;
             skill.cooldown = 0;
             skill.skillName = "Sunburn";
-            skill.scale = 1;
-            skill.damageRadius = 50;
+            skill.scale = 3;
+            skill.damageRadius = 100;
             skill.castTime = 0;
             skill.destroyAfter = 1000;
             skill.damagingEnemies = true;
@@ -590,7 +590,7 @@ export class GameManagerStore implements IGameManagerStore{
             skill.cooldown = 2000;
             skill.skillName = "Ice";
             skill.scale = 3;
-            skill.damageRadius = 50;
+            skill.damageRadius = 100;
             skill.castTime = 0;
             skill.destroyAfter = 750;
             skill.damagingEnemies = true;
