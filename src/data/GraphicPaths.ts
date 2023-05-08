@@ -1,4 +1,4 @@
-const serverPath = "https://survmero.surge.sh/";
+const serverPath = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/";
 
 export const graphicPath =
 {
