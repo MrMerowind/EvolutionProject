@@ -28,6 +28,20 @@ export const mapLevel = new TextStyle({
     wordWrapWidth: 440,
 });
 
+export const mapLevelLocked = new TextStyle({
+    align: "center",
+    fontFamily: "\"Source Sans Pro\", Helvetica, sans-serif",
+    fontSize: 15,
+    fontWeight: "300",
+    fill: "#ffffff",
+    stroke: "#000000",
+    strokeThickness: 3,
+    letterSpacing: 1,
+    dropShadow: false,
+    wordWrap: true,
+    wordWrapWidth: 440,
+});
+
 export const statsFont = new TextStyle({
     align: "center",
     fontFamily: "\"Source Sans Pro\", Helvetica, sans-serif",

@@ -21,6 +21,8 @@ export default function EnemyComponent(props: EnemyComponentProps) {
 
     if(ctx.enemyList.allDead(ctx.map.level))
     {
+        if(ctx.map.level == ctx.player.getUnlockedMapLevel()) ctx.player.unlockNextLevel();
+
         return(
             <Victory />
         );
@@ -64,8 +66,10 @@ export default function EnemyComponent(props: EnemyComponentProps) {
                     const two = 2;
                     const zero = 0;
                     const multipier = 1;
+
+                    const addedSpaceToSpawnToPreventOverflowOfEnemies = 10;
     
-                    const maxScreenAxisLength = Math.max(...ctx.screen.getSize());
+                    let maxScreenAxisLength = Math.max(...ctx.screen.getSize());
                     let spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % two === zero ? borderSideLeft : borderSideRight) * (randomBorder < two ? multipier : Math.random());
                     let spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < two ? borderSideUp : borderSideDown) * (randomBorder >= two ? multipier : Math.random());
     
@@ -81,6 +85,7 @@ export default function EnemyComponent(props: EnemyComponentProps) {
                             
                         spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % two === zero ? borderSideLeft : borderSideRight) * (randomBorder < two ? multipier : Math.random());
                         spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < two ? borderSideUp : borderSideDown) * (randomBorder >= two ? multipier : Math.random());
+                        maxScreenAxisLength += addedSpaceToSpawnToPreventOverflowOfEnemies;
                     }
     
                     objClone.setPositionX(spawnPositionX);
@@ -123,10 +128,11 @@ export default function EnemyComponent(props: EnemyComponentProps) {
 
                 const randomBorder = Math.floor(Math.random() * borderCount);
 
-                const maxScreenAxisLength = Math.max(...ctx.screen.getSize());
+                let maxScreenAxisLength = Math.max(...ctx.screen.getSize());
                 let spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % two === zero ? borderSideLeft : borderSideRight) * (randomBorder < two ? multipier : Math.random());
                 let spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < two ? borderSideUp : borderSideDown) * (randomBorder >= two ? multipier : Math.random());
 
+                const addedSpaceToSpawnToPreventOverflowOfEnemies = 10;
                 // Preventing spawning on another
                 const loop = true;
                 while(loop)
@@ -139,6 +145,7 @@ export default function EnemyComponent(props: EnemyComponentProps) {
                         
                     spawnPositionX = ctx.player.getPositionX() + maxScreenAxisLength * (randomBorder % two === zero ? borderSideLeft : borderSideRight) * (randomBorder < two ? multipier : Math.random());
                     spawnPositionY = ctx.player.getPositionY() + maxScreenAxisLength * (randomBorder < two ? borderSideUp : borderSideDown) * (randomBorder >= two ? multipier : Math.random());
+                    maxScreenAxisLength += addedSpaceToSpawnToPreventOverflowOfEnemies;
                 }
 
                 objClone.setPositionX(spawnPositionX);

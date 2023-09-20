@@ -30,11 +30,15 @@ export default function PlayerComponent(props: PlayerComponentProps) {
         e.code === "KeyA" || e.code === "KeyD" ? setPlayerMovementHorizontal(() => e.code === "KeyA" ? -movementUnit : (e.code === "KeyD" ? movementUnit : noMove)) : null;
         e.code === "KeyW" || e.code === "KeyS" ? setPlayerMovementVertical(() => e.code === "KeyW" ? -movementUnit : (e.code === "KeyS" ? movementUnit : noMove)) : null;
         e.code === "Escape" ? ctx.map.level = 0 : null;
+        if(e.code === " ") {
+            setPlayerMovementHorizontal(noMove);
+            setPlayerMovementVertical(noMove);
+        }
     };
 
     const handleUserKeyPressUp = (e: KeyboardEvent) => {
-        setPlayerMovementHorizontal((previousMovementValue) => e.code === "KeyA" || e.code === "KeyD" ? noMove : previousMovementValue);
-        setPlayerMovementVertical((previousMovementValue) => e.code === "KeyW" || e.code === "KeyS" ? noMove : previousMovementValue);
+        e.code === "KeyA" || e.code === "KeyD" ? setPlayerMovementHorizontal((p) => e.code === "KeyA" ? p + movementUnit : (e.code === "KeyD" ? p - movementUnit : p + noMove)) : null;
+        e.code === "KeyW" || e.code === "KeyS" ? setPlayerMovementVertical((p) => e.code === "KeyW" ? p + movementUnit : (e.code === "KeyS" ? p - movementUnit : p + noMove)) : null;
     };
 
     useEffect(() => {

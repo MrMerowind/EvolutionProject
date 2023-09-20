@@ -6,6 +6,7 @@ import { idLimit } from "../data/globalData";
 export default class Player{
     private id: string;
     private level: number;
+    private unlockedMapLevel: number;
     private currentExp: number;
     private strength: number;
     private vitality: number;
@@ -42,6 +43,7 @@ export default class Player{
         this.points = 1;
         this.positionX = 0;
         this.positionY = 0;
+        this.unlockedMapLevel = 1;
         this.animationDataWalking = new CreatureAnimation();
         this.animationDataAttacking = new CreatureAnimation();
         this.animationDataStanding = new CreatureAnimation();
@@ -52,6 +54,7 @@ export default class Player{
         const savedStrength = localStorage.getItem("Player_strength");
         const savedExp = localStorage.getItem("Player_exp");
         const savedPoints = localStorage.getItem("Player_points");
+        const savedUnlockedMapLevel = localStorage.getItem("Player_unlockedmap");
 
         if(savedLevel) this.level = parseInt(savedLevel);
         if(savedAgility) this.agility = parseInt(savedAgility);
@@ -59,6 +62,7 @@ export default class Player{
         if(savedStrength) this.strength = parseInt(savedStrength);
         if(savedExp) this.currentExp = parseInt(savedExp);
         if(savedPoints) this.points = parseInt(savedPoints);
+        if(savedUnlockedMapLevel) this.unlockedMapLevel = parseInt(savedUnlockedMapLevel);
 
         this.currentHp = this.getMaxHp();
 
@@ -71,6 +75,7 @@ export default class Player{
         localStorage.setItem("Player_strength", this.strength.toString());
         localStorage.setItem("Player_exp", this.currentExp.toString());
         localStorage.setItem("Player_points", this.points.toString());
+        localStorage.setItem("Player_unlockedmap", this.unlockedMapLevel.toString());
     }
     public resetStats()
     {
@@ -80,6 +85,7 @@ export default class Player{
         this.strength = 0;
         this.currentExp = 0;
         this.points = 1;
+        this.unlockedMapLevel = 1;
         this.saveToLocalStorage();
         this.currentHp = this.getMaxHp();
     }
@@ -168,6 +174,10 @@ export default class Player{
     public getSpeedThorughEnemies(): number
     {
         return this.speedThroughEnemies + this.speedThroughEnemies * this.agilityMultipier * this.getAgility();
+    }
+    public getUnlockedMapLevel(): number
+    {
+        return this.unlockedMapLevel;
     }
     public move(x:number, y: number)
     {
@@ -262,11 +272,15 @@ export default class Player{
     }
     public addVitality(value: number): void
     {
+        const hpBeforePercentage = this.getCurrentHp() / this.getMaxHp();
         const minimumAddedValue = 0;
         if(value < minimumAddedValue) return;
         if(this.points < value) return;
         this.vitality += value;
         this.points -= value;
+
+        const hpBonusHealing = this.getMaxHp() * hpBeforePercentage - this.getCurrentHp();
+        this.addHp(hpBonusHealing > minimumAddedValue ? hpBonusHealing : minimumAddedValue);
         this.saveToLocalStorage();
     }
     public addAgility(value: number): void
@@ -294,5 +308,12 @@ export default class Player{
             throw new Error("Player points are below zero");
         }
         this.saveToLocalStorage();
+    }
+    public unlockNextLevel(): void
+    {
+        this.unlockedMapLevel++;
+        // TODO: fix constant to dynamic
+        const maxLevel = 12;
+        if(this.unlockedMapLevel > maxLevel) this.unlockedMapLevel = maxLevel;
     }
 }

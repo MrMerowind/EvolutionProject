@@ -3,7 +3,7 @@ import React from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { Rectangle, Texture } from "pixi.js";
 import { Sprite, Text } from "@pixi/react";
-import { mapLevel } from "../data/fonts";
+import { mapLevel, mapLevelLocked } from "../data/fonts";
 
 export default function MapSelectComponent() {
 
@@ -70,17 +70,35 @@ export default function MapSelectComponent() {
                 finalWidth = imageRef.width * secondScale;
                 finalHeight = imageRef.height * secondScale;
 
-                return (
-                    <>
-                        <Sprite texture={cutTexture} width={finalWidth} height={finalHeight}
-                            x={finalPositionX} y={finalPositionY} rotation={0} anchor={[anchorX, anchorY]} key={id.toString() + "sprite"}
-                            interactive={true}
-                            pointerdown={() => {
-                                selectMap(id);
-                            }} mouseover={() => {markSelect(id);} }/>
-                        <Text text={id.toString()} anchor={0.5} x={finalPositionX} y={finalPositionY} style={mapLevel} key={id.toString() + "text"}/>
-                    </>);
+                if(id <= ctx.player.getUnlockedMapLevel())
+                {
+                    return (
+                        <>
+                            <Sprite texture={cutTexture} width={finalWidth} height={finalHeight}
+                                x={finalPositionX} y={finalPositionY} rotation={0} anchor={[anchorX, anchorY]} key={id.toString() + "sprite"}
+                                interactive={true}
+                                pointerdown={() => {
+                                    selectMap(id);
+                                }} mouseover={() => {markSelect(id);} }/>
+                            <Text text={id.toString()} anchor={0.5} x={finalPositionX} y={finalPositionY} style={mapLevel} key={id.toString() + "text"}/>
+                        </>);
+                }
+                else
+                {
+                    return (
+                        <>
+                            <Sprite texture={cutTexture} width={finalWidth} height={finalHeight}
+                                x={finalPositionX} y={finalPositionY} rotation={0} anchor={[anchorX, anchorY]} key={id.toString() + "sprite"}
+                                interactive={false}
+                                pointerdown={() => {
+                                    selectMap(id);
+                                }} mouseover={() => {markSelect(id);} }/>
+                            <Text text={"Locked"} anchor={0.5} x={finalPositionX} y={finalPositionY} style={mapLevelLocked} key={id.toString() + "text"}/>
+                        </>);
+                }
+                
             })}
+            {/* TODO: add text with code off mrmero.com */}
         </>
     );
 }
