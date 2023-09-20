@@ -54,15 +54,17 @@ export function MainGameComponent(){
 
     const areGraphicLoaded = useRef<boolean>(ctx.areGraphicsLoaded);
 
+    const minimumScreenSize = {x: 1000, y: 800};
+
     if(!areGraphicLoaded.current) return (
         <AppProvider value={app}>
             <LoadingScreenComponent />
+            {/*Render information that screen is too small*/}
+            {ctx.screen.getWidth() < minimumScreenSize.x || ctx.screen.getHeight() < minimumScreenSize.y ? <ScreenIsTooSmallComponent /> : null}
         </AppProvider>
     );
 
     const mapLevelThatIsConsideredGameMenu = 0;
-
-    const minimumScreenSize = {x: 1000, y: 800};
 
     return (
         <AppProvider value={app}>
@@ -78,7 +80,7 @@ export function MainGameComponent(){
             {ctx.map.level > mapLevelThatIsConsideredGameMenu ? <EnemyComponent miliseconds={miliseconds} delta={deltaTime.current}/> : null}
 
             {/*Render map select*/}
-            {ctx.map.level <= mapLevelThatIsConsideredGameMenu ? <><LoadingScreenComponent /><MapSelectComponent /></> : null}
+            {ctx.map.level <= mapLevelThatIsConsideredGameMenu ? <><MapSelectComponent /></> : null}
 
             {/*Render UI*/}
             <StatisticsComponent />

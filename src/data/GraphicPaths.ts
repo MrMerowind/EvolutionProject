@@ -29,7 +29,7 @@ export const graphicPath =
             serverPath.toString() + "img/MainScreen/Background/9.png",
         ],
     loadingScreenTooSmallScreen:
-        serverPath.toString() + "img/MainScreen/Background/2.png",
+        serverPath.toString() + "img/MainScreen/Background/tooSmallScreen.png",
     enemies:
         serverPath.toString() + "img/Enemies/",
     death:

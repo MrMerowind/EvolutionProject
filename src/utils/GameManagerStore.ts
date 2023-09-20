@@ -132,13 +132,21 @@ export class GameManagerStore implements IGameManagerStore{
     }
 
     loadLoadingScreen = async() => {
-        for(let i = 0; i < loadingAniamtionLength; i++)
+        /*for(let i = 0; i < loadingAniamtionLength; i++)
         {
             await Assets.load(graphicPath.loadingScreen[i]).then((graphic) => {
                 this.loadingScreen.texture[i] = graphic;
             }).then(() => this.loadingScreen.isLoaded[i] = true);
-        }
+        }*/
         
+        await Assets.load(graphicPath.loadingScreen[8]).then((graphic) => {
+            this.loadingScreen.texture = graphic;
+        }).then(() => this.loadingScreen.isLoaded = true);
+
+        await Assets.load(graphicPath.loadingScreen[4]).then((graphic) => {
+            this.mapSelect.castleBackground = graphic;
+        }).then(() => this.loadingScreen.isLoaded = true);
+
         await Assets.load(graphicPath.loadingScreenTooSmallScreen).then((graphic) => {
             this.loadingScreen.textureSmallScreen = graphic;
         }).then(() => this.loadingScreen.isLoadedSmallScreen = true);

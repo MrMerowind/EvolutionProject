@@ -11,13 +11,19 @@ export default function MapSelectComponent() {
 
     const imageRefBackground = ctx.mapSelect.getBackground();
 
+    const imageRefCastleBackground = ctx.mapSelect.castleBackground;
+
     if(imageRefBackground === null) return null;
+
+    if(imageRefCastleBackground === null) return null;
 
     const cutRegionStartX = 0;
     const cutRegionStartY = 0;
     const cutRegionBackground = new Rectangle(cutRegionStartX, cutRegionStartY, imageRefBackground.width, imageRefBackground.height);
-    
     const cutTextureBackground = new Texture(imageRefBackground, cutRegionBackground);
+
+    const cutRegionCaslteBackground = new Rectangle(cutRegionStartX, cutRegionStartY, imageRefCastleBackground.width, imageRefCastleBackground.height);
+    const cutTextureCastleBackground = new Texture(imageRefCastleBackground, cutRegionCaslteBackground);
 
     const arrayOfMapId: number[] = [];
     for(let i = 1; i <= ctx.map.levelCount; i++)
@@ -64,6 +70,9 @@ export default function MapSelectComponent() {
 
     return (
         <>
+            <Sprite texture={cutTextureCastleBackground} width={ctx.screen.getWidth()} height={ctx.screen.getHeight()}
+                x={ctx.screen.getCenterHorizontal()} y={ctx.screen.getCenterVertical()} rotation={0} anchor={[anchorX, anchorY]} key={"castleBackground"} />
+                
             <Sprite texture={cutTextureBackground} width={imageRefBackground.width} height={imageRefBackground.height}
                 x={ctx.screen.getCenterHorizontal()} y={ctx.screen.getCenterVertical()} rotation={0} anchor={[anchorX, anchorY]} key={"background"} />
             
