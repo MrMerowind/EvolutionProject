@@ -17,7 +17,19 @@ export const graphicPath =
     mapFolder:
         serverPath.toString() + "img/Map/",
     loadingScreen:
-        serverPath.toString() + "img/MainScreen/Background/1.png",
+        [
+            serverPath.toString() + "img/MainScreen/Background/1.png",
+            serverPath.toString() + "img/MainScreen/Background/2.png",
+            serverPath.toString() + "img/MainScreen/Background/3.png",
+            serverPath.toString() + "img/MainScreen/Background/4.png",
+            serverPath.toString() + "img/MainScreen/Background/5.png",
+            serverPath.toString() + "img/MainScreen/Background/6.png",
+            serverPath.toString() + "img/MainScreen/Background/7.png",
+            serverPath.toString() + "img/MainScreen/Background/8.png",
+            serverPath.toString() + "img/MainScreen/Background/9.png",
+        ],
+    loadingScreenTooSmallScreen:
+        serverPath.toString() + "img/MainScreen/Background/2.png",
     enemies:
         serverPath.toString() + "img/Enemies/",
     death:

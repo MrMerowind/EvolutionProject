@@ -8,6 +8,7 @@ import StatisticsComponent from "./Statistics";
 import SkillListComponent from "./SkillList";
 import SkillSelectComponent from "./SkillSelect";
 import MapSelectComponent from "./MapSelect";
+import { ScreenIsTooSmallComponent } from "./ScreenIsTooSmall";
 
 export function MainGameComponent(){
 
@@ -61,6 +62,8 @@ export function MainGameComponent(){
 
     const mapLevelThatIsConsideredGameMenu = 0;
 
+    const minimumScreenSize = {x: 1000, y: 800};
+
     return (
         <AppProvider value={app}>
             {/*Render map*/}
@@ -82,6 +85,9 @@ export function MainGameComponent(){
 
             {/*Render skill select*/}
             {ctx.map.level > mapLevelThatIsConsideredGameMenu ? <SkillSelectComponent /> : null}
+
+            {/*Render information that screen is too small*/}
+            {ctx.screen.getWidth() < minimumScreenSize.x || ctx.screen.getHeight() < minimumScreenSize.y ? <ScreenIsTooSmallComponent /> : null}
 
         </AppProvider>
     );

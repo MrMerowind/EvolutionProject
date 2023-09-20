@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { Assets } from "pixi.js";
+import { Assets, BaseTexture } from "pixi.js";
 import { makeAutoObservable } from "mobx";
 import Player from "./player";
 import { GameCamera } from "./gameCamera";
@@ -7,7 +7,7 @@ import { GameScreen } from "./gameScreen";
 import { graphicPath } from "../data/graphicPaths";
 import { AnimationState, Direction } from "../data/types";
 import GameMap from "./map";
-import LoadingScreen from "./loadingScreen";
+import LoadingScreen, { loadingAniamtionLength } from "./loadingScreen";
 import EnemyList from "./enemyList";
 import Enemy from "./enemy";
 import { AnimationSubData, CreatureAnimation, SkillAnimation } from "./animationData";
@@ -92,7 +92,7 @@ export class GameManagerStore implements IGameManagerStore{
         this.loadingScreen = new LoadingScreen();
             
         this.loadLoadingScreen().then(() => {
-            this.loadingScreen.isLoaded = true;
+            this.loadingScreen._isAllLoaded = true;
         });
 
         this.camera = new GameCamera();
@@ -132,9 +132,16 @@ export class GameManagerStore implements IGameManagerStore{
     }
 
     loadLoadingScreen = async() => {
-        await Assets.load(graphicPath.loadingScreen).then((graphic) => {
-            this.loadingScreen.texture = graphic;
-        }).then(() => this.loadingScreen.isLoaded = true);
+        for(let i = 0; i < loadingAniamtionLength; i++)
+        {
+            await Assets.load(graphicPath.loadingScreen[i]).then((graphic) => {
+                this.loadingScreen.texture[i] = graphic;
+            }).then(() => this.loadingScreen.isLoaded[i] = true);
+        }
+        
+        await Assets.load(graphicPath.loadingScreenTooSmallScreen).then((graphic) => {
+            this.loadingScreen.textureSmallScreen = graphic;
+        }).then(() => this.loadingScreen.isLoadedSmallScreen = true);
     };
 
     // TODO: Rewrite reading from JSON file

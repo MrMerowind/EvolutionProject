@@ -97,3 +97,31 @@ export const subDefeatFont = new TextStyle({
     wordWrap: true,
     wordWrapWidth: 600,
 });
+
+export const LoadingInfoFont = new TextStyle({
+    align: "center",
+    fontFamily: "\"Source Sans Pro\", Helvetica, sans-serif",
+    fontSize: 40,
+    fontWeight: "400",
+    fill: "#000000",
+    stroke: "#ffffff",
+    strokeThickness: 1,
+    letterSpacing: 20,
+    dropShadow: false,
+    wordWrap: true,
+    wordWrapWidth: 600,
+});
+
+export const screenTooSmallFont = new TextStyle({
+    align: "center",
+    fontFamily: "\"Source Sans Pro\", Helvetica, sans-serif",
+    fontSize: 15,
+    fontWeight: "200",
+    fill: "#ffffff",
+    stroke: "#000000",
+    strokeThickness: 8,
+    letterSpacing: 1,
+    dropShadow: false,
+    wordWrap: true,
+    wordWrapWidth: 600,
+});

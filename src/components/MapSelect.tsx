@@ -41,7 +41,7 @@ export default function MapSelectComponent() {
     return (
         <>
             <Sprite texture={cutTextureBackground} width={imageRefBackground.width} height={imageRefBackground.height}
-                x={ctx.screen.getCenterHorizontal()} y={ctx.screen.getCenterVertical()} rotation={0} anchor={[anchorX, anchorY]} />
+                x={ctx.screen.getCenterHorizontal()} y={ctx.screen.getCenterVertical()} rotation={0} anchor={[anchorX, anchorY]} key={"background"} />
             
             {arrayOfMapId.map(id => {
                 const imageRef = ctx.map.textures.get(id);
@@ -73,7 +73,7 @@ export default function MapSelectComponent() {
                 return (
                     <>
                         <Sprite texture={cutTexture} width={finalWidth} height={finalHeight}
-                            x={finalPositionX} y={finalPositionY} rotation={0} anchor={[anchorX, anchorY]} key={id.toString()}
+                            x={finalPositionX} y={finalPositionY} rotation={0} anchor={[anchorX, anchorY]} key={id.toString() + "sprite"}
                             interactive={true}
                             pointerdown={() => {
                                 selectMap(id);

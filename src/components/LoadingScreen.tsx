@@ -1,25 +1,52 @@
-import { Texture, Rectangle} from "pixi.js";
+/* eslint-disable react/react-in-jsx-scope */
+import { Texture, Rectangle, BaseTexture} from "pixi.js";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
-import { Sprite } from "@pixi/react";
+import { AnimatedSprite, Container, Text } from "@pixi/react";
+import { LoadingInfoFont } from "../data/fonts";
+import { useState } from "react";
+import { loadingAniamtionLength } from "../utils/loadingScreen";
 
 export function LoadingScreenComponent() {
 
+    const firstFrame = 0;
+
     const ctx = useGameManagerStore();
 
-    if(!ctx.loadingScreen.isLoaded) return null;
+    if(!ctx.loadingScreen._isAllLoaded) return null;
 
-    const imageRef = ctx.loadingScreen.texture;
+    const imageRef: Array<BaseTexture> = ctx.loadingScreen.texture;
 
     if(imageRef === null) return null;
 
     const cutRegionStartX = 0;
     const cutRegionStartY = 0;
+    const cutRegionEndX = 1792;
+    const cutRegionEndY = 1024;
 
-    const cutRegion = new Rectangle(cutRegionStartX, cutRegionStartY, imageRef.width, imageRef.height);
-    const cutTexture = new Texture(imageRef, cutRegion);
+    const cutRegion = new Rectangle(cutRegionStartX, cutRegionStartY, cutRegionEndX, cutRegionEndY);
+    const cutTexture: Array<Texture> = new Array<Texture>(loadingAniamtionLength);
+
+    imageRef.forEach((image, index) => cutTexture[index] = new Texture(image, cutRegion));
 
     return (
         // eslint-disable-next-line react/react-in-jsx-scope
-        <Sprite texture={cutTexture} width={ctx.screen.getWidth()} height={ctx.screen.getHeight()} x={0} y={0} rotation={0} anchor={0} />
+        <>
+            <AnimatedSprite
+                anchor={0}
+                textures={cutTexture}
+                isPlaying={true}
+                initialFrame={0}
+                animationSpeed={1}
+                width={ctx.screen.getWidth()}
+                height={ctx.screen.getHeight()}
+            />
+            <Text
+                text="Loading..."
+                anchor={0.5}
+                x={ctx.screen.getCenterHorizontal()}
+                y={ctx.screen.getCenterVertical()}
+                style={LoadingInfoFont}
+            />
+        </>
     );
 }
