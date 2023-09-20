@@ -139,3 +139,17 @@ export const screenTooSmallFont = new TextStyle({
     wordWrap: true,
     wordWrapWidth: 600,
 });
+
+export const discountInfoFont = new TextStyle({
+    align: "center",
+    fontFamily: "\"Source Sans Pro\", Helvetica, sans-serif",
+    fontSize: 20,
+    fontWeight: "400",
+    fill: "#150117",
+    stroke: "#d2bcd4",
+    strokeThickness: 1,
+    letterSpacing: 1,
+    dropShadow: false,
+    wordWrap: true,
+    wordWrapWidth: 600,
+});

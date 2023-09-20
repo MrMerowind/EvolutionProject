@@ -3,7 +3,7 @@ import React from "react";
 import { useGameManagerStore } from "../hooks/useGameManagerStore";
 import { Rectangle, Texture } from "pixi.js";
 import { Sprite, Text } from "@pixi/react";
-import { mapLevel, mapLevelLocked } from "../data/fonts";
+import { discountInfoFont, mapLevel, mapLevelLocked } from "../data/fonts";
 
 export default function MapSelectComponent() {
 
@@ -37,6 +37,30 @@ export default function MapSelectComponent() {
 
     const anchorX = 0.5;
     const anchorY = 0.5;
+
+    const mrmeroCodes =
+    [
+        "PLAY_MORE        1% OFF All products",
+        "CHOCOLATE_4900   3% OFF All products",
+        "COUNTRY_3895     5% OFF All products",
+        "SALAD_3730       7% OFF All products",
+        "MIXTURE_7174     9% OFF All products",
+        "COURAGE_5119     11% OFF All products",
+        "MIDNIGHT_3366    13% OFF All products",
+        "PATIENCE_5940    15% OFF All products",
+        "STRANGER_2095    17% OFF All products",
+        "ENTRY_7317       19% OFF All products",
+        "FREEDOM_4156     21% OFF All products",
+        "COOKIE_4420      23% OFF All products",
+        "DIAMOND_8530     25% OFF All products"
+    ];
+
+    const one = 1;
+    const mrmeroCurrentCode = mrmeroCodes[ctx.player.getUnlockedMapLevel() - one];
+
+    const discoutInfo = "Win levels to get discounts at mrmero.com\n" + "Current code: " + mrmeroCurrentCode;
+    const discountInfoAnchorX = 0.5;
+    const discountInfoAnchorY = 0;
 
     return (
         <>
@@ -99,6 +123,13 @@ export default function MapSelectComponent() {
                 
             })}
             {/* TODO: add text with code off mrmero.com */}
+            <Text
+                text={discoutInfo}
+                anchor={[discountInfoAnchorX, discountInfoAnchorY]}
+                x={ctx.screen.getCenterHorizontal()}
+                y={0}
+                style={discountInfoFont}
+            />
         </>
     );
 }
